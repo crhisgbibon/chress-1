@@ -5,9 +5,9 @@ declare(strict_types=1);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once __DIR__ . "/../../../app/middleware/phpmailer/PHPMailer-master/src/Exception.php";
-require_once __DIR__ . "/../../../app/middleware/phpmailer/PHPMailer-master/src/PHPMailer.php";
-require_once __DIR__ . "/../../../app/middleware/phpmailer/PHPMailer-master/src/SMTP.php";
+require_once __DIR__ . "/../../../src/middleware/phpmailer/PHPMailer-master/src/Exception.php";
+require_once __DIR__ . "/../../../src/middleware/phpmailer/PHPMailer-master/src/PHPMailer.php";
+require_once __DIR__ . "/../../../src/middleware/phpmailer/PHPMailer-master/src/SMTP.php";
 
 class Email
 {

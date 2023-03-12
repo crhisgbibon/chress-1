@@ -2,7 +2,13 @@
 
 if(!isset($_SESSION)) session_start();
 
-require_once __DIR__ . '/../app/views/home/HomeView.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../src/controllers/home/HomeController.php';
 
-$home = new HomeView();
-$home->render();
+$loader = new FilesystemLoader('/../resources/views/**/*.php');
+$twig = new Environment($loader, [
+    'cache' => '/path/to/compilation_cache',
+]);
+
+$home = new HomeController();
+$home->Index();
