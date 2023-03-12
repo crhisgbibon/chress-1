@@ -1,0 +1,36 @@
+/* Root */
+@import "../../generic/css/Root.css";
+/* Generic settings */
+@import "../../generic/css/Generic.css";
+/* Message box */
+@import "../../generic/css/MessageBox.css";
+/* App controls */
+@import "../../generic/css/Controls.css";
+
+#validate{
+  position: fixed;
+  width: 100%;
+  height: calc(var(--vh) * 100);
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#validate button{
+  width: 100%;
+  height: calc(var(--vh) * 20);
+  max-width: 300px;
+  max-height: 50px;
+}
+
+#validate div{
+  width: 100%;
+  height: calc(var(--vh) * 60);
+  max-width: 300px;
+  max-height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

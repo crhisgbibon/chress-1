@@ -1,0 +1,186 @@
+:root {
+  --backEnd: rgba(50, 50, 60, 1);
+  --frontEnd: rgba(250, 250, 240, 1);
+
+  --white: rgba(200, 200, 200, 1);
+  --black:rgba(100, 100, 100, 1);
+  
+  --disabled: rgba(75, 75, 85, 1);
+  --active: rgba(100, 100, 110, 1);
+  --selected: rgba(150, 150, 160, 1);
+  
+  --whiteSelected: rgba(200, 170, 170, 1);
+  --blackSelected: rgba(160, 130, 130, 1);
+  
+  --seeThrough: rgba(0, 0, 0, 0);
+}
+
+body{
+  position: fixed;
+  height: calc(var(--vh) * 100);
+  width: 100%;
+  background-color: var(--backEnd);
+  color: var(--frontEnd);
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+input[type="text"]{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+    
+  -webkit-text-fill-color:var(--frontEnd); /* Override iOS / Android font color change */
+  -webkit-opacity:1; /* Override iOS opacity change affecting text & background color */
+  color:var(--frontEnd); /* Override IE font color change */
+}
+
+table{
+  table-layout: fixed;
+}
+
+#controls button{
+  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: var(--active);
+  color: var(--frontEnd);
+  margin: 0;
+  padding: 0;
+  border: 3px solid var(--backEnd);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+button img
+{
+  height: 50%;
+  width: 50%;
+}
+
+#controls button:active {
+  transform: scale(90%, 90%);
+}
+
+[data-color="black"]{
+  background-color: var(--white);
+}
+
+[data-color="white"]{
+  background-color: var(--black);
+}
+
+[data-color*="black"][data-state*="canMoveTo"]{
+  background-color: var(--whiteSelected);
+}
+
+[data-color*="white"][data-state*="canMoveTo"]{
+  background-color: var(--blackSelected);
+}
+
+.boardButton:focus{
+  /* 
+  background-color: var(--whiteSelected); 
+  */
+}
+
+#controls{
+  position: fixed;
+  width: 100%;
+  height: calc(var(--vh) * 7.5);
+  margin: 0;
+  padding: 0;
+}
+
+#controls div{
+  width: calc(100% / 14);
+  height: calc(var(--vh) * 7.5);
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+
+#currentMoveDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#currentGameDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#bodyDiv{
+  position: fixed;
+  width: 100%;
+  height: calc(var(--vh) * 92.5);
+  top: calc(var(--vh) * 7.5);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#boardDiv{
+  border: 6px solid var(--disabled);
+  box-sizing: border-box;
+  max-width: 800px;
+  max-height: 800px;
+}
+
+#interfaceDiv{
+  border: 6px solid var(--disabled);
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.boardSquare{
+  width: calc(100% / 8);
+  height: calc(100% / 8);
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+
+.boardButton{
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.boardImg{
+  margin: 0;
+  padding: 0;
+  height: 75%;
+  width: 75%;
+}
+
+#uploadedFileSelect{
+  width: 50px;
+}
+
+#startNumber{
+  width: 50px;
+}
+
+#endNumber{
+  width: 50px;
+}

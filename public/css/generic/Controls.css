@@ -1,0 +1,26 @@
+#headerControls{
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: calc(var(--vh) * 10);
+  margin: 0;
+  padding: 0;
+}
+
+#controlHolder{
+  height: 100%;
+  width: 95%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#controlHolder button{
+  height: 90%;
+  width: 100%;
+  max-width: 75px;
+  max-height: 75px;
+}

@@ -1,0 +1,26 @@
+#menuHeader{
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  height: calc(var(--vh) * 5);
+  margin: 0;
+  padding: 0;
+}
+
+.sub{
+  height: 100%;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.sub button{
+  height: 90%;
+  width: 100%;
+  max-width: 150px;
+  max-height: 75px;
+}
