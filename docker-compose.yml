@@ -35,7 +35,7 @@ services:
     container_name: chress-1-db
     restart: unless-stopped
     ports:
-      - '${FORWARD_DB_PORT:-3306}:3306'
+      - '${DB_PORT:-3306}:3306'
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ROOT_HOST: "%"
