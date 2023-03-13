@@ -6,9 +6,9 @@ namespace App\Models\Generic;
 
 class AccountManager
 {
-  private DatabaseAccount $db;
+  private DB $db;
 
-  public function __construct(DatabaseAccount $db)
+  public function __construct(DB $db)
   {
     $this->db = $db;
   }

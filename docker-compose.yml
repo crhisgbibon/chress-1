@@ -1,39 +1,37 @@
-version: '3.7'
+version: '3.8'
 
 services:
+
+  app:
+    build:
+      context: ""
+      dockerfile: Dockerfile
+      args:
+        USER_ID: '${WWWUSER:-1000}'
+        GROUP_ID: '${WWWGROUP:-1000}'
+        USER: '${USER:-whoami}'
+    container_name: chress-1-app
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
 
   nginx:
     image: nginx:alpine
     container_name: chress-1-nginx
-    restart: unless-stopped
+    restart: always
     ports:
       - "8000:80"
     volumes:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d
-    networks:
-      - chress-1
-
-  app:
-    build:
-      args:
-        user: chris
-        uid: 1000
-      context: ./
-      dockerfile: Dockerfile
-    image: chress-1
-    container_name: chress-1-app
-    restart: unless-stopped
-    working_dir: /var/www/
-    volumes:
-      - ./:/var/www
-    networks:
-      - chress-1
   
   db:
-    image: mariadb:latest
     container_name: chress-1-db
-    restart: unless-stopped
+    image: mariadb:10.4
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    restart: always
     ports:
       - '${DB_PORT:-3306}:3306'
     environment:
@@ -42,11 +40,3 @@ services:
       MYSQL_DATABASE: '${DB_DATABASE}'
       MYSQL_USER: '${DB_USERNAME}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
-    volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-    networks:
-      - chress-1
-
-networks:
-  chress-1:
-    driver: bridge
