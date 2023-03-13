@@ -1,5 +1,8 @@
 <?php
 
+echo 'hello';
+return;
+
 use App\Models\Generic\App;
 use App\Models\Generic\Config;
 use App\Models\Generic\Router;
