@@ -14,25 +14,21 @@
     
     <link href="https://cdn.jsdelivr.net/npm/modern-normalize@v1.1.0/modern-normalize.min.css" rel="stylesheet">
     <link id='pageStyle' rel='stylesheet' type='text/css' href='css/style.css'/>
-    <link id='pageStyle' rel='stylesheet' type='text/css' href='<?php if(isset($css)) echo $css; ?>' />
-    <link rel='icon' type='image/x-icon' href=<?php if(isset($favicon)) echo $favicon; ?>>
-
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Open+Sans:wght@700&family=Patua+One&display=swap');
-    </style>
+    <link id='pageStyle' rel='stylesheet' type='text/css' href='css/root.css'/>
+    <link rel='icon' type='image/x-icon' href='favicon.ico'>
     
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="js/generic/vh.js"></script>
     
   </head>
 
-  <body>
+  <body class='antialiased'>
+
+    <?php if(isset($controls)) echo $controls; ?>
 
     <?php if(isset($body)) echo $body; ?>
 
-    <div id='messageBox'></div>
-
   </body>
-
-  <script src=<?php if(isset($js)) echo $js; ?>></script>
 
 </html>

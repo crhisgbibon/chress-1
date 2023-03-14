@@ -1,33 +1,190 @@
-<div id="generic_view">
+<div
+  x-data="{ login: true }"
+  class='w-full flex flex-col justify-center items-center'>
 
-    <div id="generic_login">
-      <label class="generic_loginClass" id="generic_loginUsernameLabel" for="generic_loginUsername">Username:</label>
-      <input class="generic_loginClass" type="text" id="generic_loginUsername" name="generic_loginUsername" autofocus placeholder="">
-      <label class="generic_loginClass" id="generic_loginPasswordLabel" for="generic_loginPassword">Password:</label>
-      <input class="generic_loginClass" type="password" id="generic_loginPassword" name="generic_loginPassword" placeholder="">
-      <label class="generic_loginClass" id="generic_loginStayLabel" for="generic_loginStay">Remember Me:</label>
-      <input type="checkbox" class="generic_loginClass" id="generic_loginStay" checked>
-      <button class="generic_loginClass" id="generic_loginLogin">Log in</button>
-      <button class="generic_loginClass" id="generic_loginRegister">Register</button>
-      <button class="generic_loginClass" id="generic_loginHome">Home</button>
+  <h1
+    class='my-4 p-4 font-bold text-sky-300'>
+    Chress
+  </h1>
+
+  <form
+    x-show="login"
+    class='w-screen flex flex-col justify-start items-center'>
+
+    <div
+      class='w-screen flex flex-col justify-start items-center my-4'>
+      <label
+        class='w-48'
+        for='email'>
+        Email:
+      </label>
+      <input
+        class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
+          hover:outline hover:outline-offset-2 hover:outline-sky-100
+          focus:outline focus:outline-offset-2 focus:outline-sky-200
+          active:outline active:outline-offset-2 active:outline-sky-300'
+        type='email'
+        id='email'
+        name='email'
+        autofocus
+        placeholder='...'
+        autocomplete='email'>
     </div>
 
-    <div id="generic_register">
-      <div class="generic_loginClass">Register Account</div>
-      <label class="generic_loginClass" for="generic_registerUsername">Username:</label>
-      <input class="generic_loginClass" type="text" id="generic_registerUsername" name="generic_registerUsername"> <!-- new account username -->
-      <label class="generic_loginClass" for="generic_loginEmail">Email:</label>
-      <input class="generic_loginClass" type="text" id="generic_loginEmail" name="generic_loginEmail"> <!-- new account email address -->
-      <label class="generic_loginClass" for="generic_registerPassword">Password:</label>
-      <input class="generic_loginClass" type="password" id="generic_registerPassword" name="generic_registerPassword" > <!-- new account password -->
-      <label class="generic_loginClass" for="generic_registerConfirmPassword">Confirm Password:</label>
-      <input class="generic_loginClass" type="password" id="generic_registerConfirmPassword" name="generic_registerConfirmPassword" > <!-- confirm new account password -->
-      <button class="generic_loginClass" id="generic_registerRegister">Register</button> <!-- registers new account, logs in and closes registration screen -->
-      <button class="generic_loginClass" id="generic_registerClose">Close</button> <!-- closes registration screen -->
+    <div
+      class='w-screen flex flex-col justify-start items-center my-4'>
+      <label
+        class='w-48'
+        for='password'>
+        Password:
+      </label>
+      <input
+        class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
+          hover:outline hover:outline-offset-2 hover:outline-sky-100
+          focus:outline focus:outline-offset-2 focus:outline-sky-200
+          active:outline active:outline-offset-2 active:outline-sky-300'
+        type='password'
+        id='password'
+        name='password'
+        placeholder='...'
+        autocomplete='current-password'>
     </div>
 
-    <div id="messageBox"></div>
+    <div
+      class='w-screen flex flex-row justify-center items-center my-4'>
+      <label
+        class='mx-4'
+        for='remember'>Remember:</label>
+      <input
+        class='mx-4'
+        id='remember'
+        type='checkbox'
+        checked>
+    </div>
 
-  </div>
+    <div
+      class='w-screen flex justify-center items-center my-4'>
+      <div
+        class='flex flex-row justify-center items-center'>
+        <input
+          type='submit'
+          value='Log In'
+          class='w-32 mx-4 p-2 m-2 rounded-lg cursor-pointer bg-sky-50 hover:bg-sky-100 active:bg-sky-200'>
+      </div>
+    </div>
 
-  <script src='<?php if(isset($splash)) echo $splash; ?>'></script>
+  </form>
+
+  <form
+    x-show="!login"
+    class='w-screen flex flex-col justify-start items-center'>
+
+    <div
+      class='w-screen flex flex-col justify-start items-center my-4'>
+      <label
+        class='w-48'
+        for='register_username'>
+        Username:
+      </label>
+      <input
+        class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
+          hover:outline hover:outline-offset-2 hover:outline-sky-100
+          focus:outline focus:outline-offset-2 focus:outline-sky-200
+          active:outline active:outline-offset-2 active:outline-sky-300'
+        type='text'
+        id='register_username'
+        name='register_username'
+        placeholder='...'
+        autocomplete='name'>
+    </div>
+
+    <div
+      class='w-screen flex flex-col justify-start items-center my-4'>
+      <label
+        class='w-48'
+        for='register_email'>
+        Email:
+      </label>
+      <input
+        class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
+          hover:outline hover:outline-offset-2 hover:outline-sky-100
+          focus:outline focus:outline-offset-2 focus:outline-sky-200
+          active:outline active:outline-offset-2 active:outline-sky-300'
+        type='email'
+        id='register_email'
+        name='register_email'
+        placeholder='...'
+        autocomplete='email'>
+    </div>
+
+    <div
+      class='w-screen flex flex-col justify-start items-center my-4'>
+      <label
+        class='w-48'
+        for='register_password'>
+        Password:
+      </label>
+      <input
+        class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
+          hover:outline hover:outline-offset-2 hover:outline-sky-100
+          focus:outline focus:outline-offset-2 focus:outline-sky-200
+          active:outline active:outline-offset-2 active:outline-sky-300'
+        type='password'
+        id='register_password'
+        name='register_password'
+        placeholder='...'
+        autocomplete='new-password'>
+    </div>
+
+    <div
+      class='w-screen flex flex-col justify-start items-center my-4'>
+      <label
+        class='w-48'
+        for='register_confirm_password'>
+        Confirm password:
+      </label>
+      <input
+        class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
+          hover:outline hover:outline-offset-2 hover:outline-sky-100
+          focus:outline focus:outline-offset-2 focus:outline-sky-200
+          active:outline active:outline-offset-2 active:outline-sky-300'
+        type='password'
+        id='register_confirm_password'
+        name='register_confirm_password'
+        placeholder='...'
+        autocomplete='new-password'>
+    </div>
+
+    <div
+      class='w-screen flex justify-center items-center my-4'>
+      <div
+        class='flex flex-row justify-center items-center'>
+        <input
+          type='submit'
+          value='Register'
+          class='w-32 mx-4 p-2 m-2 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200'>
+      </div>
+    </div>
+
+  </form>
+
+  <nav
+    class='w-screen flex justify-center items-center my-4'>
+    <div
+      class='flex flex-row justify-center items-center'>
+      <button
+        class='w-32 mx-4 underline p-2 m-2 rounded-lg hover:bg-sky-100'
+        @click="login = true"
+        :class="login ? 'hidden' : ''">
+        Log in
+      </button>
+      <button
+        class='w-32 mx-4 underline p-2 m-2 rounded-lg hover:bg-sky-100'
+        @click="login = false"
+        :class="login ? '' : 'hidden'">
+        Register
+      </button>
+    </div>
+  </nav>
+
+</div>

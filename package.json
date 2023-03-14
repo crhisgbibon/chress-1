@@ -5,10 +5,7 @@
   "main": "public/index.php",
   "scripts": {
     "tailwind": "postcss public/css/tailwind.css -o public/css/style.css",
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "start": "npm run build"
+    "tailwind-watch": "postcss public/css/tailwind.css -o public/css/style.css --watch"
   },
   "author": "",
   "license": "ISC",

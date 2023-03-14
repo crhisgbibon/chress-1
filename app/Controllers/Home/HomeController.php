@@ -115,9 +115,18 @@ class HomeController
     }
     else
     {
-      return View::make('generic/splash', 'Splash', true, [
-        'splash' => 'js/splash/splash.js',
-      ]);
+      return View::make
+      (
+        'generic/splash', // body view path
+        'Splash',         // view title
+        true,             // with layout
+        [                 // controls array
+
+        ],
+        [                 // body params array
+
+        ]
+      );
     }
   }
 }

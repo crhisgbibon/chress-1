@@ -45,8 +45,6 @@ if(typeof(Storage) !== "undefined")
 
 UpdateTheme(toggleTheme);
 
-ReSize();
-
 TogglePanel(generic_register);
 TogglePanel(messageBox);
 
@@ -54,12 +52,6 @@ function TogglePanel(panel)
 {
   if(panel.style.display == "none") panel.style.display = "";
   else panel.style.display = "none";
-}
-
-function ReSize()
-{
-  let vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', vh + 'px');
 }
 
 function Home()
@@ -165,5 +157,3 @@ function Post(trigger)
     }
   });
 }
-
-window.addEventListener('resize', ReSize);
