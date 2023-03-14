@@ -56,6 +56,19 @@ class HomeController
 
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true)
     {
+      return View::make
+      (
+        'chress/play', // body view path
+        'Chress',         // view title
+        true,             // with layout
+        [                 // controls array
+
+        ],
+        [                 // body params array
+
+        ]
+      );
+
       $pageTitle = 'Chess';
       $cssRoute = 'css/home/Main.css';
       $faviconRoute = 'favicon.ico';
@@ -118,7 +131,7 @@ class HomeController
       return View::make
       (
         'generic/splash', // body view path
-        'Splash',         // view title
+        'Chress',         // view title
         true,             // with layout
         [                 // controls array
 

@@ -8,6 +8,8 @@
   </h1>
 
   <form
+    method='POST'
+    action='/login'
     x-show="login"
     class='w-screen flex flex-col justify-start items-center'>
 
@@ -76,6 +78,8 @@
   </form>
 
   <form
+    method='POST'
+    action='/register'
     x-show="!login"
     class='w-screen flex flex-col justify-start items-center'>
 

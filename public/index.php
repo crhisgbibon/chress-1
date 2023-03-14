@@ -5,6 +5,7 @@ use App\Models\Generic\Config;
 use App\Models\Generic\Router;
 
 use App\Controllers\Home\HomeController;
+use App\Controllers\Home\AuthController;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -21,6 +22,8 @@ define('JS_PATH', __DIR__ . '/../resources/js');
 
 $router = new Router();
 $router->get('/', [HomeController::class, 'index']);
+$router->post('/login', [AuthController::class, 'login']);
+$router->post('/register', [AuthController::class, 'register']);
 
 (new App(
     $router,

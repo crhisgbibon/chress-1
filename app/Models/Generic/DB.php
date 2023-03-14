@@ -11,7 +11,7 @@ use PDO;
  */
 class DB
 {
-  private PDO $pdo;
+  public PDO $pdo;
 
   public function __construct(array $config)
   {

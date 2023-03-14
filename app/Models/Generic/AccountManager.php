@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Generic;
 
+use PDO;
+
 class AccountManager
 {
   private DB $db;
@@ -88,7 +90,7 @@ class AccountManager
       $isSelectorVerified && 
       $isExpiryDateVerified)
       {
-        $stmt = $this->db->conn->prepare("SELECT * FROM logins 
+        $stmt = $this->db->pdo->prepare("SELECT * FROM logins 
         WHERE user_alias=:qUser
         AND isVerified=1");
 
@@ -149,17 +151,17 @@ class AccountManager
     }
   }
 
-  public function Login(string $username, string $password, bool $remember) : array
+  public function Login(string $email, string $password, bool $remember) : array
   {
-    $username_err = $password_err = $login_err = "";
+    $email_err = $password_err = $login_err = "";
 
-    if(empty(trim($username)))
+    if(empty(trim($email)))
     {
-      $username_err = "Username required.";
+      $email_err = "Email required.";
     }
     else
     {
-      $username = trim($username);
+      $email = trim($email);
     }
       
     if(empty(trim($password)))
@@ -171,13 +173,13 @@ class AccountManager
       $password = trim($password);
     }
       
-    if(empty($username_err) && empty($password_err))
+    if(empty($email_err) && empty($password_err))
     {
-      $stmt = $this->db->conn->prepare("SELECT *
+      $stmt = $this->db->pdo->prepare("SELECT *
       FROM logins 
-      WHERE user_alias=:qUser
+      WHERE user_email=:email
       AND isVerified='1'");
-      $stmt->bindParam(':qUser', $username);
+      $stmt->bindParam(':email', $email);
       $stmt->execute();
       $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
       $count = count($response);
@@ -199,7 +201,7 @@ class AccountManager
             $current_time = time();
             $cookie_expiration_time = $current_time + (30 * 24 * 60 * 60);
 
-            setcookie('member_login', $username, [
+            setcookie('member_login', $response[0]["user_alias"], [
               'expires' => $cookie_expiration_time,
               'path' => '/',
               'samesite' => 'Strict',
@@ -234,14 +236,14 @@ class AccountManager
 
             $device = $this->Device();
             
-            $userToken = $this->GetTokenByUsername($username, $_COOKIE["device_id"], 0);
+            $userToken = $this->GetTokenByUsername($response[0]["user_alias"], $_COOKIE["device_id"], 0);
 
             if (!empty($userToken[0]["uniqueIndex"]))
             {
               $this->MarkAsExpired($userToken[0]["uniqueIndex"], $_COOKIE["device_id"]);
             }
 
-            $this->InsertToken($username, $random_password_hash, $random_selector_hash, $_COOKIE["device_id"], $expiry_date);
+            $this->InsertToken($response[0]["user_alias"], $random_password_hash, $random_selector_hash, $_COOKIE["device_id"], $expiry_date);
 
           }
 
@@ -255,7 +257,7 @@ class AccountManager
           $login_err = "Wrong password.";
 
           $response = array();
-          array_push($response, $username_err);
+          array_push($response, $email_err);
           array_push($response, $password_err);
           array_push($response, $login_err);
           return $response;
@@ -263,10 +265,10 @@ class AccountManager
       }
       else
       {
-        $login_err = "Unknown username.";
+        $login_err = "Unknown email address.";
 
         $response = array();
-        array_push($response, $username_err);
+        array_push($response, $email_err);
         array_push($response, $password_err);
         array_push($response, $login_err);
         return $response;
@@ -274,10 +276,10 @@ class AccountManager
     }
     else
     {
-      $login_err = "Username or password missing.";
+      $login_err = "Email or password missing.";
 
       $response = array();
-      array_push($response, $username_err);
+      array_push($response, $email_err);
       array_push($response, $password_err);
       array_push($response, $login_err);
       return $response;
@@ -301,7 +303,7 @@ class AccountManager
     }
     else
     {
-      $stmt = $this->db->conn->prepare("SELECT uniqueIndex FROM logins WHERE user_alias=:user");
+      $stmt = $this->db->pdo->prepare("SELECT uniqueIndex FROM logins WHERE user_alias=:user");
       $stmt->bindParam(':user', $username);
       $stmt->execute();
       $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -323,7 +325,7 @@ class AccountManager
     }
     else
     {
-      $stmt = $this->db->conn->prepare("SELECT uniqueIndex FROM logins WHERE user_email=:qEmail");
+      $stmt = $this->db->pdo->prepare("SELECT uniqueIndex FROM logins WHERE user_email=:qEmail");
       $stmt->bindParam(':qEmail', $email);
       $stmt->execute();
       $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -366,7 +368,7 @@ class AccountManager
 
     if(empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err))
     {
-      $stmt = $this->db->conn->prepare("INSERT INTO logins
+      $stmt = $this->db->pdo->prepare("INSERT INTO logins
       (user_alias,
       user_password,
       createdAt,
@@ -417,7 +419,7 @@ class AccountManager
       $response = array();
       array_push($response, "Registered. Please verify your email account.");
 
-      $this->SendActivationEmail($emailToRegister, $code);
+      // $this->SendActivationEmail($emailToRegister, $code);
 
       $this->ClearLoginCookies();
 
@@ -486,7 +488,7 @@ class AccountManager
     $email = (string)$data[0];
     $code = (string)$data[1];
 
-    $stmt = $this->db->conn->prepare("SELECT activationCode, activationExpiry FROM logins WHERE user_email=:qEmail");
+    $stmt = $this->db->pdo->prepare("SELECT activationCode, activationExpiry FROM logins WHERE user_email=:qEmail");
     $stmt->bindParam(':qEmail', $email);
     $stmt->execute();
     $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -501,7 +503,7 @@ class AccountManager
       {
         if(password_verify($code, $response[0]["activationCode"]))
         {
-          $stmt = $this->db->conn->prepare("UPDATE logins SET `isVerified`=:qVerified WHERE user_email=:qEmail");
+          $stmt = $this->db->pdo->prepare("UPDATE logins SET `isVerified`=:qVerified WHERE user_email=:qEmail");
           $verified = 1;
           $stmt->bindParam(':qVerified', $verified);
           $stmt->bindParam(':qEmail', $email);
@@ -513,7 +515,7 @@ class AccountManager
         }
         else
         {
-          $stmt = $this->db->conn->prepare("DELETE FROM logins WHERE user_email=:qEmail");
+          $stmt = $this->db->pdo->prepare("DELETE FROM logins WHERE user_email=:qEmail");
           $stmt->bindParam(':qEmail', $email);
           $stmt->execute();
 
@@ -522,7 +524,7 @@ class AccountManager
       }
       else
       {
-        $stmt = $this->db->conn->prepare("DELETE FROM logins WHERE user_email=:qEmail");
+        $stmt = $this->db->pdo->prepare("DELETE FROM logins WHERE user_email=:qEmail");
         $stmt->bindParam(':qEmail', $email);
         $stmt->execute();
 
@@ -549,7 +551,7 @@ class AccountManager
       return "Error: Invalid email submitted.";
     }
 
-    $stmt = $this->db->conn->prepare("SELECT * FROM logins WHERE user_email=:qEmail");
+    $stmt = $this->db->pdo->prepare("SELECT * FROM logins WHERE user_email=:qEmail");
     $stmt->bindParam(':qEmail', $email);
     $stmt->execute();
     $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -599,7 +601,7 @@ class AccountManager
 
       if($emailResponse === "SENT")
       {
-        $stmt = $this->db->conn->prepare("UPDATE logins SET `user_password`=:qPassword WHERE user_email=:qEmail");
+        $stmt = $this->db->pdo->prepare("UPDATE logins SET `user_password`=:qPassword WHERE user_email=:qEmail");
         $stmt->bindParam(':qPassword', $hashed);
         $stmt->bindParam(':qEmail', $email);
         try
@@ -635,7 +637,7 @@ class AccountManager
     $newPassword = (string)$data[1];
     $confirmPassword = (string)$data[2];
 
-    $stmt = $this->db->conn->prepare("SELECT * FROM logins WHERE user_alias=:qName");
+    $stmt = $this->db->pdo->prepare("SELECT * FROM logins WHERE user_alias=:qName");
     $stmt->bindParam(':qName', $name);
     $stmt->execute();
     $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -652,7 +654,7 @@ class AccountManager
 
         if($passwordToRegister === $trimmedConfirm)
         {
-          $stmt = $this->db->conn->prepare("UPDATE logins SET `user_password`=:qPassword WHERE user_alias=:qName");
+          $stmt = $this->db->pdo->prepare("UPDATE logins SET `user_password`=:qPassword WHERE user_alias=:qName");
 
           $hashed = password_hash($passwordToRegister, PASSWORD_DEFAULT);
           $stmt->bindParam(':qPassword', $hashed);
@@ -697,7 +699,7 @@ class AccountManager
 
   public function GetTokenByUsername($username, $device, $expired)
   {
-    $stmt = $this->db->conn->prepare("SELECT * FROM tokens 
+    $stmt = $this->db->pdo->prepare("SELECT * FROM tokens 
     WHERE user_alias=:qUser 
     AND deviceID=:qDevice
     AND isExpired=:qExpired");
@@ -711,7 +713,7 @@ class AccountManager
 
   public function MarkAsExpired($tokenId, $device)
   {
-    $stmt = $this->db->conn->prepare("UPDATE tokens 
+    $stmt = $this->db->pdo->prepare("UPDATE tokens 
     SET isExpired=:qExpired 
     WHERE uniqueIndex=:qIndex
     AND deviceID=:qDevice");
@@ -726,7 +728,7 @@ class AccountManager
 
   function InsertToken($username, $random_password_hash, $random_selector_hash, $random_device_id, $expiry_date)
   {
-    $stmt = $this->db->conn->prepare("INSERT INTO tokens (user_alias, 
+    $stmt = $this->db->pdo->prepare("INSERT INTO tokens (user_alias, 
     passwordHash, 
     selectorHash, 
     deviceID, 
@@ -745,7 +747,7 @@ class AccountManager
 
   function GetAccountName($intID) : string
   {
-    $stmt = $this->db->conn->prepare("SELECT user_alias FROM logins WHERE uniqueIndex=:uIndex");
+    $stmt = $this->db->pdo->prepare("SELECT user_alias FROM logins WHERE uniqueIndex=:uIndex");
     $stmt->bindParam(':uIndex', $intID);
     $stmt->execute();
     $response = $stmt->fetchColumn();
