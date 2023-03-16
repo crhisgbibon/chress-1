@@ -2,4 +2,6 @@
 
 ### Migrating Databases
 
+```
 php app/Database/Migrations/migrate.php
+```
