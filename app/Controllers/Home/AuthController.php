@@ -23,7 +23,7 @@ class AuthController
   {
     $this->config = new Config($_ENV);
     $this->db = new DB($this->config->db);
-    $this->account = new AccountManager($this->db);
+    $this->account = new AccountManager($this->db, $this->config);
   }
 
   public function login()
@@ -51,4 +51,50 @@ class AuthController
     else echo "response is empty";
   }
 
+  public function validate()
+  {
+    if(isset($_GET["email"]))
+    {
+      $email = $_GET["email"];
+    }
+    else
+    {
+      $email = "";
+    }
+    
+    if(isset($_GET["activation_code"]))
+    {
+      $activationCode = $_GET["activation_code"];
+    }
+    else
+    {
+      $activationCode = "";
+    }
+
+    return View::make
+    (
+      'generic/validate', // body view path
+      'Chress',         // view title
+      true,             // with layout
+      [                 // controls array
+
+      ],
+      [                 // body params array
+        'email' => $email,
+        'code' => $activationCode,
+      ]
+    );
+  }
+
+  public function authenticate() : string
+  {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $email = $data['email'];
+    $code = $data['code'];
+
+    $response = $this->account->Validate($email, $code);
+
+    if($response !== null) return json_encode($response);
+    else return json_encode('There was an error validating your account.');
+  }
 }

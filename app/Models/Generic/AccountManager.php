@@ -9,10 +9,12 @@ use PDO;
 class AccountManager
 {
   private DB $db;
+  private Config $config;
 
-  public function __construct(DB $db)
+  public function __construct(DB $db, Config $config)
   {
     $this->db = $db;
+    $this->config = $config;
   }
 
   public function Device() : bool
@@ -419,7 +421,7 @@ class AccountManager
       $response = array();
       array_push($response, "Registered. Please verify your email account.");
 
-      // $this->SendActivationEmail($emailToRegister, $code);
+      $this->SendActivationEmail($emailToRegister, $code);
 
       $this->ClearLoginCookies();
 
@@ -441,11 +443,12 @@ class AccountManager
 
   private function SendActivationEmail(string $address, string $activationCode) : string
   {
-    $url = "http://www.calypsogrammar.com/authenticate";
+    
+    $url = $this->config->app['url'] . '/validate';
 
-    $activatationLink = $url . "/activate.php?email={$address}&activation_code={$activationCode}";
+    $activatationLink = $url . "?email={$address}&activation_code={$activationCode}";
 
-    $subject = 'CalypsoGrammar - Account Activation';
+    $subject = $this->config->app['name'] . ' - Account Activation';
     $message = <<<MESSAGE
     Hi,
     <br>
@@ -458,19 +461,18 @@ class AccountManager
     <br>
     MESSAGE;
     
-    $config = new Config();
-    $e = new Email($config);
+    $e = new Email($this->config->email);
 
     $to = trim($address);
   
     $response = $e->Email(
       $errorMode = false,
       $debugMode = 0,
-      $sentFrom = ['admin@calypsogrammar.com', 'Calypso Grammar'],
+      $sentFrom = [$this->config->email['from'], $this->config->app['name']],
       $sendTo = [
         [$to, ''],
       ],
-      $replyTo = ['admin@calypsogrammar.com', 'Calypso Grammar'],
+      $replyTo = [$this->config->email['from'], $this->config->app['name']],
       $emailSubject = $subject,
       $emailBody = $message,
       $emailAltBody = $message,
@@ -481,13 +483,8 @@ class AccountManager
     return $response;
   }
 
-  public function Validate(array $data) : string
+  public function Validate(string $email, string $code) : string
   {
-    if(count($data) !== 2) return "Invalid Input Data.";
-
-    $email = (string)$data[0];
-    $code = (string)$data[1];
-
     $stmt = $this->db->pdo->prepare("SELECT activationCode, activationExpiry FROM logins WHERE user_email=:qEmail");
     $stmt->bindParam(':qEmail', $email);
     $stmt->execute();
@@ -575,8 +572,7 @@ class AccountManager
       <br>
       MESSAGE;
 
-      $config = new Config();
-      $e = new Email($config);
+      $e = new Email($this->config->email);
   
       $to = trim($email);
 

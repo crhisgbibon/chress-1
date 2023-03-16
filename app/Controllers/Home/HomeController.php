@@ -46,7 +46,7 @@ class HomeController
   {
     $this->config = new Config($_ENV);
     $this->db = new DB($this->config->db);
-    $this->accountManager = new AccountManager($this->db);
+    $this->accountManager = new AccountManager($this->db, $this->config);
   }
 
   public function index() : View

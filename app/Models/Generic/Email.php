@@ -10,9 +10,9 @@ use PHPMailer\PHPMailer\Exception;
 class Email
 {
 
-  private Config $config;
+  private array $config;
 
-  public function __construct(Config $config)
+  public function __construct(array $config)
   {
     $this->config = $config;
   }
@@ -30,9 +30,15 @@ class Email
     array $images
   ) : string
   {
-    $host = $this->config->GetEmailHost();
-    $username = $this->config->GetEmailUsername();
-    $password = $this->config->GetEmailPassword();
+    $mailer = $this->config['mailer'];
+    $host = $this->config['host'];
+    $username = $this->config['user'];
+    $password = $this->config['pass'];
+
+    $port = $this->config['port'];
+    $encrypt = $this->config['encrypt'];
+    $from = $this->config['from'];
+    $name = $this->config['name'];
 
     $mail = new PHPMailer(true);
     try
@@ -51,15 +57,15 @@ class Email
 
       $mail->CharSet = 'UTF-8';
       $mail->SMTPDebug = $debugMode;
-      $mail->Mailer = "smtp";
+      $mail->Mailer = $mailer;
       $mail->Host = $host;
       $mail->SMTPAuth = true;
       $mail->AuthType = "login";
       $mail->Priority = 1;
       $mail->Username = $username;
       $mail->Password = $password;
-      $mail->SMTPSecure = "ssl";
-      $mail->Port = 465;
+      $mail->SMTPSecure = $encrypt;
+      $mail->Port = $port;
       $mail->SMTPKeepAlive = true;
 
       $mail->setFrom($sentFrom[0], $sentFrom[1]);
