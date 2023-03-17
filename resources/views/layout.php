@@ -25,7 +25,7 @@
 
   <body class='antialiased'>
 
-    <?php if(isset($controls)) echo $controls; ?>
+    <?php if(isset($navBar)) echo $navBar; ?>
 
     <?php if(isset($body)) echo $body; ?>
 

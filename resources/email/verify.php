@@ -1,0 +1,1 @@
+Email confirming user has successfullly validated account.

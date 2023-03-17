@@ -13,37 +13,34 @@ class View
     protected string $view,
     protected string $title,
     protected bool $withLayout,
-    protected array $controls,
     protected array $params = []
   )
   {
   }
 
-  public static function make(string $view, string $title, bool $withLayout, array $controls = [], array $params = []): static
+  public static function make(string $view, string $title, bool $withLayout, array $params = []): static
   {
-    return new static($view, $title, $withLayout, $controls, $params);
+    return new static($view, $title, $withLayout, $params);
   }
 
   public function render(bool $withLayout = false): string
   {
+    $session = false;
+    if(isset($_SESSION['loggedin'])) if($_SESSION['loggedin']) $session = true;
+
     $viewPath = VIEW_PATH . '/' . $this->view . '.php';
     if(!file_exists($viewPath)) throw new ViewNotFoundException();
     foreach($this->params as $key => $value) $$key = $value;
 
-    $controlPath = VIEW_PATH . '/generic/controls.php';
-    if(!file_exists($controlPath)) throw new ViewNotFoundException();
+    $navPath = VIEW_PATH . '/navigation.php';
+    if(!file_exists($navPath)) throw new ViewNotFoundException();
 
     if($withLayout)
     {
       ob_start();
-      $options = [];
-      foreach($this->controls as $key => $value)
-      {
-        $$key = $value;
-        array_push($options, $$key);
-      }
-      include $controlPath;
-      $con = (string) ob_get_clean();
+      $loggedin = $session;
+      include $navPath;
+      $nav = (string) ob_get_clean();
 
       ob_start();
       include $viewPath;
@@ -52,7 +49,7 @@ class View
       $layoutPath = VIEW_PATH . '/layout.php';
       if(!file_exists($layoutPath)) throw new ViewNotFoundException();
       $title = $this->title;
-      $controls = $con;
+      $navBar = $nav;
       $body = $view;
       ob_start();
       include $layoutPath;
@@ -61,18 +58,13 @@ class View
     else
     {
       ob_start();
-      $options = [];
-      foreach($this->controls as $key => $value)
-      {
-        $$key = $value;
-        array_push($options, $$key);
-      }
-      include $controlPath;
-      $con = (string) ob_get_clean();
+      $loggedin = $session;
+      include $navPath;
+      $nav = (string) ob_get_clean();
 
       ob_start();
       include $viewPath;
-      $controls = $con;
+      $navBar = $nav;
       return (string) ob_get_clean();
     }
   }

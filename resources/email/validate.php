@@ -1,0 +1,1 @@
+Email HTML template where user receives validation link
