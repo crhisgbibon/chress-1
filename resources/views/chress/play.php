@@ -307,7 +307,7 @@
               data-index='<?=$i?>'
               data-color='<?=$colour?>'>
                 <img id='i<?=$i?>'
-                src='chress/blank.png'>
+                src='assets/png/blank.png'>
                 </img>
               </button>
             </div>
@@ -321,49 +321,6 @@
             $colCounter = 0;
           ?>
         <?php endfor; ?>
-        <?php
-          $counter = 0;
-          $rowCounter = 7;
-          $colCounter = 0;
-          $alternate = false;
-
-          $output = "";
-        
-          for($x = 0; $x < 8; $x++)
-          {
-            $alternate = !$alternate;
-            for($y = 0; $y < 8; $y++)
-            {
-              $alternate = !$alternate;
-
-              $index = ($rowCounter * 8) + $colCounter;
-
-              $newSquareId = "s" . $index;
-              $newButtonId = "b" . $index;
-              $newImgId = "i" . $index;
-
-              $color = "white";
-              if($alternate === false) $color = "black";
-
-              echo "
-                <div class='boardSquare' id='{$newSquareId}'>
-                  <button class='boardButtton' id='{$newButtonId}' 
-                  data-index='{$index}' data-color='{$color}'
-                  onclick='QuerySquare(`$index`)'>
-                    <img class='boardImg'  id='{$newImgId}'
-                    src='chress/blank.png'>
-                    </img>
-                  </button>
-                </div>
-              ";
-              
-              $colCounter++;
-              $counter++;
-            }
-            $rowCounter--;
-            $colCounter = 0;
-          }
-        ?>
       </div>
     </div>
   </div>

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controllers\Chress;
 
 use App\Models\Auth\AccountManager;
-use App\Models\Generic\Config;
-use App\Models\Generic\DB;
-use App\Models\Generic\View;
+use App\Models\System\Config;
+use App\Models\System\DB;
+use App\Models\System\View;
 
 class ChressController
 {

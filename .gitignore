@@ -5,3 +5,4 @@ logs/*
 storage/mysql/*
 storage/logs/*
 nginx
+archive

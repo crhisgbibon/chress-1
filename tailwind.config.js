@@ -2,8 +2,8 @@
 module.exports = {
   mode: 'jit',
   content: [
-    './public/**/*.php',
-    './resources/**/*.php',
+    './public/index.php',
+    './resources/views/**/*.php',
   ],
   theme: {
     extend: {

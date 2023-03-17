@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Database\Migrations;
 
-use App\Models\Generic\DB;
+use App\Models\System\DB;
 
 class Logins
 {

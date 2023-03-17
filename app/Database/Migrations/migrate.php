@@ -8,8 +8,8 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-use App\Models\Generic\Config;
-use App\Models\Generic\DB;
+use App\Models\System\Config;
+use App\Models\System\DB;
 
 use App\Database\Migrations\Logins;
 use App\Database\Migrations\Tokens;
