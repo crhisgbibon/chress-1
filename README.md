@@ -2,13 +2,13 @@
 
 ## dev server
 
-### localhost:8000
+### docker
 
 ```
 docker-compose up
 ```
 
-<a href='localhost:8000'>localhost</a>
+localhost:8000
 
 ### tailwind
 
