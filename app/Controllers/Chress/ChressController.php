@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controllers\Chress;
 
-use App\Models\Auth\AccountManager;
+use App\Models\Auth\AuthModel;
 use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
 
 class ChressController
 {
-  private AccountManager $account;
+  private AuthModel $account;
   private Config $config;
   private DB $db;
 
@@ -19,7 +19,20 @@ class ChressController
   {
     $this->config = new Config($_ENV);
     $this->db = new DB($this->config->db);
-    $this->account = new AccountManager($this->db, $this->config);
+    $this->account = new AuthModel($this->db, $this->config);
+  }
+
+  public function homeGet() : View
+  {
+    return View::make
+    (
+      'home/home',     // body view path
+      'Chress',         // view title
+      true,             // with layout
+      [                 // body params array
+
+      ]
+    );
   }
 
   public function playGet() : View

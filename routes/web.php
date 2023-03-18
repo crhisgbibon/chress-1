@@ -6,7 +6,7 @@ use App\Controllers\Auth\AuthController;
 use App\Controllers\Chress\ChressController;
 
 $router = new Router();
-$router->get('/', [ChressController::class, 'playGet']);
+$router->get('/', [ChressController::class, 'homeGet']);
 
 $router->get('/login', [AuthController::class, 'loginGet']);
 $router->post('/login', [AuthController::class, 'loginPost']);
@@ -16,6 +16,9 @@ $router->post('/register', [AuthController::class, 'registerPost']);
 
 $router->get('/validate', [AuthController::class, 'validateGet']);
 $router->post('/validate', [AuthController::class, 'validatePost']);
+
+$router->get('/confirm', [AuthController::class, 'confirmGet']);
+$router->post('/confirm', [AuthController::class, 'confirmPost']);
 
 $router->get('/profile', [AuthController::class, 'profileGet']);
 $router->get('/logout', [AuthController::class, 'logoutGet']);

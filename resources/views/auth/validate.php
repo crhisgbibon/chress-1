@@ -19,6 +19,7 @@
     }
   }"
   class='w-screen flex flex-col justify-start items-center m-4 p-4'>
+  <?php if(isset($email)) echo $email; else echo 'missing'; ?>
   <button
     x-on:click="validate"
     class='m-4 p-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200'>

@@ -28,12 +28,15 @@ class View
     $session = false;
     if(isset($_SESSION['loggedin'])) if($_SESSION['loggedin']) $session = true;
 
-    $viewPath = VIEW_PATH . '/' . $this->view . '.php';
-    if(!file_exists($viewPath)) throw new ViewNotFoundException();
-    foreach($this->params as $key => $value) $$key = $value;
+    $name = '';
+    if(isset($_SESSION['name'])) if($_SESSION['name']) $name = $_SESSION['name'];
 
     $navPath = VIEW_PATH . '/system/navigation.php';
     if(!file_exists($navPath)) throw new ViewNotFoundException();
+
+    $viewPath = VIEW_PATH . '/' . $this->view . '.php';
+    if(!file_exists($viewPath)) throw new ViewNotFoundException();
+    foreach($this->params as $key => $value) $$key = $value;
 
     if($withLayout)
     {

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controllers\Auth;
 
-use App\Models\Auth\AccountManager;
+use App\Models\Auth\AuthModel;
 use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
 
 class AuthController
 {
-  private AccountManager $account;
+  private AuthModel $account;
   private Config $config;
   private DB $db;
 
@@ -19,21 +19,24 @@ class AuthController
   {
     $this->config = new Config($_ENV);
     $this->db = new DB($this->config->db);
-    $this->account = new AccountManager($this->db, $this->config);
+    $this->account = new AuthModel($this->db, $this->config);
   }
 
   public function loginGet() : View
   {
+    $loggedin = $this->account->LoggedIn();
     return View::make
     (
       'auth/login',     // body view path
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'loggedin' => $loggedin,
         'email' => '',
         'email_err' => '',
         'password' => '',
         'password_err' => '',
+        'login_err' => '',
       ]
     );
   }
@@ -45,6 +48,7 @@ class AuthController
     $remember = false;
 
     $response = $this->account->Login($email, $password, $remember);
+    $loggedin = $this->account->LoggedIn();
 
     return View::make
     (
@@ -52,10 +56,12 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'loggedin' => $loggedin,
         'email' => $email,
         'email_err' => $response['email_err'],
         'password' => '',
         'password_err' => $response['password_err'],
+        'login_err' => $response['login_err'],
       ]
     );
   }
@@ -114,9 +120,6 @@ class AuthController
       'auth/validate', // body view path
       'Chress',           // view title
       true,               // with layout
-      [                   // controls array
-
-      ],
       [                   // body params array
         'email' => $email,
         'code' => $activationCode,
@@ -127,17 +130,66 @@ class AuthController
   public function validatePost() : string
   {
     $data = json_decode(file_get_contents('php://input'), true);
-    $email = $data['email'];
-    $code = $data['code'];
+    if(count($data) === 2)
+    {
+      $email = $data['email'];
+      $code = $data['code'];
+    }
+    else
+    {
+      $email = '';
+      $code = '';
+    }
 
     $response = $this->account->Validate($email, $code);
 
     if($response !== null) return json_encode($response);
-    else return json_encode('There was an error validating your account.');
+    else return json_encode('There was an error confirming your account.');
+  }
+
+  public function confirmGet() : View
+  {
+    $name = $this->account->existsName();
+    $loggedin = $this->account->LoggedIn();
+    $verified = $this->account->isVerified();
+    $response = '';
+    return View::make
+    (
+      'auth/confirm',  // body view path
+      'Chress',         // view title
+      true,             // with layout
+      [                 // body params array
+        'name' => $name,
+        'loggedin' => $loggedin,
+        'verified' => $verified,
+        'response' => $response,
+      ]
+    );
+  }
+
+  public function confirmPost() : View
+  {
+    $name = $this->account->existsName();
+    $loggedin = $this->account->LoggedIn();
+    $verified = $this->account->isVerified();
+    $response = $this->account->ReSentActivationEmail();
+
+    return View::make
+    (
+      'auth/confirm',  // body view path
+      'Chress',         // view title
+      true,             // with layout
+      [                 // body params array
+        'name' => $name,
+        'loggedin' => $loggedin,
+        'verified' => $verified,
+        'response' => $response,
+      ]
+    );
   }
 
   public function profileGet() : View
-  { 
+  {
     return View::make
     (
       'profile/profile', // body view path
@@ -151,16 +203,7 @@ class AuthController
 
   public function logoutGet() : View
   { 
-    $_SESSION["loggedin"] = false;
-    $_SESSION["id"] = "";
-  
-    $_SESSION["name"] = "";
-    $_SESSION["state"] = "";
-  
-    $this->account->ClearLoginCookies();
-  
-    session_unset();
-    session_destroy();
+    $this->account->logout();
 
     return View::make
     (

@@ -1,8 +1,6 @@
 .env
 vendor
 node_modules
-logs/*
 storage/mysql/*
 storage/logs/*
-nginx
 archive

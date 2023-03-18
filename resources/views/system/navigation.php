@@ -19,11 +19,12 @@
           class='rounded-lg p-2'
           :class="nav ? 'bg-sky-200' : ''"></img>
       </button>
-      <h1
+      <a
+        href='/'
         class='font-bold text-sky-300 flex justify-center items-center w-32 md:w-48 mx-4'
         style='height: calc(var(--vh) * 7.5);'>
         Chress
-      </h1>
+      </a>
       <button
         @click='profile = !profile; if(nav) nav = false'
         class='flex justify-center items-center hover:scale-105 active:scale-95'
@@ -45,6 +46,15 @@
       style='height: calc(var(--vh) * 7.5);'>
       <a
         class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+        href='/'>
+        Home
+      </a>
+    </div>
+    <div
+      class='w-screen flex justify-center items-center'
+      style='height: calc(var(--vh) * 7.5);'>
+      <a
+        class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
         href='/play'>
         Play
       </a>
@@ -58,6 +68,15 @@
         Lobby
       </a>
     </div>
+    <div
+      class='w-screen flex justify-center items-center h-full'
+      style='height: calc(var(--vh) * 7.5);'>
+      <a
+        class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+        href='/library'>
+        Library
+      </a>
+    </div>
   </div>
 
   <div
@@ -65,6 +84,10 @@
     class='flex flex-col justify-start items-center w-screen z-10 fixed'
     style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: rgba(255,255,255,1);'>
     <?php if($loggedin): ?>
+      <div
+        class='max-w-sm my-4 m-2 p-2 rounded-lg'>
+        Logged in as: <?php if(isset($name)) echo $name?>
+      </div>
       <div
         class='w-screen flex justify-center items-center'
         style='height: calc(var(--vh) * 7.5);'>
@@ -100,6 +123,15 @@
           class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
           href='/register'>
           Register
+        </a>
+      </div>
+      <div
+        class='w-screen flex justify-center items-center'
+        style='height: calc(var(--vh) * 7.5);'>
+        <a
+          class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+          href='/recover'>
+          Recover
         </a>
       </div>
     <?php endif; ?>

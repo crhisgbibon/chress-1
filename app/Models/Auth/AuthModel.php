@@ -6,9 +6,11 @@ namespace App\Models\Auth;
 
 use App\Models\System\Config;
 use App\Models\System\DB;
+use App\Models\System\Email;
+
 use PDO;
 
-class AccountManager
+class AuthModel
 {
   private DB $db;
   private Config $config;
@@ -42,15 +44,6 @@ class AccountManager
     {
       $output = false;
     }
-
-    return $output;
-  }
-
-  public function LoggedIn() : bool
-  {
-    $output = false;
-
-    if(isset($_SESSION['loggedin'])) $output = (bool)$_SESSION['loggedin'];
 
     return $output;
   }
@@ -181,8 +174,7 @@ class AccountManager
     {
       $stmt = $this->db->pdo->prepare("SELECT *
       FROM logins 
-      WHERE user_email=:email
-      AND isVerified='1'");
+      WHERE user_email=:email");
       $stmt->bindParam(':email', $email);
       $stmt->execute();
       $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -190,73 +182,82 @@ class AccountManager
 
       if($count === 1)
       {
-        $hashedPassword = $response[0]['user_password'];
-        if(password_verify($password, $hashedPassword))
+        $_SESSION['name'] = $response[0]['user_alias'];
+        if($response[0]['isVerified'] === 0)
         {
-          if(!isset($_SESSION)) session_start();
-
-          $_SESSION['loggedin'] = true;
-          $_SESSION['id'] = $response[0]['uniqueIndex'];
-          $_SESSION['name'] = $response[0]['user_alias'];
-          $_SESSION['state'] = $response[0]['user_status'];
-
-          if($remember === true)
-          {
-            $current_time = time();
-            $cookie_expiration_time = $current_time + (30 * 24 * 60 * 60);
-
-            setcookie('member_login', $response[0]['user_alias'], [
-              'expires' => $cookie_expiration_time,
-              'path' => '/',
-              'samesite' => 'Strict',
-              'secure' => true,
-              'httponly' => true
-            ]);
-          
-            $random_password = $this->MakeToken(16);
-
-            setcookie('random_password', $random_password, [
-              'expires' => $cookie_expiration_time,
-              'path' => '/',
-              'samesite' => 'Strict',
-              'secure' => true,
-              'httponly' => true
-            ]);
-            
-            $random_selector = $this->MakeToken(32);
-
-            setcookie('random_selector', $random_selector, [
-              'expires' => $cookie_expiration_time,
-              'path' => '/',
-              'samesite' => 'Strict',
-              'secure' => true,
-              'httponly' => true
-            ]);
-            
-            $random_password_hash = password_hash($random_password, PASSWORD_DEFAULT);
-            $random_selector_hash = password_hash($random_selector, PASSWORD_DEFAULT);
-            
-            $expiry_date = date('Y-m-d H:i:s', $cookie_expiration_time);
-
-            $device = $this->Device();
-            
-            $userToken = $this->GetTokenByUsername($response[0]['user_alias'], $_COOKIE['device_id'], 0);
-
-            if (!empty($userToken[0]['uniqueIndex']))
-            {
-              $this->MarkAsExpired($userToken[0]['uniqueIndex'], $_COOKIE['device_id']);
-            }
-
-            $this->InsertToken($response[0]['user_alias'], $random_password_hash, $random_selector_hash, $_COOKIE['device_id'], $expiry_date);
-
-          }
-
-          $success = 'success';
+          $success = '';
+          $login_err = 'This account has not yet been confirmed.';
         }
         else
         {
-          $success = '';
-          $password_err = 'Wrong password.';
+          $hashedPassword = $response[0]['user_password'];
+          if(password_verify($password, $hashedPassword))
+          {
+            if(!isset($_SESSION)) session_start();
+
+            $_SESSION['loggedin'] = true;
+            $_SESSION['name'] = $response[0]['user_alias'];
+            $_SESSION['id'] = $response[0]['uniqueIndex'];
+            $_SESSION['state'] = $response[0]['user_status'];
+
+            if($remember === true)
+            {
+              $current_time = time();
+              $cookie_expiration_time = $current_time + (30 * 24 * 60 * 60);
+
+              setcookie('member_login', $response[0]['user_alias'], [
+                'expires' => $cookie_expiration_time,
+                'path' => '/',
+                'samesite' => 'Strict',
+                'secure' => true,
+                'httponly' => true
+              ]);
+            
+              $random_password = $this->MakeToken(16);
+
+              setcookie('random_password', $random_password, [
+                'expires' => $cookie_expiration_time,
+                'path' => '/',
+                'samesite' => 'Strict',
+                'secure' => true,
+                'httponly' => true
+              ]);
+              
+              $random_selector = $this->MakeToken(32);
+
+              setcookie('random_selector', $random_selector, [
+                'expires' => $cookie_expiration_time,
+                'path' => '/',
+                'samesite' => 'Strict',
+                'secure' => true,
+                'httponly' => true
+              ]);
+              
+              $random_password_hash = password_hash($random_password, PASSWORD_DEFAULT);
+              $random_selector_hash = password_hash($random_selector, PASSWORD_DEFAULT);
+              
+              $expiry_date = date('Y-m-d H:i:s', $cookie_expiration_time);
+
+              $device = $this->Device();
+              
+              $userToken = $this->GetTokenByUsername($response[0]['user_alias'], $_COOKIE['device_id'], 0);
+
+              if (!empty($userToken[0]['uniqueIndex']))
+              {
+                $this->MarkAsExpired($userToken[0]['uniqueIndex'], $_COOKIE['device_id']);
+              }
+
+              $this->InsertToken($response[0]['user_alias'], $random_password_hash, $random_selector_hash, $_COOKIE['device_id'], $expiry_date);
+
+            }
+
+            $success = 'success';
+          }
+          else
+          {
+            $success = '';
+            $password_err = 'Wrong password.';
+          }
         }
       }
       else
@@ -431,10 +432,9 @@ class AccountManager
 
   private function SendActivationEmail(string $address, string $activationCode) : string
   {
-    
     $url = $this->config->app['url'] . '/validate';
 
-    $activatationLink = $url . '?email={$address}&activation_code={$activationCode}';
+    $activatationLink = $url . '?email='.$address.'&activation_code='.$activationCode;
 
     $subject = $this->config->app['name'] . ' - Account Activation';
     $message = <<<MESSAGE
@@ -563,8 +563,6 @@ class AccountManager
       $e = new Email($this->config->email);
   
       $to = trim($email);
-
-      var_dump($to);
     
       $emailResponse = $e->Email(
         $errorMode = false,
@@ -580,8 +578,6 @@ class AccountManager
         $attachments = [],
         $images = []
       );
-
-      var_dump($emailResponse);
 
       if($emailResponse === 'SENT')
       {
@@ -736,5 +732,86 @@ class AccountManager
     $stmt->execute();
     $response = $stmt->fetchColumn();
     return (string)$response;
+  }
+
+  public function existsName() : bool
+  {
+    $output = false;
+    if(isset($_SESSION['name'])) $output = true;
+    return $output;
+  }
+
+  public function getName() : bool
+  {
+    $output = '';
+    if(isset($_SESSION['name'])) $output = $_SESSION['name'];
+    return $output;
+  }
+
+  public function LoggedIn() : bool
+  {
+    $output = false;
+    if(isset($_SESSION['loggedin'])) $output = (bool)$_SESSION['loggedin'];
+    return $output;
+  }
+
+  function isVerified() : bool
+  {
+    if(!isset($_SESSION['name'])) return false;
+    if($_SESSION['name'] === null) return false;
+    $stmt = $this->db->pdo->prepare('SELECT isVerified 
+    FROM logins 
+    WHERE user_alias=:user');
+    $stmt->bindParam(':user', $_SESSION['name']);
+    $stmt->execute();
+    $response = $stmt->fetchColumn();
+    return (bool)$response;
+  }
+
+  public function ReSentActivationEmail() : string
+  {
+    if(!isset($_SESSION['name'])) return 'Please login to confirm your account.';
+    if($_SESSION['name'] === null) return 'Please login to confirm your account.';
+
+    $stmt = $this->db->pdo->prepare('SELECT * 
+    FROM logins 
+    WHERE user_alias=:user_alias');
+    $stmt->bindParam(':user_alias', $_SESSION['name']);
+    $stmt->execute();
+    $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $count = count($response);
+
+    $message = '';
+
+    if($count === 1)
+    {
+      $this->SendActivationEmail($response[0]['user_email'], $response[0]['activationCode']);
+      $message = 'The confirmation email has been resent. Please check your mail.';
+    }
+    else if($count === 0)
+    {
+      $message = 'Unable to locate this email address as registered.';
+    }
+    else if($count > 1)
+    {
+      $this->SendActivationEmail($response[0]['user_email'], $response[0]['activationCode']);
+      $message = 'Duplicate email addresses registered. A confirmation email has been sent to the first record.';
+    }
+
+    return $message;
+  }
+
+  public function logout()
+  {
+    $_SESSION["loggedin"] = false;
+    $_SESSION["id"] = "";
+  
+    $_SESSION["name"] = "";
+    $_SESSION["state"] = "";
+
+    $this->ClearLoginCookies();
+  
+    session_unset();
+    session_destroy();
   }
 }

@@ -2,4 +2,8 @@
 .idea
 .env
 storage/logs
+storage/mysql
 storage/cache
+node_modules
+vendor
+archive
