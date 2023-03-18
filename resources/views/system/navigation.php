@@ -5,7 +5,7 @@
   }'>
 
   <nav
-    class='w-screen flex justify-center items-center'
+    class='w-full flex justify-center items-center'
     style='height: calc(var(--vh) * 7.5); top: 0'>
     <div
       class='flex flex-row justify-between items-center max-w-xl'
@@ -21,7 +21,7 @@
       </button>
       <a
         href='/'
-        class='font-bold text-sky-300 flex justify-center items-center w-32 md:w-48 mx-4'
+        class='font-bold text-sky-300 flex justify-center items-center w-32 md:w-48'
         style='height: calc(var(--vh) * 7.5);'>
         Chress
       </a>
@@ -42,39 +42,51 @@
     class='flex flex-col justify-start items-center w-screen fixed'
     style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: rgba(255,255,255,1);'>
     <div
-      class='w-screen flex justify-center items-center'
+      class='w-screen flex justify-center items-center my-2'
       style='height: calc(var(--vh) * 7.5);'>
       <a
-        class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
-        href='/'>
-        Home
+        class='w-32 p-2 rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
+        href='/games'>
+        Games
       </a>
     </div>
     <div
-      class='w-screen flex justify-center items-center'
+      class='w-screen flex justify-center items-center my-2'
       style='height: calc(var(--vh) * 7.5);'>
       <a
-        class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
-        href='/play'>
-        Play
+        class='w-32 p-2 rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
+        href='/library'>
+        Library
       </a>
     </div>
     <div
-      class='w-screen flex justify-center items-center h-full'
+      class='w-screen flex justify-center items-center my-2'
       style='height: calc(var(--vh) * 7.5);'>
       <a
-        class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+        class='w-32 p-2 rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
         href='/lobby'>
         Lobby
       </a>
     </div>
     <div
-      class='w-screen flex justify-center items-center h-full'
+      class='w-screen flex justify-center items-center my-2'
       style='height: calc(var(--vh) * 7.5);'>
       <a
-        class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
-        href='/library'>
-        Library
+        class='w-32 p-2 rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
+        href='/play'>
+        Play
       </a>
     </div>
   </div>
@@ -85,51 +97,66 @@
     style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: rgba(255,255,255,1);'>
     <?php if($loggedin): ?>
       <div
-        class='max-w-sm my-4 m-2 p-2 rounded-lg'>
+        class='max-w-sm p-2 rounded-lg my-2'>
         Logged in as: <?php if(isset($name)) echo $name?>
       </div>
       <div
-        class='w-screen flex justify-center items-center'
+        class='w-screen flex justify-center items-center my-2'
         style='height: calc(var(--vh) * 7.5);'>
         <a
-          class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+          class='w-32 p-2  rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
           href='/profile'>
           Profile
         </a>
       </div>
       <div
-        class='w-screen flex justify-center items-center'
+        class='w-screen flex justify-center items-center my-2'
         style='height: calc(var(--vh) * 7.5);'>
         <a
-          class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+          class='w-32 p-2 rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
           href='/logout'>
           Log Out
         </a>
       </div>
     <?php else: ?>
       <div
-        class='w-screen flex justify-center items-center'
+        class='w-screen flex justify-center items-center my-2'
         style='height: calc(var(--vh) * 7.5);'>
         <a
-          class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+          class='w-32 p-2 rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
           href='/login'>
           Log in
         </a>
       </div>
       <div
-        class='w-screen flex justify-center items-center'
+        class='w-screen flex justify-center items-center my-2'
         style='height: calc(var(--vh) * 7.5);'>
         <a
-          class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+          class='w-32 p-2 rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
           href='/register'>
           Register
         </a>
       </div>
       <div
-        class='w-screen flex justify-center items-center'
+        class='w-screen flex justify-center items-center my-2'
         style='height: calc(var(--vh) * 7.5);'>
         <a
-          class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+          class='w-32 p-2 rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95
+              hover:scale-105 active:scale-95'
           href='/recover'>
           Recover
         </a>

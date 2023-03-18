@@ -9,7 +9,7 @@ use App\Models\System\DB;
 
 use PDO;
 
-class PlayModel
+class GamesModel
 {
   private DB $db;
   private Config $config;

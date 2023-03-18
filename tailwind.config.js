@@ -1,14 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: 'jit',
   content: [
-    './public/index.php',
-    './resources/views/**/*.php',
+    './resources/views/**/*.{html,js,php}',
   ],
   theme: {
-    extend: {
-      
-    },
+    extend: {},
   },
   plugins: [],
 }

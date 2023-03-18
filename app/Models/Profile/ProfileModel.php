@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Chress;
+namespace App\Models\Profile;
 
 use App\Models\System\Config;
 use App\Models\System\DB;
 
 use PDO;
 
-class PlayModel
+class ProfileModel
 {
   private DB $db;
   private Config $config;

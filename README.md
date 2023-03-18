@@ -13,7 +13,7 @@ localhost:8000
 ### tailwind
 
 ```
-npm run tailwind-watch
+npm run tailwind
 ```
 
 ## deployment

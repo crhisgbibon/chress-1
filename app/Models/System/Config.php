@@ -15,7 +15,7 @@ class Config
   {
     $this->config = [
       'app' => [
-        'url'     => $env['APP_URL'],
+        'url'      => $env['APP_URL'],
         'name'     => $env['APP_NAME'],
       ],
       'db' => [

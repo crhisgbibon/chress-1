@@ -4,15 +4,14 @@
     moveData: '',
     info: false,
   }" 
-  class='flex flex-col justify-start items-center w-screen'>
+  class='flex flex-col justify-start items-center w-full'>
 
   <div
-    class='flex flex-row justify-center items-center w-screen'
+    class='flex flex-row justify-center items-center w-full'
     style='min-height: calc(var(--vh) * 5);'>
-
-    <div
-      class=''
-      style='min-height: calc(var(--vh) * 5);'
+    <button 
+      class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
+      style='height: 90%;'
       x-data="
       {
         output: '',
@@ -32,18 +31,13 @@
           .then(data => console.log(data))
           .catch(err => console.log(err)));
         }
-      }">
-      <button 
-        class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-        style='min-height: calc(var(--vh) * 5);'
-        x-on:click="post">
-        Mode
-      </button>
-    </div>
-
-    <div
-      class='my-2'
-      style='min-height: calc(var(--vh) * 5);'
+      }"
+      x-on:click="post">
+      Mode
+    </button>
+    <button 
+      class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
+      style='height: 90%'
       x-data="
       {
         output: '',
@@ -63,24 +57,19 @@
           .then(data => console.log(data))
           .catch(err => console.log(err)));
         }
-      }">
-      <button 
-        class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-        style='min-height: calc(var(--vh) * 5);'
-        x-on:click="post">
-        <
-      </button>
-    </div>
+      }"
+      x-on:click="post">
+      <
+    </button>
 
     <div
       class='flex justify-center items-center w-8'
-      style='min-height: calc(var(--vh) * 5);'>
+      style='height: 90%;'>
       0
     </div>
-
-    <div
-      class='my-2'
-      style='min-height: calc(var(--vh) * 5);'
+    <button 
+      class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
+      style='height: 90%;'
       x-data="
       {
         output: '',
@@ -100,35 +89,27 @@
           .then(data => console.log(data))
           .catch(err => console.log(err)));
         }
-      }">
-      <button 
-        class='mx-4 px-4  rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-        style='min-height: calc(var(--vh) * 5);'
-        x-on:click="post">
-        >
-      </button>
-    </div>
+      }"
+      x-on:click="post">
+      >
+    </button>
 
-    <div
-      class='my-2'
-      style='min-height: calc(var(--vh) * 5);'>
-      <button 
-        class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-        style='min-height: calc(var(--vh) * 5);'
-        @click="moves = !moves">
-        Moves
-      </button>
-    </div>
+    <button 
+      class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
+      style='height: 90%;'
+      @click="moves = !moves">
+      Moves
+    </button>
 
   </div>
 
   <div
-    class='flex flex-row justify-center items-center w-screen'
+    class='flex flex-row justify-center items-center w-full'
     style='min-height: calc(var(--vh) * 5);'>
 
-    <div
-      class='my-2'
-      style='min-height: calc(var(--vh) * 5);'
+    <button 
+      class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
+      style='height: 90%;'
       x-data="
       {
         output: '',
@@ -148,18 +129,14 @@
           .then(data => console.log(data))
           .catch(err => console.log(err)));
         }
-      }">
-      <button 
-        class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-        style='min-height: calc(var(--vh) * 5);'
-        x-on:click="post">
-        Flip
-      </button>
-    </div>
+      }"
+      x-on:click="post">
+      Flip
+    </button>
 
-    <div
-      class='my-2'
-      style='min-height: calc(var(--vh) * 5);'
+    <button 
+      class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
+      style='height: 90%;'
       x-data="
       {
         output: '',
@@ -179,24 +156,20 @@
           .then(data => console.log(data))
           .catch(err => console.log(err)));
         }
-      }">
-      <button 
-        class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-        style='min-height: calc(var(--vh) * 5);'
-        x-on:click="post">
-        <
-      </button>
-    </div>
+      }"
+      x-on:click="post">
+      <
+    </button>
 
     <div
       class='flex justify-center items-center w-8'
-      style='min-height: calc(var(--vh) * 5);'>
+      style='height: 90%;'>
       0
     </div>
 
-    <div
-      class='my-2'
-      style='min-height: calc(var(--vh) * 5);'
+    <button 
+      class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
+      style='height: 90%;'
       x-data="
       {
         output: '',
@@ -216,25 +189,17 @@
           .then(data => console.log(data))
           .catch(err => console.log(err)));
         }
-      }">
-      <button 
-        class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-        style='min-height: calc(var(--vh) * 5);'
-        x-on:click="post">
-        >
-      </button>
-    </div>
+      }"
+      x-on:click="post">
+      >
+    </button>
 
-    <div
-      class='my-2'
-      style='min-height: calc(var(--vh) * 5);'>
-      <button 
-        class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-        style='min-height: calc(var(--vh) * 5);'
-        @click="info = !info">
-        Info
-      </button>
-    </div>
+    <button 
+      class='mx-4 px-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
+      style='height: 90%;'
+      @click="info = !info">
+      Info
+    </button>
 
   </div>
 
@@ -268,8 +233,10 @@
   </div>
 
   <div
-    class='my-4'>
-    <div>
+    class='flex flex-col justify-start items-center'
+    style='min-height: calc(var(--vh) * 77.5);'>
+    <div
+      class='my-4'>
       <div
         style='width: 320px; min-height: 320px;'
         x-data="{

@@ -132,22 +132,6 @@ class AuthModel
     return $output;
   }
 
-  function ClearLoginCookies()
-  {
-    if(isset($_COOKIE['member_login']))
-    {
-      setcookie('member_login', 'content', 1, '/');
-    }
-    if(isset($_COOKIE['random_password']))
-    {
-      setcookie('random_password', 'content', 1, '/');
-    }
-    if(isset($_COOKIE['random_selector']))
-    {
-      setcookie('random_selector', 'content', 1, '/');
-    }
-  }
-
   public function Login(string $email, string $password, bool $remember) : array
   {
     $email_err = $password_err = $login_err = '';
@@ -801,17 +785,47 @@ class AuthModel
     return $message;
   }
 
-  public function logout()
+  public function logout() : bool
   {
-    $_SESSION["loggedin"] = false;
-    $_SESSION["id"] = "";
-  
-    $_SESSION["name"] = "";
-    $_SESSION["state"] = "";
-
+    $wasLoggedIn = $this->ClearSession();
     $this->ClearLoginCookies();
-  
     session_unset();
     session_destroy();
+    return $wasLoggedIn;
+  }
+
+  private function ClearSession() : bool
+  {
+    $wasLoggedIn = false;
+    if(isset($_SESSION['loggedin']))
+    {
+      if($_SESSION['loggedin'])
+      {
+        $wasLoggedIn = true;
+        $_SESSION['loggedin'] = false;
+      }
+    }
+
+    if(isset($_SESSION['id'])) $_SESSION['id'] = '';
+    if(isset($_SESSION['name'])) $_SESSION['name'] = '';
+    if(isset($_SESSION['state'])) $_SESSION['state'] = '';
+
+    return $wasLoggedIn;
+  }
+
+  function ClearLoginCookies()
+  {
+    if(isset($_COOKIE['member_login']))
+    {
+      setcookie('member_login', 'content', 1, '/');
+    }
+    if(isset($_COOKIE['random_password']))
+    {
+      setcookie('random_password', 'content', 1, '/');
+    }
+    if(isset($_COOKIE['random_selector']))
+    {
+      setcookie('random_selector', 'content', 1, '/');
+    }
   }
 }

@@ -1,3 +1,4 @@
+<?php if(isset($email) && isset($code) && $email !== '' && $code !== ''): ?>
 <div
   x-data="{
     output: 'Awaiting validation attempt.',
@@ -7,8 +8,8 @@
       this.output = await (await fetch('/validate', {
         method: 'POST',
         body: JSON.stringify({
-          email:'<?php if(isset($email)) echo $email ?>',
-          code:'<?php if(isset($code)) echo $code ?>',
+          email:'<?= $email ?>',
+          code:'<?= $code ?>',
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
@@ -29,3 +30,9 @@
     x-text="output"
     class='m-4 p-4'></div>
 </div>
+<?php else: ?>
+  <div
+    class='w-screen flex flex-col justify-start items-center m-4 p-4'>
+    You can only validate your account from the link sent to your email address.
+  </div>
+<?php endif; ?>

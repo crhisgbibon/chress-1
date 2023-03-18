@@ -1,3 +1,9 @@
+<?php if($loggedin): ?>
+<div
+  class='w-screen flex flex-row justify-center items-center my-4'>
+  You are already registered.
+</div>
+<?php else: ?>
 <form
   method='POST'
   action='/register'
@@ -113,3 +119,4 @@
   </div>
 
 </form>
+<?php endif; ?>

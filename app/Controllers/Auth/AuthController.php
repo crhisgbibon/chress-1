@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controllers\Auth;
 
-use App\Models\Auth\AuthModel;
 use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
+
+use App\Models\Auth\AuthModel;
 
 class AuthController
 {
@@ -22,7 +23,7 @@ class AuthController
     $this->account = new AuthModel($this->db, $this->config);
   }
 
-  public function loginGet() : View
+  public function login_get() : View
   {
     $loggedin = $this->account->LoggedIn();
     return View::make
@@ -41,7 +42,7 @@ class AuthController
     );
   }
 
-  public function loginPost() : View
+  public function login_post() : View
   {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -52,7 +53,7 @@ class AuthController
 
     return View::make
     (
-      'auth/login', // body view path
+      'auth/login',     // body view path
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
@@ -66,20 +67,21 @@ class AuthController
     );
   }
 
-  public function registerGet() : View
+  public function register_get() : View
   {
+    $loggedin = $this->account->LoggedIn();
     return View::make
     (
       'auth/register',  // body view path
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
-
+        'loggedin' => $loggedin,
       ]
     );
   }
 
-  public function registerPost()
+  public function register_post()
   {
     $username = $_POST['register_username'];
     $email = $_POST['register_email'];
@@ -107,7 +109,7 @@ class AuthController
     );
   }
 
-  public function validateGet() : View
+  public function validate_get() : View
   {
     if(isset($_GET['email'])) $email = $_GET['email'];
     else $email = '';
@@ -127,7 +129,7 @@ class AuthController
     );
   }
 
-  public function validatePost() : string
+  public function validate_post() : string
   {
     $data = json_decode(file_get_contents('php://input'), true);
     if(count($data) === 2)
@@ -147,7 +149,7 @@ class AuthController
     else return json_encode('There was an error confirming your account.');
   }
 
-  public function confirmGet() : View
+  public function confirm_get() : View
   {
     $name = $this->account->existsName();
     $loggedin = $this->account->LoggedIn();
@@ -167,7 +169,7 @@ class AuthController
     );
   }
 
-  public function confirmPost() : View
+  public function confirm_post() : View
   {
     $name = $this->account->existsName();
     $loggedin = $this->account->LoggedIn();
@@ -188,22 +190,50 @@ class AuthController
     );
   }
 
-  public function profileGet() : View
+  public function recover_get() : View
   {
+    $name = $this->account->existsName();
+    $loggedin = $this->account->LoggedIn();
+    $verified = $this->account->isVerified();
+    $response = '';
     return View::make
     (
-      'profile/profile', // body view path
+      'auth/recover',  // body view path
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
-        'name' => $_SESSION['name'],
+        'name' => $name,
+        'loggedin' => $loggedin,
+        'verified' => $verified,
+        'response' => $response,
       ]
     );
   }
 
-  public function logoutGet() : View
+  public function recover_post() : View
+  {
+    $name = $this->account->existsName();
+    $loggedin = $this->account->LoggedIn();
+    $verified = $this->account->isVerified();
+    $response = $this->account->ReSentActivationEmail();
+
+    return View::make
+    (
+      'auth/recover',  // body view path
+      'Chress',         // view title
+      true,             // with layout
+      [                 // body params array
+        'name' => $name,
+        'loggedin' => $loggedin,
+        'verified' => $verified,
+        'response' => $response,
+      ]
+    );
+  }
+
+  public function logout_get() : View
   { 
-    $this->account->logout();
+    $wasLoggedIn = $this->account->logout();
 
     return View::make
     (
@@ -211,7 +241,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
-
+        'wasloggedin' => $wasLoggedIn,
       ]
     );
   }
