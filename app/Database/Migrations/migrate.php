@@ -11,6 +11,7 @@ use Dotenv\Dotenv;
 use App\Models\System\Config;
 use App\Models\System\DB;
 
+use App\Database\Migrations\Games;
 use App\Database\Migrations\Logins;
 use App\Database\Migrations\Tokens;
 
@@ -25,3 +26,6 @@ $login->up();
 
 $token = new Tokens($db);
 $token->up();
+
+$games = new Games($db);
+$games->up();

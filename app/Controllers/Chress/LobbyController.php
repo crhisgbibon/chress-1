@@ -21,6 +21,8 @@ class LobbyController
 
   private LobbyModel $model;
 
+  private int $userID;
+
   public function __construct()
   {
     $this->config = new Config($_ENV);
@@ -28,19 +30,39 @@ class LobbyController
 
     $this->account = new AuthModel($this->db, $this->config);
 
-    $this->model = new LobbyModel($this->db, $this->config);
+    $this->userID = (isset($_SESSION['id'])) ? $_SESSION['id'] : -1;
+
+    $this->model = new LobbyModel($this->db, $this->config, $this->userID);
   }
 
   public function index() : View
   {
+    if($this->userID === -1) $loggedin = false;
+    else $loggedin = true;
+
+    $games = $this->model->CloseExpiredAndReturnActiveGames();
+
     return View::make
     (
-      'lobby/lobby',     // body view path
-      'Chress',         // view title
-      true,             // with layout
-      [                 // body params array
-
+      'lobby/lobby',
+      'Chress',
+      true,
+      [
+        'loggedin' => $loggedin,
+        'games' => $games,
       ]
     );
+  }
+
+  public function accept() : View
+  {
+    if($_POST['uuid']) $gameid = (int)$_POST['uuid'];
+    else $gameid = -1;
+
+    $this->model->AcceptChallenge($gameid);
+    if($this->userID === -1) $loggedin = false;
+    else $loggedin = true;
+    $games = $this->model->CloseExpiredAndReturnActiveGames();
+    header('Location: /lobby');
   }
 }

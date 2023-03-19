@@ -1,3 +1,4 @@
+<?php use App\Models\System\Component; ?>
 <?php if($loggedin): ?>
 <div
   class='w-screen flex flex-row justify-center items-center my-4'>
@@ -16,21 +17,14 @@
       for='register_username'>
       Username:
     </label>
-    <input
-      class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
-        hover:outline hover:outline-offset-2 hover:outline-sky-100
-        focus:outline focus:outline-offset-2 focus:outline-sky-200
-        active:outline active:outline-offset-2 active:outline-sky-300'
-      type='text'
-      id='register_username'
-      name='register_username'
-      placeholder='...'
-      value='<?php if(isset($username)) echo $username ?>'
-      autocomplete='name'>
-      <span
-        class='text-sky-300'>
-        <?php if(isset($username_err)) echo $username_err ?>
-      </span>
+    <div
+      class='w-48 m-2'>
+      <?=Component::make('input',['version'=>'text','uuid'=>'register_username','nom'=>'register_username','place'=>'...','text'=>$username,'auto'=>'name','check'=>false])?>
+    </div>
+    <span
+      class='text-sky-300'>
+      <?=$username_err?>
+    </span>
   </div>
 
   <div
@@ -40,21 +34,14 @@
       for='register_email'>
       Email:
     </label>
-    <input
-      class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
-        hover:outline hover:outline-offset-2 hover:outline-sky-100
-        focus:outline focus:outline-offset-2 focus:outline-sky-200
-        active:outline active:outline-offset-2 active:outline-sky-300'
-      type='email'
-      id='register_email'
-      name='register_email'
-      placeholder='...'
-      value='<?php if(isset($email)) echo $email ?>'
-      autocomplete='email'>
-      <span
-        class='text-sky-300'>
-        <?php if(isset($email_err)) echo $email_err ?>
-      </span>
+    <div
+      class='w-48 m-2'>
+      <?=Component::make('input',['version'=>'email','uuid'=>'register_email','nom'=>'register_email','place'=>'...','text'=>$email,'auto'=>'email','check'=>false])?>
+    </div>
+    <span
+      class='text-sky-300'>
+      <?=$email_err?>
+    </span>
   </div>
 
   <div
@@ -64,20 +51,14 @@
       for='register_password'>
       Password:
     </label>
-    <input
-      class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
-        hover:outline hover:outline-offset-2 hover:outline-sky-100
-        focus:outline focus:outline-offset-2 focus:outline-sky-200
-        active:outline active:outline-offset-2 active:outline-sky-300'
-      type='password'
-      id='register_password'
-      name='register_password'
-      placeholder='...'
-      autocomplete='new-password'>
-      <span
-        class='text-sky-300'>
-        <?php if(isset($password_err)) echo $password_err ?>
-      </span>
+    <div
+      class='w-48 m-2'>
+      <?=Component::make('input',['version'=>'password','uuid'=>'register_password','nom'=>'register_password','place'=>'...','text'=>'','auto'=>'new-password','check'=>false])?>
+    </div>
+    <span
+      class='text-sky-300'>
+      <?=$password_err?>
+    </span>
   </div>
 
   <div
@@ -87,34 +68,25 @@
       for='register_confirm_password'>
       Confirm password:
     </label>
-    <input
-      class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
-        hover:outline hover:outline-offset-2 hover:outline-sky-100
-        focus:outline focus:outline-offset-2 focus:outline-sky-200
-        active:outline active:outline-offset-2 active:outline-sky-300'
-      type='password'
-      id='register_confirm_password'
-      name='register_confirm_password'
-      placeholder='...'
-      autocomplete='new-password'>
-      <span
-        class='text-sky-300'>
-        <?php if(isset($confirm_password_err)) echo $confirm_password_err ?>
-      </span>
+    <div
+      class='w-48 m-2'>
+      <?=Component::make('input',['version'=>'password','uuid'=>'register_confirm_password','nom'=>'register_confirm_password','place'=>'...','text'=>'','auto'=>'new-password','check'=>false])?>
+    </div>
+    <span
+      class='text-sky-300'>
+      <?=$confirm_password_err?>
+    </span>
   </div>
 
   <div
     class='w-screen flex flex-col justify-center items-center my-4'>
     <div
-      class='flex justify-center items-center'>
-      <input
-        type='submit'
-        value='Register'
-        class='w-32 mx-4 p-2 m-2 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200'>
+      class='w-48 m-2'>
+      <?=Component::make('input',['version'=>'submit','uuid'=>'','nom'=>'','place'=>'','text'=>'Register','auto'=>'','check'=>false])?>
     </div>
     <span
       class='text-sky-300'>
-      <?php if(isset($success)) echo $success ?>
+      <?=$success?>
     </span>
   </div>
 

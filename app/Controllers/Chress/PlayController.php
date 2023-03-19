@@ -44,7 +44,7 @@ class PlayController
     );
   }
 
-  public function swap() : string
+  public function mode() : string
   {
     return json_encode('hello, mode');
   }

@@ -21,6 +21,8 @@ class GamesController
 
   private GamesModel $model;
 
+  private int $userID;
+
   public function __construct()
   {
     $this->config = new Config($_ENV);
@@ -28,20 +30,65 @@ class GamesController
 
     $this->account = new AuthModel($this->db, $this->config);
 
-    $this->model = new GamesModel($this->db, $this->config);
+    $this->userID = (isset($_SESSION['id'])) ? $_SESSION['id'] : -1;
+
+    $this->model = new GamesModel($this->db, $this->config, $this->userID);
   }
 
   public function index() : View
   {
+    if($this->userID === -1) $loggedin = false;
+    else $loggedin = true;
+
+    $games = $this->model->CloseExpiredAndReturnActiveGames();
+
     return View::make
     (
-      'games/games',     // body view path
-      'Chress',         // view title
-      true,             // with layout
-      [                 // body params array
-
+      'games/games',
+      'Chress',
+      true,
+      [
+        'loggedin' => $loggedin,
+        'games' => $games,
       ]
     );
   }
 
+  public function view() : View
+  {
+    if($this->userID === -1) $loggedin = false;
+    else $loggedin = true;
+
+    $games = $this->model->CloseExpiredAndReturnActiveGames();
+
+    return View::make
+    (
+      'games/games',
+      'Chress',
+      true,
+      [
+        'loggedin' => $loggedin,
+        'games' => $games,
+      ]
+    );
+  }
+
+  public function resign() : View
+  {
+    if($this->userID === -1) $loggedin = false;
+    else $loggedin = true;
+
+    $games = $this->model->CloseExpiredAndReturnActiveGames();
+
+    return View::make
+    (
+      'games/games',
+      'Chress',
+      true,
+      [
+        'loggedin' => $loggedin,
+        'games' => $games,
+      ]
+    );
+  }
 }

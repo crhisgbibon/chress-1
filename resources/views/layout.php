@@ -1,18 +1,12 @@
-<?php 
-  use App\Models\System\Component;
-?>
-
 <!DOCTYPE html>
-
   <html lang='en-UK' style='font-size: 16px; font-family: Georgia, Times New Roman, Times, serif'>
-
   <head>
 
-    <title><?php if(isset($title)) echo $title; ?></title>
+    <title><?=$title?></title>
 
     <meta charset='UTF-8' />
-    <meta name='description' content=<?php if(isset($title)) echo $title; ?> />
-    <meta name='keywords' content=<?php if(isset($title)) echo $title; ?> />
+    <meta name='description' content=<?=$title?> />
+    <meta name='keywords' content=<?=$title?> />
     <meta name='author' content='admin@calypsogrammar.com' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
     
@@ -25,15 +19,8 @@
     <script src="assets/js/vh.js"></script>
     
   </head>
-
   <body class='antialiased'>
-
-    <?php if(isset($navBar)) echo $navBar; ?>
-
-    <?php if(isset($body)) echo $body; ?>
-
-    <?php echo Component::make ('test', [ 'test' => $test, ] ); ?>
-
+    <?=$navBar?>
+    <?=$body?>
   </body>
-
 </html>

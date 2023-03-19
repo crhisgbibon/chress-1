@@ -1,3 +1,4 @@
+<?php use App\Models\System\Component; ?>
 <div
   x-data='{
     nav: false,
@@ -8,7 +9,7 @@
     class='w-full flex justify-center items-center'
     style='height: calc(var(--vh) * 7.5); top: 0'>
     <div
-      class='flex flex-row justify-between items-center max-w-xl'
+      class='flex flex-row justify-around items-center max-w-xl'
       style='height: calc(var(--vh) * 7.5);'>
       <button
         @click='nav = !nav; if(profile) profile = false'
@@ -42,52 +43,34 @@
     class='flex flex-col justify-start items-center w-screen fixed'
     style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: rgba(255,255,255,1);'>
     <div
-      class='w-screen flex justify-center items-center my-2'
+      class='flex justify-center items-center my-2 w-32'
       style='height: calc(var(--vh) * 7.5);'>
-      <a
-        class='w-32 p-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-        href='/games'>
-        Games
-      </a>
+      <?=Component::make('hyperlink',['href'=>'/create','text'=>'Create'])?>
     </div>
     <div
-      class='w-screen flex justify-center items-center my-2'
+      class='flex justify-center items-center my-2 w-32'
       style='height: calc(var(--vh) * 7.5);'>
-      <a
-        class='w-32 p-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-        href='/library'>
-        Library
-      </a>
+      <?=Component::make('hyperlink',['href'=>'/games','text'=>'Games'])?>
     </div>
     <div
-      class='w-screen flex justify-center items-center my-2'
+      class='flex justify-center items-center my-2 w-32'
       style='height: calc(var(--vh) * 7.5);'>
-      <a
-        class='w-32 p-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-        href='/lobby'>
-        Lobby
-      </a>
+      <?=Component::make('hyperlink',['href'=>'/history','text'=>'History'])?>
     </div>
     <div
-      class='w-screen flex justify-center items-center my-2'
+      class='flex justify-center items-center my-2 w-32'
       style='height: calc(var(--vh) * 7.5);'>
-      <a
-        class='w-32 p-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-        href='/play'>
-        Play
-      </a>
+      <?=Component::make('hyperlink',['href'=>'/library','text'=>'Library'])?>
+    </div>
+    <div
+      class='flex justify-center items-center my-2 w-32'
+      style='height: calc(var(--vh) * 7.5);'>
+      <?=Component::make('hyperlink',['href'=>'/lobby','text'=>'Lobby'])?>
+    </div>
+    <div
+      class='flex justify-center items-center my-2 w-32'
+      style='height: calc(var(--vh) * 7.5);'>
+      <?=Component::make('hyperlink',['href'=>'/play','text'=>'Play'])?>
     </div>
   </div>
 
@@ -97,69 +80,34 @@
     style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: rgba(255,255,255,1);'>
     <?php if($loggedin): ?>
       <div
-        class='max-w-sm p-2 rounded-lg my-2'>
+        class='max-w-sm p-2 rounded-lg my-2 w-full flex justify-center items-center'>
         Logged in as: <?php if(isset($name)) echo $name?>
       </div>
       <div
-        class='w-screen flex justify-center items-center my-2'
+        class='flex justify-center items-center my-2 w-32'
         style='height: calc(var(--vh) * 7.5);'>
-        <a
-          class='w-32 p-2  rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-          href='/profile'>
-          Profile
-        </a>
+        <?=Component::make('hyperlink',['href'=>'/profile','text'=>'Profile'])?>
       </div>
       <div
-        class='w-screen flex justify-center items-center my-2'
+        class='flex justify-center items-center my-2 w-32'
         style='height: calc(var(--vh) * 7.5);'>
-        <a
-          class='w-32 p-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-          href='/logout'>
-          Log Out
-        </a>
+        <?=Component::make('hyperlink',['href'=>'/logout','text'=>'Log Out'])?>
       </div>
     <?php else: ?>
       <div
-        class='w-screen flex justify-center items-center my-2'
+        class='flex justify-center items-center my-2 w-32'
         style='height: calc(var(--vh) * 7.5);'>
-        <a
-          class='w-32 p-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-          href='/login'>
-          Log in
-        </a>
+        <?=Component::make('hyperlink',['href'=>'/login','text'=>'Log In'])?>
       </div>
       <div
-        class='w-screen flex justify-center items-center my-2'
+        class='flex justify-center items-center my-2 w-32'
         style='height: calc(var(--vh) * 7.5);'>
-        <a
-          class='w-32 p-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-          href='/register'>
-          Register
-        </a>
+        <?=Component::make('hyperlink',['href'=>'/register','text'=>'Register'])?>
       </div>
       <div
-        class='w-screen flex justify-center items-center my-2'
+        class='flex justify-center items-center my-2 w-32'
         style='height: calc(var(--vh) * 7.5);'>
-        <a
-          class='w-32 p-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95
-              hover:scale-105 active:scale-95'
-          href='/recover'>
-          Recover
-        </a>
+        <?=Component::make('hyperlink',['href'=>'/recover','text'=>'Recover'])?>
       </div>
     <?php endif; ?>
   </div>

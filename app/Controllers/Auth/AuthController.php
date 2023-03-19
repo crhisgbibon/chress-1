@@ -77,12 +77,23 @@ class AuthController
       true,             // with layout
       [                 // body params array
         'loggedin' => $loggedin,
+        'username' => '',
+        'username_err' => '',
+        'email' => '',
+        'email_err' => '',
+        'password' => '',
+        'password_err' => '',
+        'confirm' => '',
+        'confirm_password_err' => '',
+        'success' => '',
       ]
     );
   }
 
   public function register_post()
   {
+    $loggedin = $this->account->LoggedIn();
+
     $username = $_POST['register_username'];
     $email = $_POST['register_email'];
     $password = $_POST['register_password'];
@@ -96,6 +107,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'loggedin' => $loggedin,
         'username' => $username,
         'username_err' => $response['username_err'],
         'email' => $email,

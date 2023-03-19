@@ -1,5 +1,6 @@
+<?php use App\Models\System\Component; ?>
 <div
-  class='w-screen flex flex-col justify-start items-center'>
+  class='w-full flex flex-col justify-start items-center'>
 
   <div
     class='my-8'>
@@ -7,51 +8,36 @@
   </div>
 
   <div
-    class='w-screen max-w-sm flex flex-col md:flex-row justify-center items-center'
-    style='min-height: calc(var(--vh) * 7.5);'>
+    class='w-full flex-none max-w-sm block'>
 
     <div
-      class='flex justify-center items-center'>
-      <a
-        class='w-32 p-2 m-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95'
-        href='/games'>
-        Games
-      </a>
+      class='flex w-32 p-2 justify-center items-center float-left'>
+      <?=Component::make('hyperlink',['href'=>'/create','text'=>'Create'])?>
     </div>
 
     <div
-      class='flex justify-center items-center'>
-      <a
-        class='w-32 p-2 m-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95'
-        href='/library'>
-        Library
-      </a>
+      class='flex w-32 p-2 justify-center items-center float-left'>
+      <?=Component::make('hyperlink',['href'=>'/games','text'=>'Games'])?>
     </div>
 
     <div
-      class='flex justify-center items-center'>
-      <a
-        class='w-32 p-2 m-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95'
-        href='/lobby'>
-        Lobby
-      </a>
+      class='flex w-32 p-2 justify-center items-center float-left'>
+      <?=Component::make('hyperlink',['href'=>'/history','text'=>'History'])?>
     </div>
 
     <div
-      class='flex justify-center items-center'>
-      <a
-        class='w-32 p-2 m-2 rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
-              hover:scale-105 active:scale-95'
-        href='/play'>
-        Play
-      </a>
+      class='flex w-32 p-2 justify-center items-center float-left'>
+      <?=Component::make('hyperlink',['href'=>'/library','text' =>'Library'])?>
+    </div>
+
+    <div
+      class='flex w-32 p-2 justify-center items-center float-left'>
+      <?=Component::make('hyperlink',['href'=>'/lobby','text'=>'Lobby'])?>
+    </div>
+
+    <div
+      class='flex w-32 p-2 justify-center items-center float-left'>
+      <?=Component::make('hyperlink',['href'=>'/play','text'=>'Play'])?>
     </div>
 
   </div>
