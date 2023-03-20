@@ -135,7 +135,16 @@ class GameModel
 
     $stateToExport = $this->saveList[$boardToExport]->state;
 
-    $r = [$board, $moves, $stateToExport, $score, $meta, $pgn, $lastMove, $isWhite];
+    $r = [
+      'board' => $board,
+      'moves' => $moves,
+      'state' => $stateToExport,
+      'score' => $score,
+      'meta' => $meta,
+      'pgn' => $pgn,
+      'lastmove' => $lastMove,
+      'iswhite' => $isWhite
+    ];
     return $r;
   }
 

@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controllers\Home;
 
+use App\Attributes\Get;
+use App\Attributes\Post;
+
 use App\Models\System\View;
 
 class HomeController
 {
+  #[Get(routePath:'/')]
   public function index() : View
   {
     return View::make

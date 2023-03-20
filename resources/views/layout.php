@@ -16,7 +16,9 @@
     <link rel='icon' type='image/x-icon' href='favicon.ico'>
     
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
     <script src="assets/js/vh.js"></script>
+    <script src="assets/js/ajax.js"></script>
     
   </head>
   <body class='antialiased'>

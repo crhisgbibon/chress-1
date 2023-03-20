@@ -67,16 +67,11 @@
       style='height: calc(var(--vh) * 7.5);'>
       <?=Component::make('hyperlink',['href'=>'/lobby','text'=>'Lobby'])?>
     </div>
-    <div
-      class='flex justify-center items-center my-2 w-32'
-      style='height: calc(var(--vh) * 7.5);'>
-      <?=Component::make('hyperlink',['href'=>'/play','text'=>'Play'])?>
-    </div>
   </div>
 
   <div
     x-show='profile'
-    class='flex flex-col justify-start items-center w-screen z-10 fixed'
+    class='flex flex-col justify-start items-center w-screen fixed'
     style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: rgba(255,255,255,1);'>
     <?php if($loggedin): ?>
       <div

@@ -57,9 +57,8 @@ class GamesModel
 
   public function GetActiveGamesData() : array
   {
-    $stmt = $this->db->pdo->prepare("SELECT games.*, logins.user_alias
+    $stmt = $this->db->pdo->prepare("SELECT *
     FROM games
-    INNER JOIN logins ON (games.whiteID = logins.uniqueIndex OR games.blackID = logins.uniqueIndex)
     WHERE gameCompleted=0
     AND ( whiteID=:userID1 OR blackID=:userID2 )
     AND ( whiteID!=:lobby1 AND blackID!=:lobby2 )
@@ -75,6 +74,43 @@ class GamesModel
     $stmt->execute();
     $result = $stmt->fetchAll();
 
+    $getUserName = $this->db->pdo->prepare("SELECT user_alias
+    FROM logins
+    WHERE uniqueIndex=:uniqueIndex
+    LIMIT 1");
+
+    $c = count($result);
+    for($i = 0; $i < $c; $i++)
+    {
+      $whiteID = $result[$i]['whiteID'];
+      $blackID = $result[$i]['blackID'];
+
+      $getUserName->bindParam(':uniqueIndex', $whiteID);
+      $getUserName->execute();
+      $info = $getUserName->fetchColumn();
+      $result[$i]['white_username'] = $info;
+
+      $getUserName->bindParam(':uniqueIndex', $blackID);
+      $getUserName->execute();
+      $info = $getUserName->fetchColumn();
+      $result[$i]['black_username'] = $info;
+    }
+
     return $result;
+  }
+
+  public function GetGame(int $gameID) : GameModel
+  {
+    $stmt = $this->db->pdo->prepare("SELECT boardState FROM games
+    WHERE uniqueIndex=:uniqueIndex
+    AND hiddenRow = 0");
+
+    $stmt->bindParam(':uniqueIndex', $gameID);
+
+    $stmt->execute();
+
+    $game = unserialize($stmt->fetchColumn());
+
+    return $game;
   }
 }

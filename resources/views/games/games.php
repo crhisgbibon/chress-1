@@ -12,7 +12,7 @@
       class='w-full overflow-y-auto flex flex-col justify-start items-center'
       style='height: calc(var(--vh) * 90);'>
       <?php if(count($games) > 0): ?>
-        <?=Component::make('games',['games'=>$games])?>
+        <?=Component::make('games',['user'=>$user,'games'=>$games])?>
       <?php else: ?>
         You have no active games.
       <?php endif; ?>

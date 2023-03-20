@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controllers\Auth;
 
+use App\Attributes\Get;
+use App\Attributes\Post;
+
 use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
@@ -23,6 +26,7 @@ class AuthController
     $this->account = new AuthModel($this->db, $this->config);
   }
 
+  #[Get(routePath:'/login')]
   public function login_get() : View
   {
     $loggedin = $this->account->LoggedIn();
@@ -42,6 +46,7 @@ class AuthController
     );
   }
 
+  #[Post(routePath:'/login')]
   public function login_post() : View
   {
     $email = $_POST['email'];
@@ -67,6 +72,7 @@ class AuthController
     );
   }
 
+  #[Get(routePath:'/register')]
   public function register_get() : View
   {
     $loggedin = $this->account->LoggedIn();
@@ -90,6 +96,7 @@ class AuthController
     );
   }
 
+  #[Post(routePath:'/register')]
   public function register_post()
   {
     $loggedin = $this->account->LoggedIn();
@@ -121,6 +128,7 @@ class AuthController
     );
   }
 
+  #[Get(routePath:'/validate')]
   public function validate_get() : View
   {
     if(isset($_GET['email'])) $email = $_GET['email'];
@@ -141,6 +149,7 @@ class AuthController
     );
   }
 
+  #[Post(routePath:'/validate')]
   public function validate_post() : string
   {
     $data = json_decode(file_get_contents('php://input'), true);
@@ -161,47 +170,7 @@ class AuthController
     else return json_encode('There was an error confirming your account.');
   }
 
-  public function confirm_get() : View
-  {
-    $name = $this->account->existsName();
-    $loggedin = $this->account->LoggedIn();
-    $verified = $this->account->isVerified();
-    $response = '';
-    return View::make
-    (
-      'auth/confirm',  // body view path
-      'Chress',         // view title
-      true,             // with layout
-      [                 // body params array
-        'name' => $name,
-        'loggedin' => $loggedin,
-        'verified' => $verified,
-        'response' => $response,
-      ]
-    );
-  }
-
-  public function confirm_post() : View
-  {
-    $name = $this->account->existsName();
-    $loggedin = $this->account->LoggedIn();
-    $verified = $this->account->isVerified();
-    $response = $this->account->ReSentActivationEmail();
-
-    return View::make
-    (
-      'auth/confirm',  // body view path
-      'Chress',         // view title
-      true,             // with layout
-      [                 // body params array
-        'name' => $name,
-        'loggedin' => $loggedin,
-        'verified' => $verified,
-        'response' => $response,
-      ]
-    );
-  }
-
+  #[Get(routePath:'/recover')]
   public function recover_get() : View
   {
     $name = $this->account->existsName();
@@ -222,6 +191,7 @@ class AuthController
     );
   }
 
+  #[Post(routePath:'/recover')]
   public function recover_post() : View
   {
     $name = $this->account->existsName();
@@ -243,6 +213,7 @@ class AuthController
     );
   }
 
+  #[Get(routePath:'/logout')]
   public function logout_get() : View
   { 
     $wasLoggedIn = $this->account->logout();

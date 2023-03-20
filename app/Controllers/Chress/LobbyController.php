@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controllers\Chress;
 
+use App\Attributes\Get;
+use App\Attributes\Post;
+
 use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
@@ -35,6 +38,7 @@ class LobbyController
     $this->model = new LobbyModel($this->db, $this->config, $this->userID);
   }
 
+  #[Get(routePath:'/lobby')]
   public function index() : View
   {
     if($this->userID === -1) $loggedin = false;
@@ -54,6 +58,7 @@ class LobbyController
     );
   }
 
+  #[Post(routePath:'/lobby/accept')]
   public function accept() : View
   {
     if($_POST['uuid']) $gameid = (int)$_POST['uuid'];

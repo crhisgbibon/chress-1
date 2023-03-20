@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controllers\Chress;
 
+use App\Attributes\Get;
+use App\Attributes\Post;
+
 use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
@@ -31,6 +34,7 @@ class LibraryController
     $this->model = new LibraryModel($this->db, $this->config);
   }
 
+  #[Get(routePath:'/library')]
   public function index() : View
   {
     return View::make

@@ -8,6 +8,9 @@ use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
 
+use App\Attributes\Get;
+use App\Attributes\Post;
+
 use App\Models\Auth\AuthModel;
 
 use App\Models\Chress\CreateModel;
@@ -36,6 +39,7 @@ class CreateController
     $this->model = new CreateModel($this->db, $this->config, $this->userID);
   }
 
+  #[Get(routePath:'/create')]
   public function index() : View
   {
     if($this->userID === -1) $loggedin = false;
@@ -52,6 +56,7 @@ class CreateController
     );
   }
 
+  #[Post(routePath:'/create')]
   public function newgame() : View
   {
     if($this->userID === -1)

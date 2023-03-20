@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controllers\Profile;
 
+use App\Attributes\Get;
+use App\Attributes\Post;
+
 use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
@@ -31,6 +34,7 @@ class ProfileController
     $this->model = new ProfileModel($this->db, $this->config);
   }
 
+  #[Get(routePath:'/profile')]
   public function index() : View
   {
     $loggedin = $this->account->LoggedIn();
