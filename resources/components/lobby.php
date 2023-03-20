@@ -50,9 +50,9 @@
       </div>
 
       <div
-        class='w-full mx-2 flex justify-center items-center'>
+        class='w-full mx-2 p-2 flex justify-center items-center'>
         <div
-          class='w-32 h-8 p-2 m-2 flex justify-center items-center'>
+          class='w-32 h-8 flex justify-center items-center'>
           <form
             method='POST'
             action='lobby/accept'
