@@ -78,57 +78,17 @@ class CreateController
 
     $response = $this->model->NewGame($colour, $opponent, $turn);
 
-    $games = $this->model->GetActiveGamesIndexes();
-    $c = count($games);
+    if($this->userID === -1) $loggedin = false;
+    else $loggedin = true;
 
     return View::make
     (
-      'lobby/lobby',
-      'Chress',
-      true,
-      [
+      'create/create',     // body view path
+      'Chress',         // view title
+      true,             // with layout
+      [                 // body params array
         'loggedin' => false,
-        'games' => $games,
       ]
     );
-
-    return json_encode($response);
-
-    $_SESSION["PGN"] = false;
-
-    $games = $model->GetActiveGamesIndexes();
-    $c = count($games);
-
-    if($c > 0)
-    {
-      $_SESSION["games"] = serialize($games);
-      $_SESSION["currentGame"] = $c-1;
-      $_SESSION["totalGames"] = $c;
-
-      $games = unserialize($_SESSION["games"]);
-      $index = $games[(int)$_SESSION["currentGame"]]["uniqueIndex"];
-
-      $game = $model->GetGame($index);
-      $gameData = $game->GetGameData((int)$_SESSION["id"]);
-      $output[0] = [$_SESSION["currentGame"] + 1, $_SESSION["totalGames"], $gameData, $_SESSION["PGN"]];
-
-      $model->ScanGames();
-      $lobbyGames = $model->GetLobbyGames();
-      $lobby = new LobbyView((int)$_SESSION["id"]);
-
-      $viewGames = $lobby->PrintGames($lobbyGames);
-      $viewLobby = $lobby->PrintLobby($lobbyLobby);
-      $viewHistory = $lobby->PrintHistory($lobbyHistory);
-
-      $output[1] = [$viewGames, $viewLobby, $viewHistory];
-
-      echo json_encode($output);
-    }
-    else
-    {
-      $output = [ [0, 0, [], $_SESSION["PGN"]], []];
-    
-      echo json_encode($output);
-    }
   }
 }

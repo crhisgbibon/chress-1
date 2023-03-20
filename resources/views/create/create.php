@@ -12,7 +12,7 @@
     <form
       class='w-full flex flex-col justify-start items-center my-4'
       method='POST'
-      action='lobby/newgame'>
+      action='create'>
 
       <div
         class='w-full my-2 flex justify-center items-center'>
