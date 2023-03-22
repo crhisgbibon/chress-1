@@ -12,11 +12,6 @@
 
     <div
       class='flex w-32 p-2 justify-center items-center'>
-      <?=Component::make('hyperlink',['href'=>'/create','text'=>'Create'])?>
-    </div>
-
-    <div
-      class='flex w-32 p-2 justify-center items-center'>
       <?=Component::make('hyperlink',['href'=>'/games','text'=>'Games'])?>
     </div>
 

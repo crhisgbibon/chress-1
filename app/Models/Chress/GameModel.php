@@ -15,7 +15,8 @@ class GameModel
   public array $board; // $square info
   public bool $turn; // true = $white, false = black
 
-  private int $lastMoved = -1; // $index of the last moved $piece
+  public int $lastMoved = -1; // $index of the last moved $piece
+  public int $clicked = -1;
 
   private bool $whiteAI; // if $white is AI
   private bool $blackAI; // if black is AI
@@ -132,6 +133,8 @@ class GameModel
     $pgn = $this->GetPGN();
     $lastMove = $this->GetLastMove($userID);
     $isWhite = $this->IsWhite($userID);
+    if($this->clicked !== -1) $currentMoves = $this->board[$this->clicked]->moves;
+    else $currentMoves = [];
 
     $stateToExport = $this->saveList[$boardToExport]->state;
 
@@ -143,7 +146,8 @@ class GameModel
       'meta' => $meta,
       'pgn' => $pgn,
       'lastmove' => $lastMove,
-      'iswhite' => $isWhite
+      'iswhite' => $isWhite,
+      'currentMoves' => $currentMoves,
     ];
     return $r;
   }
@@ -627,7 +631,7 @@ class GameModel
     if($row > 0 && $col < 6) $square->kRightDown = ($indexInt - 6); else $square->kRightDown = -1;
   }
 
-  public function GetMoves(int $index, int $userID) : array
+  public function Click(int $index, int $userID, string $promote) : array
   {
     $userID = (string)$userID;
     if($this->whiteT === $userID && $this->blackT !== $userID)
@@ -652,7 +656,38 @@ class GameModel
       }
     }
 
+    if($this->board[$index]->piece[0] === 'W' && $this->whiteT !== $userID) return [];
+    if($this->board[$index]->piece[0] === 'B' && $this->whiteT === $userID) return [];
+
+    if($this->clicked < 0 || $this->clicked > 63)
+    {
+      $this->clicked = $index;
+      // return ['get moves'];
+      return $this->GetMoves((int)$index, (int)$userID);
+    }
+    else
+    {
+      // return ['move piece'];
+      // return [$this->clicked];
+      // return $this->board[$this->clicked]->moves;
+      if(in_array($index, $this->board[$this->clicked]->moves))
+      {
+        return $this->MovePiece((int)$index, (int)$userID, $promote);
+      }
+      else
+      {
+        $this->clicked = $index;
+        // return ['get moves'];
+        return $this->GetMoves((int)$index, (int)$userID);
+      }
+    }
+  }
+
+  public function GetMoves(int $index, int $userID) : array
+  {
     $square = $this->board[$index];
+
+    if($this->lastMoved !== -1) $this->board[$this->lastMoved] = false;
 
     if($square->piece === "-") return [];
     if($this-> turn === true && $square->piece[0] === "B") return [];
@@ -660,14 +695,14 @@ class GameModel
 
     $this->lastMoved = $index;
 
-    return $square->moves;
+    return ['moves', $square->moves];
   }
 
-  public function MovePiece(array $data, int $userID) : array
+  public function MovePiece(int $to, int $userID, string $promote) : array
   {
     $userID = (string)$userID;
     $from = $this->lastMoved;
-    $to = (int)$data[0];
+    $to = (int)$to;
     $board = $this->board;
     
     // stop any manipulation, can't move to a square not in the move list
@@ -677,7 +712,7 @@ class GameModel
     $this->state = "";
     
     // execute the piece move
-    $this->UpdateBoard((int)$from, (int)$to, $board, (string)$data[1]);
+    $this->UpdateBoard((int)$from, (int)$to, $board, $promote);
     // swap turns and generate the new move list
     $this->turn = !$this->turn;
     $this->EvaluateBoard((int)$userID);
@@ -765,6 +800,8 @@ class GameModel
     {
       $moveToExport = $this->currentMove;
     }
+
+    $this->clicked = -1;
 
     $score = $this->ScoreBoard($moveToExport);
     // get the final piece array to export back to display
@@ -879,16 +916,16 @@ class GameModel
   public function EvaluateBoard(int $userID)
   {
     $userID = (string)$userID;
-  // clear previous moves data
-  for($i = 0; $i < count($this->board); $i++)
-  {
-    $this->board[$i]->moves = [];
-    $this->board[$i]->targetedByWhite = [];
-    $this->board[$i]->targetedByBlack = [];
-    $this->board[$i]->xRayWhite = [];
-    $this->board[$i]->xRayBlack = [];
-    if($this->board[$i]->enPassant > 0) $this->board[$i]->enPassant--;
-  }
+    // clear previous moves data
+    for($i = 0; $i < count($this->board); $i++)
+    {
+      $this->board[$i]->moves = [];
+      $this->board[$i]->targetedByWhite = [];
+      $this->board[$i]->targetedByBlack = [];
+      $this->board[$i]->xRayWhite = [];
+      $this->board[$i]->xRayBlack = [];
+      if($this->board[$i]->enPassant > 0) $this->board[$i]->enPassant--;
+    }
 
   // get the raw moves for each piece that can move
   // find index for $king

@@ -56,7 +56,7 @@
           <input type='number' name='uuid' value='<?=$games[$i]['uniqueIndex']?>' hidden>
           <input
             class='w-full h-full flex justify-center items-center bg-white text-black border border-black rounded-lg cursor-pointer'
-            type='submit' value='<?=$games[$i]['black_username']?>'>
+            type='submit' value='<?php if($games[$i]['blackID'] === -1) echo 'Computer'; else echo $games[$i]['black_username']; ?>'>
         </form>
       <?php else: ?>
         <form
@@ -66,7 +66,7 @@
           <input type='number' name='uuid' value='<?=$games[$i]['uniqueIndex']?>' hidden>
           <input
             class='w-full h-full flex justify-center items-center bg-black text-white border border-black rounded-lg cursor-pointer'
-            type='submit' value='<?=$games[$i]['white_username']?>'>
+            type='submit' value='<?php if($games[$i]['whiteID'] === -1) echo 'Computer'; else echo $games[$i]['white_username']; ?>'>
         </form>
       <?php endif; ?>
 

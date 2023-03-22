@@ -1,6 +1,7 @@
 <img
   id='i<?=$num?>'
-  style='min-height: 100%; min-width: 100%'
+  class='piece'
+  style=''
 
   <?php if($type === 'WR'):?>
     src='./assets/png/whiteRook.png'

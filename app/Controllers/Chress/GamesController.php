@@ -59,6 +59,28 @@ class GamesController
     );
   }
 
+  #[Post(routePath:'/games/create')]
+  public function newgame()
+  {
+    if($this->userID === -1)
+    {
+      header('Location: /games');
+    }
+
+    $colour = $_POST['colour'];
+    $opponent = $_POST['opponent'];
+    $turn = $_POST['turn'];
+
+    $response = $this->model->NewGame($colour, $opponent, $turn);
+
+    if($this->userID === -1) $loggedin = false;
+    else $loggedin = true;
+
+    $games = $this->model->CloseExpiredAndReturnActiveGames();
+
+    header('Location: /games');
+  }
+
   #[Post('/game')]
   public function view() : View
   {
@@ -68,6 +90,8 @@ class GamesController
 
     $game = $this->model->GetGame($gameid);
     $data = $game->GetGameData($this->userID);
+    if($game->lastMoved !== -1) $currentMoves = $game->board[$game->lastMoved]->moves;
+    else $currentMoves = [];
 
     return View::make
     (
@@ -86,6 +110,7 @@ class GamesController
         'pgn' => $data['pgn'],
         'lastmove' => $data['lastmove'],
         'iswhite' => $data['iswhite'],
+        'currentmoves' => $currentMoves,
       ]
     );
   }
@@ -105,28 +130,37 @@ class GamesController
   #[Post(routePath:'/game/query')]
   public function query() : string
   {
-    // return json_encode('hello, test');
-
-    $square = json_decode($_POST['data'])[0];
-
-    // return json_encode(json_decode($_POST['data'])[0]);
-
-    // need current game ID to get game and gamedata
+    $post = json_decode($_POST['data']);
+    $square = (int)$post[0];
+    $index = (int)$post[1];
+    $promote = (string)$post[2];
   
-    $validate = $model->ValidateTurn($index);
+    $validate = $this->model->ValidateTurn($index);
+
+    // return json_encode($validate);
+
+    $game = $this->model->GetGame($index);
+
+    // return json_encode($game);
   
-    if($validate === true)
+    if($validate)
     {
-      $game = $model->GetGame($index);
-      $moves = $game->GetMoves($_POST["data"][0], (int)$_SESSION["id"]);
-      $model->SaveGame($game);
-    
-      echo json_encode($moves);
+      $output = $game->Click($square, $this->userID, $promote);
+
+      // return json_encode($output);
+
+      $c = count($output);
+      if($c >= 5)
+      {
+        if($output[0] !== 'moves')
+        {
+          $changeTurn = $this->model->UpdateTurn($index, $output[5]);
+        }
+      }
+      $this->model->SaveGame($game);
     }
-    else
-    {
-      echo json_encode([]);
-    }
+
+    return json_encode($game->GetGameData($this->userID));
   }
 
   #[Post('/game/resign')]

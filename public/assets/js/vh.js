@@ -11,8 +11,8 @@ function Square()
 {
   let board = document.getElementById('board');
   if(board === null) return;
-  let screenWidth = board.scrollWidth;
-  let screenHeight = board.scrollHeight;
+  let screenWidth = parseInt(board.scrollWidth);
+  let screenHeight = parseInt(board.scrollHeight);
   let squareSize;
   
   if(screenWidth >= screenHeight) squareSize = screenHeight;
@@ -20,6 +20,7 @@ function Square()
 
   squareSize *= 0.9;
   squareSize /= 8;
+  squareSize = parseInt(squareSize);
 
   document.documentElement.style.setProperty('--square', squareSize + 'px');
 }

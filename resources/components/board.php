@@ -1,5 +1,5 @@
 <?php use App\Models\System\Component; ?>
-<?php if(!isset($board) || count($board) !== 64): ?>
+<?php if(!isset($board) || count($board) !== 64 || !isset($gameid)): ?>
   <div
     class='flex flex-col justify-start items-center w-full'>
     Board data not found.
@@ -35,10 +35,10 @@
             $colour = 'white';
             if($alternate)
             {
-              $class = 'bg-sky-200';
+              $class = 'boardButton bg-sky-200';
               $colour = 'black';
             }
-            else $class = 'bg-sky-50';
+            else $class = 'boardButton bg-sky-50';
           ?>
           class='<?=$class?>'
           :style="flip ?
@@ -48,7 +48,8 @@
           data-index='<?=$i?>'
           data-piece='<?=$board[$i][1]?>'
           data-color='<?=$colour?>'
-          onclick='Post(`query`,[<?=$i?>]);'
+          data-move='no'
+          onclick='Post(`query`,[<?=$i?>,<?=$gameid?>])';
           >
             <?=Component::make('piece',['num'=>$i,'type'=>$board[$i][1]])?>
           </button>

@@ -6,11 +6,26 @@
   </div>
 <?php else: ?>
   <div
+    x-data='{
+      create:false,
+    }'
     class='w-full flex flex-col justify-start items-center'>
 
     <div
+      style='min-height: calc(var(--vh) * 7.5);'>
+      <?=Component::make('button',['onclick'=>'create=!create','text'=>'Create'])?>
+    </div>
+
+    <div
+      x-show='create'
+      class='flex flex-col justify-start items-center fixed overflow-y-auto w-full'
+      style='min-height: calc(var(--vh) * 85); max-height: calc(var(--vh) * 85); top: calc(var(--vh) * 15); z-index: 10; background-color: rgb(255,255,255);'>
+      <?=Component::make('create',[])?>
+    </div>
+
+    <div
       class='w-full overflow-y-auto flex flex-col justify-start items-center'
-      style='height: calc(var(--vh) * 90);'>
+      style='max-height: calc(var(--vh) * 85);'>
       <?php if(count($games) > 0): ?>
         <?=Component::make('games',['user'=>$user,'games'=>$games])?>
       <?php else: ?>

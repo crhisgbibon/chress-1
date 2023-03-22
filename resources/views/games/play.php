@@ -1,5 +1,5 @@
 <?php use App\Models\System\Component; ?>
-<?php if(!isset($board) && isset($gameid)): ?>
+<?php if(!isset($board) && isset($gameid) && isset($currentmoves)): ?>
   <div
     class='flex flex-col justify-start items-center w-full'>
     Game data not found.
@@ -9,6 +9,7 @@
     x-data="{
       moveData: '',
       flipstate: 'rotate-180',
+      promote : false,
       info: false,
       flip: <?php if($iswhite) echo 'false'; else echo 'true';?>,
     }" 
@@ -65,16 +66,51 @@
       style='min-height: calc(var(--vh) * 75);'>
       <div
         class='my-4'>
-        <?=Component::make('board',['board'=>$board])?>
+        <?=Component::make('board',['gameid'=>$gameid,'board'=>$board,'currentmoves'=>$currentmoves])?>
       </div>
     </div>
 
     <div
+      class='flex flex-row justify-center items-center rounded-lg m-2 bg-sky-100 z-10'
+      x-show='promote'
       x-init='Square();'>
-      <button onclick="PromotePawn('Q');"><img id="pPromoteQ" src=""></img></button>
-      <button onclick="PromotePawn('B');"><img id="pPromoteB" src=""></img></button>
-      <button onclick="PromotePawn('K');"><img id="pPromoteK" src=""></img></button>
-      <button onclick="PromotePawn('R');"><img id="pPromoteR" src=""></img></button>
+      <div
+        class='flex flex-col justify-start items-center m-2 p-2'>
+        <label for='Q'>Q</label>
+        <input
+          type='radio'
+          name='promote'
+          id='Q'
+          text='Q'
+          checked>
+      </div>
+      <div
+        class='flex flex-col justify-start items-center m-2 p-2'>
+        <label for='B'>B</label>
+        <input
+          type='radio'
+          name='promote'
+          id='B'
+          text='B'>
+      </div>
+      <div
+        class='flex flex-col justify-start items-center m-2 p-2'>
+        <label for='K'>K</label>  
+        <input
+          type='radio'
+          name='promote'
+          id='K'
+          text='K'>
+      </div>
+      <div
+        class='flex flex-col justify-start items-center m-2 p-2'>
+        <label for='R'>R</label>
+        <input
+          type='radio'
+          name='promote'
+          id='R'
+          text='R'>
+      </div>
     </div>
 
   </div>
