@@ -90,7 +90,7 @@ class GamesController
 
     $game = $this->model->GetGame($gameid);
     $data = $game->GetGameData($this->userID);
-    if($game->lastMoved !== -1) $currentMoves = $game->board[$game->lastMoved]->moves;
+    if($game->lastMoved > 0 && $game->lastMoved < 64) $currentMoves = $game->board[$game->lastMoved]->moves;
     else $currentMoves = [];
 
     return View::make
@@ -134,21 +134,13 @@ class GamesController
     $square = (int)$post[0];
     $index = (int)$post[1];
     $promote = (string)$post[2];
-  
-    $validate = $this->model->ValidateTurn($index);
-
-    // return json_encode($validate);
 
     $game = $this->model->GetGame($index);
-
-    // return json_encode($game);
   
+    $validate = $this->model->ValidateTurn($index);
     if($validate)
     {
       $output = $game->Click($square, $this->userID, $promote);
-
-      // return json_encode($output);
-
       $c = count($output);
       if($c >= 5)
       {

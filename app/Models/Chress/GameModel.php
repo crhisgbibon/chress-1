@@ -634,6 +634,10 @@ class GameModel
   public function Click(int $index, int $userID, string $promote) : array
   {
     $userID = (string)$userID;
+
+    if($userID === (int)$this->whiteT && !$this->turn) return [];
+    if($userID === (int)$this->blackT && $this->turn) return [];
+
     if($this->whiteT === $userID && $this->blackT !== $userID)
     {
       if($this->currentMoveWhite !== (count($this->saveList) - 1) && $this->isEditable === false)
@@ -677,7 +681,6 @@ class GameModel
       else
       {
         $this->clicked = $index;
-        // return ['get moves'];
         return $this->GetMoves((int)$index, (int)$userID);
       }
     }
@@ -686,8 +689,6 @@ class GameModel
   public function GetMoves(int $index, int $userID) : array
   {
     $square = $this->board[$index];
-
-    if($this->lastMoved !== -1) $this->board[$this->lastMoved] = false;
 
     if($square->piece === "-") return [];
     if($this-> turn === true && $square->piece[0] === "B") return [];
