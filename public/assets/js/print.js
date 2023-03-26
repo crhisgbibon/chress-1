@@ -1,11 +1,13 @@
 "use strict";
 
+let debug = false;
+
 export function Print(response)
 {
   if(response.currentMoves && response.currentMoves.length !== 0)
   {
     let moves = response.currentMoves;
-    console.log(moves);
+    if(debug) console.log(moves);
     for(let i = 0; i < 64; i++)
     {
       let bb = document.getElementById('b' + i);

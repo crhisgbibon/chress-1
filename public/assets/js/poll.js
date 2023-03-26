@@ -3,12 +3,14 @@
 let timeOut = undefined;
 const d = 10000;
 
+let debug = false;
+
 function Poll()
 {
   let data = document.getElementById('boardholder').dataset.gameid;
   let jsonData = JSON.stringify(data);
-  // console.log(data);
-  // console.log(jsonData);
+  if(debug)  console.log(data);
+  if(debug)  console.log(jsonData);
   $.ajax(
   {
     method: "POST",
@@ -20,9 +22,9 @@ function Poll()
     timeout: 10000,
     success:function(json)
     {
-      // console.log(json);
+      if(debug)  console.log(json);
       let result = JSON.parse(json);
-      // console.log(result);
+      if(debug)  console.log(result);
       Print(result);
 
       clearTimeout(timeOut);
@@ -30,9 +32,9 @@ function Poll()
     },
     error:function(json)
     {
-      // console.log(json);
+      if(debug)  console.log(json);
       let result = JSON.parse(json);
-      // console.log(result);
+      if(debug)  console.log(result);
       Print(result);
 
       clearTimeout(timeOut);
@@ -46,7 +48,7 @@ function Print(response)
   if(response.currentMoves && response.currentMoves.length !== 0)
   {
     let moves = response.currentMoves;
-    // console.log(moves);
+    if(debug)  console.log(moves);
     for(let i = 0; i < 64; i++)
     {
       let bb = document.getElementById('b' + i);
@@ -99,10 +101,13 @@ function Print(response)
     Object.entries(response.meta).forEach(
       ([key, value]) => {
         info.innerHTML += `<div class='rounded-lg bg-sky-50 m-2 p-2'>` + key + ` : ` + value + `</div>`;
-        // console.log(key, value);
+        if(debug)  console.log(key, value);
       }
     );
   }
+
+  let counter = document.getElementById('counter');
+  if(counter !== null) counter.innerHTML = response.score;
 }
 
 document.addEventListener('DOMContentLoaded', Poll);

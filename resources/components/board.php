@@ -51,8 +51,7 @@
           data-piece='<?=$board[$i][1]?>'
           data-color='<?=$colour?>'
           data-move='no'
-          ontouchstart='Post(`query`,[<?=$i?>,<?=$gameid?>])'
-          onclick='Post(`query`,[<?=$i?>,<?=$gameid?>])'
+          onmousedown='Post(`query`,[<?=$i?>,<?=$gameid?>])' 
           >
             <?=Component::make('piece',['num'=>$i,'type'=>$board[$i][1]])?>
           </button>

@@ -2418,21 +2418,21 @@ public function GetSaveTurn($move, $state)
     $boardCount = count($boardToScore);
     for($i = 0; $i < $boardCount; $i++)
     {
-      if($boardToScore[$i]->piece == "-") continue;
+      if($boardToScore[$i]->piece === "-") continue;
       
-      if($boardToScore[$i]->piece == "WP") $score += 100;
-      if($boardToScore[$i]->piece == "WR") $score += 500;
-      if($boardToScore[$i]->piece == "WB") $score += 300;
-      if($boardToScore[$i]->piece == "WK") $score += 300;
-      if($boardToScore[$i]->piece == "WQ") $score += 900;
-      if($boardToScore[$i]->piece == "WX") $score += 1000000;
+      if($boardToScore[$i]->piece === "WP") $score += 100;
+      if($boardToScore[$i]->piece === "WR") $score += 500;
+      if($boardToScore[$i]->piece === "WB") $score += 300;
+      if($boardToScore[$i]->piece === "WK") $score += 300;
+      if($boardToScore[$i]->piece === "WQ") $score += 900;
+      if($boardToScore[$i]->piece === "WX") $score += 1000000;
       
-      if($boardToScore[$i]->piece == "BP") $score -= 100;
-      if($boardToScore[$i]->piece == "BR") $score -= 500;
-      if($boardToScore[$i]->piece == "BB") $score -= 300;
-      if($boardToScore[$i]->piece == "BK") $score -= 300;
-      if($boardToScore[$i]->piece == "BQ") $score -= 900;
-      if($boardToScore[$i]->piece == "BX") $score -= 1000000;
+      if($boardToScore[$i]->piece === "BP") $score -= 100;
+      if($boardToScore[$i]->piece === "BR") $score -= 500;
+      if($boardToScore[$i]->piece === "BB") $score -= 300;
+      if($boardToScore[$i]->piece === "BK") $score -= 300;
+      if($boardToScore[$i]->piece === "BQ") $score -= 900;
+      if($boardToScore[$i]->piece === "BX") $score -= 1000000;
     }
     return $score;
   }

@@ -8,7 +8,7 @@
     <meta name='description' content=<?=$title?> />
     <meta name='keywords' content=<?=$title?> />
     <meta name='author' content='admin@calypsogrammar.com' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no,maximum-scale=1' />
     
     <link href="https://cdn.jsdelivr.net/npm/modern-normalize@v1.1.0/modern-normalize.min.css" rel="stylesheet">
     <link id='pageStyle' rel='stylesheet' type='text/css' href='assets/css/style.css'/>

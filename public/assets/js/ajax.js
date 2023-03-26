@@ -1,11 +1,13 @@
 "use strict";
 
+let debug = true;
+
 function Post(trigger, data)
 {
   data.push(document.querySelector('input[name="promote"]:checked').id);
   let jsonData = JSON.stringify(data);
-  // console.log(trigger);
-  // console.log(data);
+  if(debug) console.log(trigger);
+  if(debug) console.log(data);
   $.ajax(
   {
     method: "POST",
@@ -17,16 +19,16 @@ function Post(trigger, data)
     timeout: 10000,
     success:function(json)
     {
-      // console.log(json);
+      if(debug) console.log(json);
       let result = JSON.parse(json);
-      // console.log(result);
+      if(debug) console.log(result);
       Print(result);
     },
     error:function(json)
     {
-      // console.log(json);
+      if(debug) console.log(json);
       let result = JSON.parse(json);
-      // console.log(result);
+      if(debug) console.log(result);
       Print(result);
     }
   });
@@ -37,7 +39,7 @@ function Print(response)
   if(response.currentMoves && response.currentMoves.length !== 0)
   {
     let moves = response.currentMoves;
-    // console.log(moves);
+    if(debug) console.log(moves);
     for(let i = 0; i < 64; i++)
     {
       let bb = document.getElementById('b' + i);
@@ -76,4 +78,7 @@ function Print(response)
       else boardImg.src = '';
     }
   }
+
+  let counter = document.getElementById('counter');
+  if(counter !== null) counter.innerHTML = response.score;
 }

@@ -33,9 +33,10 @@
         <?=Component::make('post_button',[ 'text' => '<', 'route' => 'lastmove', 'data' => $gameid ])?>
       </div>
       <div
+        id='counter'
         class='flex justify-center items-center w-20 mx-2'
         style='height: calc(var(--vh) * 5);'>
-        0
+        <?=$score?>
       </div>
       <div
         class='w-20 mx-2'
