@@ -133,8 +133,14 @@ class GameModel
     $pgn = $this->GetPGN();
     $lastMove = $this->GetLastMove($userID);
     $isWhite = $this->IsWhite($userID);
-    if($this->clicked !== -1) $currentMoves = $this->board[$this->clicked]->moves;
+    if($this->clicked !== -1 &&
+    ( ($this->turn && $userID === (int)$this->whiteT) || (!$this->turn && $userID === (int)$this->blackT))
+    )
+    {
+      $currentMoves = $this->board[$this->clicked]->moves;
+    }
     else $currentMoves = [];
+    $turn = $this->turn;
 
     $stateToExport = $this->saveList[$boardToExport]->state;
 
@@ -148,19 +154,22 @@ class GameModel
       'lastmove' => $lastMove,
       'iswhite' => $isWhite,
       'currentMoves' => $currentMoves,
+      'turn' => $turn,
     ];
     return $r;
   }
 
   public function GetMetaInfo() : array
   {
-    $output = [$this->eventT,
-    $this->siteT,
-    $this->dateT,
-    $this->roundT,
-    $this->whiteT,
-    $this->blackT,
-    $this->resultT,];
+    $output = [
+      'event' => $this->eventT,
+      'site' => $this->siteT,
+      'date' => $this->dateT,
+      'round' => $this->roundT,
+      'white' => $this->whiteT,
+      'black' => $this->blackT,
+      'result' => $this->resultT,
+    ];
     return $output;
   }
 
@@ -307,7 +316,7 @@ class GameModel
     }
 
     $pgnView = new PGNView();
-    $pgnContent = $pgnView->PrintContents($output);
+    $pgnContent = $pgnView->PrintContents($output, $this->index);
 
     return $pgnContent;
   }
@@ -469,9 +478,11 @@ class GameModel
     array_push($this->saveList, $sArray);
   }
 
-  public function LoadState(string $state, int $userID)
+  public function LoadState(string|int $state, int $userID)
   {
     $userID = (string)$userID;
+
+    $this->clicked = -1;
 
     if($state === "NEXTMOVE")
     {
@@ -635,48 +646,184 @@ class GameModel
   {
     $userID = (string)$userID;
 
-    if($userID === (int)$this->whiteT && !$this->turn) return [];
-    if($userID === (int)$this->blackT && $this->turn) return [];
+    // return ['turn is ' => $this->turn];
 
+    // if index not in board range cancel
+    if($index < 0 && $index > 63)
+    {
+      $this->clicked = -1;
+      return ['error - out of range'];
+    }
+
+    $check = $this->clicked;
+    if($check === -1) $check = $index;
+
+    // don't allow to pass through if not the right piece type to be selected
+    if($this->turn)
+    {
+      if($this->board[$check]->piece[0] === 'B')
+      {
+        $this->clicked = -1;
+        return ['error - not blacks turn'];
+      }
+    }
+    else
+    {
+      if($this->board[$check]->piece[0] === 'W')
+      {
+        $this->clicked = -1;
+        return ['error - not whites turn'];
+      }
+    }
+
+    // if not playing self ensure not playing other players turn
+    if( ($userID === (int)$this->whiteT && $userID !== (int)$this->blackT) ||
+    ($userID !== (int)$this->whiteT && $userID === (int)$this->blackT) )
+    {
+      if($this->turn && $userID === (int)$this->blackT) return ['error - you are white and it is blacks turn'];
+      if(!$this->turn && $userID === (int)$this->whiteT) return ['error - you are black and it is whites turn'];
+    }
+
+    // don't allow moves if it isn't the latest go, view only for old moves
     if($this->whiteT === $userID && $this->blackT !== $userID)
     {
       if($this->currentMoveWhite !== (count($this->saveList) - 1) && $this->isEditable === false)
       {
-        return [];
+        return ['error1'];
       }
     }
     else if($this->blackT === $userID && $this->whiteT !== $userID)
     {
       if($this->currentMoveBlack !== (count($this->saveList) - 1) && $this->isEditable === false)
       {
-        return [];
+        return ['error2'];
       }
     }
     else
     {
       if($this->currentMove !== (count($this->saveList) - 1) && $this->isEditable === false)
       {
-        return [];
+        return ['error3'];
       }
     }
 
-    if($this->board[$index]->piece[0] === 'W' && $this->whiteT !== $userID) return [];
-    if($this->board[$index]->piece[0] === 'B' && $this->whiteT === $userID) return [];
 
-    if($this->clicked < 0 || $this->clicked > 63)
+
+
+
+
+
+    // if no square was previously clicked get moves if that pieces turn else move piece or move to newly selected square
+    if($this->clicked === -1)
     {
+      // if fine then can proceed to get moves and set clicked
       $this->clicked = $index;
-      // return ['get moves'];
       return $this->GetMoves((int)$index, (int)$userID);
     }
     else
     {
-      // return ['move piece'];
-      // return [$this->clicked];
-      // return $this->board[$this->clicked]->moves;
+      // if clicking on the same square, deselect
+      if($this->clicked === $index)
+      {
+        $this->clicked = -1;
+        return ['deselected'];
+      }
+      // if square clicked on is in move list of clicked square, execute move
       if(in_array($index, $this->board[$this->clicked]->moves))
       {
-        return $this->MovePiece((int)$index, (int)$userID, $promote);
+        $output = $this->MovePiece((int)$index, (int)$userID, $promote);
+        $this->clicked = -1;
+        return $output;
+      }
+      else
+      {
+        if($this->turn)
+        {
+          if($this->board[$index]->piece[0] === 'W')
+          {
+            $this->clicked = $index;
+            return $this->GetMoves((int)$index, (int)$userID);
+          }
+        }
+        else
+        {
+          if($this->board[$index]->piece[0] === 'B')
+          {
+            $this->clicked = $index;
+            return $this->GetMoves((int)$index, (int)$userID);
+          }
+        }
+      }
+    }
+
+
+    return [];
+
+
+
+    // don't proceed if it isn't the users go / the colours go if playing self
+
+    // if white's go
+    if($this->turn)
+    {
+      if($this->board[$index]->piece[0] === 'B') return ['error - not blacks turn'];
+    }
+    else
+    {
+      if($this->board[$index]->piece[0] === 'W') return ['error - not whites turn'];
+    }
+
+    // if not playing self ensure not playing other players turn
+    if( ($userID === (int)$this->whiteT && $userID !== (int)$this->blackT) ||
+        ($userID !== (int)$this->whiteT && $userID === (int)$this->blackT) )
+    {
+      if($this->turn && $userID === (int)$this->blackT) return ['error - you are white and it is blacks turn'];
+      if(!$this->turn && $userID === (int)$this->whiteT) return ['error - you are black and it is whites turn'];
+    }
+
+    // don't allow moves if it isn't the latest go, view only for old moves
+    if($this->whiteT === $userID && $this->blackT !== $userID)
+    {
+      if($this->currentMoveWhite !== (count($this->saveList) - 1) && $this->isEditable === false)
+      {
+        return ['error1'];
+      }
+    }
+    else if($this->blackT === $userID && $this->whiteT !== $userID)
+    {
+      if($this->currentMoveBlack !== (count($this->saveList) - 1) && $this->isEditable === false)
+      {
+        return ['error2'];
+      }
+    }
+    else
+    {
+      if($this->currentMove !== (count($this->saveList) - 1) && $this->isEditable === false)
+      {
+        return ['error3'];
+      }
+    }
+
+    // if you have not previously clicked on a square this turn, if a valid index show moves for that square
+    // if click on the same piece deselect it
+    // if previously clicked on a square and valid move, move to that square, otherwise deselect
+    if($this->clicked === -1 && $index > 0 && $index < 64)
+    {
+      $this->clicked = $index;
+      return $this->GetMoves((int)$index, (int)$userID);
+    }
+    else if($this->clicked > 0 && $this->clicked < 64)
+    {
+      if($this->clicked === $index)
+      {
+        $this->clicked = -1;
+        return ['deselected'];
+      }
+      if(in_array($index, $this->board[$this->clicked]->moves))
+      {
+        $output = $this->MovePiece((int)$index, (int)$userID, $promote);
+        $this->clickd = -1;
+        return $output;
       }
       else
       {
@@ -684,6 +831,7 @@ class GameModel
         return $this->GetMoves((int)$index, (int)$userID);
       }
     }
+    else return ['error - no option triggered'];
   }
 
   public function GetMoves(int $index, int $userID) : array

@@ -1,15 +1,18 @@
 "use strict";
 
-function Post(trigger, data)
+let timeOut = undefined;
+const d = 10000;
+
+function Poll()
 {
-  data.push(document.querySelector('input[name="promote"]:checked').id);
+  let data = document.getElementById('boardholder').dataset.gameid;
   let jsonData = JSON.stringify(data);
-  // console.log(trigger);
   // console.log(data);
+  // console.log(jsonData);
   $.ajax(
   {
     method: "POST",
-    url: '/game/' + trigger,
+    url: '/game/poll',
     data:
     {
       data:jsonData
@@ -21,6 +24,9 @@ function Post(trigger, data)
       let result = JSON.parse(json);
       // console.log(result);
       Print(result);
+
+      clearTimeout(timeOut);
+      timeOut = setTimeout(Poll, d);
     },
     error:function(json)
     {
@@ -28,6 +34,9 @@ function Post(trigger, data)
       let result = JSON.parse(json);
       // console.log(result);
       Print(result);
+
+      clearTimeout(timeOut);
+      timeOut = setTimeout(Poll, d);
     }
   });
 }
@@ -76,4 +85,24 @@ function Print(response)
       else boardImg.src = '';
     }
   }
+
+  if(response.pgn)
+  {
+    let moves = document.getElementById('moves');
+    moves.innerHTML = response.pgn;
+  }
+
+  if(response.meta)
+  {
+    let info = document.getElementById('info');
+    info.innerHTML = '';
+    Object.entries(response.meta).forEach(
+      ([key, value]) => {
+        info.innerHTML += `<div class='rounded-lg bg-sky-50 m-2 p-2'>` + key + ` : ` + value + `</div>`;
+        // console.log(key, value);
+      }
+    );
+  }
 }
+
+document.addEventListener('DOMContentLoaded', Poll);

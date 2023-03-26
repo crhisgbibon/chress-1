@@ -6,6 +6,8 @@
   </div>
 <?php else: ?>
   <div
+    id='boardholder'
+    data-gameid='<?=$gameid?>'
     x-data="{
 
     }"

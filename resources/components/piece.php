@@ -31,5 +31,5 @@
 
   <?php endif;?>
   >
-  <div style='z-index: 50; color: red;'><?=$num?></div>
+  <!-- <div style='z-index: 50; color: red;'><?=$num?></div> -->
 </img>

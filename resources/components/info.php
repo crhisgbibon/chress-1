@@ -1,24 +1,14 @@
 <div 
-  class='flex flex-col justify-start items-center'
+  class='flex overflow-y-auto'
   style='width: 100%; height: 100%;'>
-  <div>Event:</div>
-  <div></div>
-
-  <div>Site:</div>
-  <div></div>
-
-  <div>Date:</div>
-  <div></div>
-
-  <div>Round:</div>
-  <div></div>
-
-  <div>White:</div>
-  <div></div>
-
-  <div>Black:</div>
-  <div></div>
-
-  <div>Result:</div>
-  <div></div>
+  <div
+    class='flex flex-col justify-start items-center overflow-y-auto'
+    style='min-width: 50%; min-height: 100%; max-height: 100%;'
+    id='info'>
+  </div>
+  <div
+    class='flex flex-col justify-start items-center overflow-y-auto'
+    style='min-width: 50%; min-height: 100%; max-height: 100%;'
+    id='moves'>
+  </div>
 </div>

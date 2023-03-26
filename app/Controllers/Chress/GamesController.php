@@ -89,6 +89,7 @@ class GamesController
     else $loggedin = true;
 
     $game = $this->model->GetGame($gameid);
+    $game->clicked = -1;
     $data = $game->GetGameData($this->userID);
     if($game->lastMoved > 0 && $game->lastMoved < 64) $currentMoves = $game->board[$game->lastMoved]->moves;
     else $currentMoves = [];
@@ -118,13 +119,25 @@ class GamesController
   #[Post(routePath:'/game/lastmove')]
   public function lastmove() : string
   {
-    return json_encode('hello, lastmove');
+    // return json_encode('hello, lastmove');
+    $post = json_decode($_POST['data']);
+    $index = (int)$post[0];
+    $game = $this->model->GetGame($index);
+    $game->LoadState('LASTMOVE', $this->userID);
+    $this->model->SaveGame($game);
+    return json_encode($game->GetGameData($this->userID));
   }
 
   #[Post(routePath:'/game/nextmove')]
   public function nextmove() : string
   {
-    return json_encode('hello, nextmove');
+    // return json_encode('hello, nextmove');
+    $post = json_decode($_POST['data']);
+    $index = (int)$post[0];
+    $game = $this->model->GetGame($index);
+    $game->LoadState('NEXTMOVE', $this->userID);
+    $this->model->SaveGame($game);
+    return json_encode($game->GetGameData($this->userID));
   }
 
   #[Post(routePath:'/game/query')]
@@ -134,21 +147,21 @@ class GamesController
     $square = (int)$post[0];
     $index = (int)$post[1];
     $promote = (string)$post[2];
+    // return json_encode($post);
 
     $game = $this->model->GetGame($index);
+    // return json_encode($game);
   
     $validate = $this->model->ValidateTurn($index);
+    // return json_encode($validate);
+
     if($validate)
     {
       $output = $game->Click($square, $this->userID, $promote);
+      // return json_encode($output);
+
       $c = count($output);
-      if($c >= 5)
-      {
-        if($output[0] !== 'moves')
-        {
-          $changeTurn = $this->model->UpdateTurn($index, $output[5]);
-        }
-      }
+      if($c >= 5) if($output[0] !== 'moves') $changeTurn = $this->model->UpdateTurn($index, $output[5]);
       $this->model->SaveGame($game);
     }
 
@@ -173,5 +186,31 @@ class GamesController
         'games' => $games,
       ]
     );
+  }
+
+  #[Post('/game/poll')]
+  public function poll() : string
+  {
+    $post = json_decode($_POST['data']);
+    // return json_encode($post);
+    $index = (int)$post;
+    // return json_encode($index);
+    $game = $this->model->GetGame($index);
+    return json_encode($game->GetGameData($this->userID));
+  }
+
+  #[Post('/game/skip')]
+  public function skip() : string
+  {
+    $post = json_decode($_POST['data']);
+    // return json_encode($post);
+    $move = (int)$post[0];
+    $index = (int)$post[1];
+    // return json_encode($index);
+    $game = $this->model->GetGame($index);
+    // return json_encode($game);
+    $game->LoadState($move, $this->userID);
+    $this->model->SaveGame($game);
+    return json_encode($game->GetGameData($this->userID));
   }
 }

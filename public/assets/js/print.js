@@ -1,43 +1,11 @@
 "use strict";
 
-function Post(trigger, data)
-{
-  data.push(document.querySelector('input[name="promote"]:checked').id);
-  let jsonData = JSON.stringify(data);
-  // console.log(trigger);
-  // console.log(data);
-  $.ajax(
-  {
-    method: "POST",
-    url: '/game/' + trigger,
-    data:
-    {
-      data:jsonData
-    },
-    timeout: 10000,
-    success:function(json)
-    {
-      // console.log(json);
-      let result = JSON.parse(json);
-      // console.log(result);
-      Print(result);
-    },
-    error:function(json)
-    {
-      // console.log(json);
-      let result = JSON.parse(json);
-      // console.log(result);
-      Print(result);
-    }
-  });
-}
-
-function Print(response)
+export function Print(response)
 {
   if(response.currentMoves && response.currentMoves.length !== 0)
   {
     let moves = response.currentMoves;
-    // console.log(moves);
+    console.log(moves);
     for(let i = 0; i < 64; i++)
     {
       let bb = document.getElementById('b' + i);
@@ -77,3 +45,5 @@ function Print(response)
     }
   }
 }
+
+export default Print

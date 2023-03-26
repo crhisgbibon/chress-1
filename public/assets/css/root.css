@@ -4,5 +4,5 @@
 }
 
 button[data-move='yes']{
-  background-color: green;
+  background-color: RGBA(94, 252, 141, 0.5);
 }

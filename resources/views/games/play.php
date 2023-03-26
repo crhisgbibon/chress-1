@@ -30,7 +30,7 @@
       <div
         class='w-20 mx-2'
         style='height: calc(var(--vh) * 5);'>
-        <?=Component::make('fetch_button',['fetch'=>'/game/lastmove','output'=>'output','text'=>'<','body'=>''])?>
+        <?=Component::make('post_button',[ 'text' => '<', 'route' => 'lastmove', 'data' => $gameid ])?>
       </div>
       <div
         class='flex justify-center items-center w-20 mx-2'
@@ -40,7 +40,7 @@
       <div
         class='w-20 mx-2'
         style='height: calc(var(--vh) * 5);'>
-        <?=Component::make('fetch_button',['fetch'=>'/game/nextmove','output'=>'output','text'=>'>','body'=>''])?>
+        <?=Component::make('post_button',[ 'text' => '>', 'route' => 'nextmove', 'data' => $gameid ])?>
       </div>
       <div
         class='w-20 mx-2'
@@ -54,8 +54,8 @@
     </div>
 
     <div
-      class='flex flex-col justify-start items-center w-screen fixed'
-      style='min-height: calc(var(--vh) * 85); top: calc(var(--vh) * 15); z-index: 10; background-color: rgba(255,255,255,1);'
+      class='flex flex-col justify-start items-center w-screen fixed overflow-y-auto'
+      style='min-height: calc(var(--vh) * 85); max-height: calc(var(--vh) * 85); top: calc(var(--vh) * 15); z-index: 10; background-color: rgba(255,255,255,1);'
       x-show="info">
       <?=Component::make('info',[])?>
     </div>
@@ -112,6 +112,8 @@
           text='R'>
       </div>
     </div>
+
+    <script src='assets/js/poll.js'></script>
 
   </div>
 <?php endif; ?>

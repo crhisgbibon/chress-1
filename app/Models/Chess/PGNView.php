@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Chress;
+namespace App\Models\Chess;
 
 class PGNView
 {
-  public function PrintContents(array $data, int $gameid) : string
+  public function PrintContents(array $data) : string
   {
     $output = "";
 
@@ -21,7 +21,7 @@ class PGNView
 
       $n = $piece . $capture . $to . $state;
       $output .= "
-        <button class='pgnButton rounded-lg bg-sky-100 m-2 p-2' onclick='Post(`skip`, [`{$i}`, `{$gameid}`])'>{$i}. {$n}</button>
+        <button class='pgnButton' onclick='SkipToMove({$i})'>{$i}. {$n}</button>
       ";
     }
 
