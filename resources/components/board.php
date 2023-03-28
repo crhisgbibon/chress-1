@@ -12,9 +12,9 @@
 
     }"
     :style="flip ?
-    'min-width: 320px;min-height: 320px;height: calc(var(--square) * 8);width: calc(var(--square) * 8);transform: rotate(180deg);'
+    'min-width: 80px; min-height: 80px; height: calc(var(--square) * 8); max-height: 800px; max-width: 800px; width: calc(var(--square) * 8); transform: rotate(180deg);'
     :
-    'min-width: 320px; min-height: 320px;height: calc(var(--square) * 8);width: calc(var(--square) * 8);transform: rotate(0deg);'">
+    'min-width: 80px; min-height: 80px; height: calc(var(--square) * 8); max-height: 800px; max-width: 800px; width: calc(var(--square) * 8); transform: rotate(0deg);'">
     <?php
       $alternate = false;
       $counter = 0;
@@ -37,16 +37,16 @@
             $colour = 'white';
             if($alternate)
             {
-              $class = 'boardButton bg-sky-200';
+              $class = 'boardButton bg-sky-200 flex justify-center items-center ';
               $colour = 'black';
             }
-            else $class = 'boardButton bg-sky-50';
+            else $class = 'boardButton bg-sky-50 flex justify-center items-center ';
           ?>
           class='<?=$class?>'
           :style="flip ?
-          'padding: 0;margin: 0;border:0;min-width: 40px;min-height: 40px;height: var(--square);width: var(--square);float: left;transform: rotate(180deg);'
+          'padding: 0;margin: 0;border:0;min-width: 10px;min-height: 10px;height: var(--square);max-width: 100px;max-height: 100px;width: var(--square);float: left;transform: rotate(180deg);'
           :
-          'padding: 0;margin: 0;border:0;min-width: 40px;min-height: 40px;height: var(--square);width: var(--square);float: left;transform: rotate(0deg);'"
+          'padding: 0;margin: 0;border:0;min-width: 10px;min-height: 10px;height: var(--square);max-width: 100px;max-height: 100px;width: var(--square);float: left;transform: rotate(0deg);'"
           data-index='<?=$i?>'
           data-piece='<?=$board[$i][1]?>'
           data-color='<?=$colour?>'

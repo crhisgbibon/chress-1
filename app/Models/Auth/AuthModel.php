@@ -105,6 +105,7 @@ class AuthModel
           $_SESSION['name'] = $response[0]['user_alias'];
           $_SESSION['id'] = $response[0]['uniqueIndex'];
           $_SESSION['state'] = $response[0]['user_status'];
+          $_SESSION['theme'] = $response[0]['user_theme'];
 
           $output = true;
           $state = 'Logged in. All factors authenticated and user found.';
@@ -183,6 +184,7 @@ class AuthModel
             $_SESSION['name'] = $response[0]['user_alias'];
             $_SESSION['id'] = $response[0]['uniqueIndex'];
             $_SESSION['state'] = $response[0]['user_status'];
+            $_SESSION['theme'] = $response[0]['user_theme'];
 
             if($remember === true)
             {
@@ -353,44 +355,49 @@ class AuthModel
 
       user_email,
       user_status,
+      user_theme,
       activationCode,
 
       activationExpiry,
       isVerified)
-      VALUES (:qUser,
-      :qPassword,
-      :qCreated,
+      VALUES (:user,
+      :pword,
+      :created,
 
-      :qEmail,
-      :qStatus,
-      :qCode,
+      :email,
+      :user_state,
+      :user_theme,
+      :code,
 
-      :qExpiry,
-      :qVerified)');
+      :expiry,
+      :verified)');
 
-      $stmt->bindParam(':qUser', $usernameToRegister);
+      $stmt->bindParam(':user', $usernameToRegister);
 
       $hashed = password_hash($passwordToRegister, PASSWORD_DEFAULT);
-      $stmt->bindParam(':qPassword', $hashed);
+      $stmt->bindParam(':pword', $hashed);
 
       date_default_timezone_set('UTC');
       $currentDate1 = date('Y-m-d H:i:s');
-      $stmt->bindParam(':qCreated', $currentDate1);
+      $stmt->bindParam(':created', $currentDate1);
 
-      $stmt->bindParam(':qEmail', $emailToRegister);
+      $stmt->bindParam(':email', $emailToRegister);
 
       $status = 'user';
-      $stmt->bindParam(':qStatus', $status);
+      $stmt->bindParam(':user_state', $status);
+
+      $theme = 0;
+      $stmt->bindParam(':user_theme', $theme);
 
       $code = $this->MakeToken(32);
       $hashed_code = password_hash($code, PASSWORD_DEFAULT);
-      $stmt->bindParam(':qCode', $hashed_code);
+      $stmt->bindParam(':code', $hashed_code);
 
       $activationExpiry = date('Y-m-d H:i:s', strtotime('+ 1 day'));
-      $stmt->bindParam(':qExpiry', $activationExpiry);
+      $stmt->bindParam(':expiry', $activationExpiry);
 
       $notVerified = 0;
-      $stmt->bindParam(':qVerified', $notVerified);
+      $stmt->bindParam(':verified', $notVerified);
 
       $stmt->execute();
 
@@ -457,8 +464,8 @@ class AuthModel
 
   public function Validate(string $email, string $code) : string
   {
-    $stmt = $this->db->pdo->prepare('SELECT activationCode, activationExpiry FROM logins WHERE user_email=:qEmail');
-    $stmt->bindParam(':qEmail', $email);
+    $stmt = $this->db->pdo->prepare('SELECT activationCode, activationExpiry FROM logins WHERE user_email=:email');
+    $stmt->bindParam(':email', $email);
     $stmt->execute();
     $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count = count($response);
@@ -472,10 +479,10 @@ class AuthModel
       {
         if(password_verify($code, $response[0]['activationCode']))
         {
-          $stmt = $this->db->pdo->prepare('UPDATE logins SET `isVerified`=:qVerified WHERE user_email=:qEmail');
+          $stmt = $this->db->pdo->prepare('UPDATE logins SET `isVerified`=:qVerified WHERE user_email=:email');
           $verified = 1;
           $stmt->bindParam(':qVerified', $verified);
-          $stmt->bindParam(':qEmail', $email);
+          $stmt->bindParam(':email', $email);
           $stmt->execute();
           $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
           $count = count($response);
@@ -484,8 +491,8 @@ class AuthModel
         }
         else
         {
-          $stmt = $this->db->pdo->prepare('DELETE FROM logins WHERE user_email=:qEmail');
-          $stmt->bindParam(':qEmail', $email);
+          $stmt = $this->db->pdo->prepare('DELETE FROM logins WHERE user_email=:email');
+          $stmt->bindParam(':email', $email);
           $stmt->execute();
 
           return 'Error - Activation code is invalid. Please re-register';
@@ -493,8 +500,8 @@ class AuthModel
       }
       else
       {
-        $stmt = $this->db->pdo->prepare('DELETE FROM logins WHERE user_email=:qEmail');
-        $stmt->bindParam(':qEmail', $email);
+        $stmt = $this->db->pdo->prepare('DELETE FROM logins WHERE user_email=:email');
+        $stmt->bindParam(':email', $email);
         $stmt->execute();
 
         return 'Error - Activation code has expired. Please re-register.';
@@ -520,8 +527,8 @@ class AuthModel
       return 'Error: Invalid email submitted.';
     }
 
-    $stmt = $this->db->pdo->prepare('SELECT * FROM logins WHERE user_email=:qEmail');
-    $stmt->bindParam(':qEmail', $email);
+    $stmt = $this->db->pdo->prepare('SELECT * FROM logins WHERE user_email=:email');
+    $stmt->bindParam(':email', $email);
     $stmt->execute();
     $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count = count($response);
@@ -565,9 +572,9 @@ class AuthModel
 
       if($emailResponse === 'SENT')
       {
-        $stmt = $this->db->pdo->prepare('UPDATE logins SET `user_password`=:qPassword WHERE user_email=:qEmail');
+        $stmt = $this->db->pdo->prepare('UPDATE logins SET `user_password`=:qPassword WHERE user_email=:email');
         $stmt->bindParam(':qPassword', $hashed);
-        $stmt->bindParam(':qEmail', $email);
+        $stmt->bindParam(':email', $email);
         try
         {
           $stmt->execute();
@@ -601,8 +608,8 @@ class AuthModel
     $newPassword = (string)$data[1];
     $confirmPassword = (string)$data[2];
 
-    $stmt = $this->db->pdo->prepare('SELECT * FROM logins WHERE user_alias=:qName');
-    $stmt->bindParam(':qName', $name);
+    $stmt = $this->db->pdo->prepare('SELECT * FROM logins WHERE user_alias=:user_name');
+    $stmt->bindParam(':user_name', $name);
     $stmt->execute();
     $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count = count($response);
@@ -618,11 +625,11 @@ class AuthModel
 
         if($passwordToRegister === $trimmedConfirm)
         {
-          $stmt = $this->db->pdo->prepare('UPDATE logins SET `user_password`=:qPassword WHERE user_alias=:qName');
+          $stmt = $this->db->pdo->prepare('UPDATE logins SET `user_password`=:qPassword WHERE user_alias=:user_name');
 
           $hashed = password_hash($passwordToRegister, PASSWORD_DEFAULT);
           $stmt->bindParam(':qPassword', $hashed);
-          $stmt->bindParam(':qName', $name);
+          $stmt->bindParam(':user_name', $name);
           
           try
           {
@@ -725,17 +732,24 @@ class AuthModel
     return $output;
   }
 
-  public function getName() : bool
+  public function LoggedIn() : bool
+  {
+    $output = false;
+    if(isset($_SESSION['loggedin'])) $output = (bool)$_SESSION['loggedin'];
+    return $output;
+  }
+
+  public function getName() : string
   {
     $output = '';
     if(isset($_SESSION['name'])) $output = $_SESSION['name'];
     return $output;
   }
 
-  public function LoggedIn() : bool
+  public function getTheme() : string
   {
-    $output = false;
-    if(isset($_SESSION['loggedin'])) $output = (bool)$_SESSION['loggedin'];
+    $output = '';
+    if(isset($_SESSION['theme'])) $output = $_SESSION['theme'];
     return $output;
   }
 
@@ -809,6 +823,7 @@ class AuthModel
     if(isset($_SESSION['id'])) $_SESSION['id'] = '';
     if(isset($_SESSION['name'])) $_SESSION['name'] = '';
     if(isset($_SESSION['state'])) $_SESSION['state'] = '';
+    if(isset($_SESSION['theme'])) $_SESSION['theme'] = '';
 
     return $wasLoggedIn;
   }

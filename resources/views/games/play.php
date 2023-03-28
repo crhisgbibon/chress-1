@@ -17,7 +17,7 @@
     class='flex flex-col justify-start items-center w-full'>
 
     <div
-      class='flex flex-row justify-center items-center w-full my-2'
+      class='flex flex-row justify-center items-center w-full'
       style='height: calc(var(--vh) * 7.5);'>
       <div
         class='w-20 mx-2'
@@ -27,22 +27,6 @@
           @click="flip = !flip;">
           <img src='<?=$layer?>assets/svg/flip.svg'></img>
         </button>
-      </div>
-      <div
-        class='w-20 mx-2'
-        style='height: calc(var(--vh) * 5);'>
-        <?=Component::make('post_button',[ 'text' => '<', 'route' => 'lastmove', 'data' => $gameid ])?>
-      </div>
-      <div
-        id='counter'
-        class='flex justify-center items-center w-20 mx-2'
-        style='height: calc(var(--vh) * 5);'>
-        <?=$score?>
-      </div>
-      <div
-        class='w-20 mx-2'
-        style='height: calc(var(--vh) * 5);'>
-        <?=Component::make('post_button',[ 'text' => '>', 'route' => 'nextmove', 'data' => $gameid ])?>
       </div>
       <div
         class='w-20 mx-2'
@@ -80,11 +64,42 @@
 
     <div
       id='board'
-      class='flex flex-col justify-start items-center w-full'
-      style='min-height: calc(var(--vh) * 75);'>
-      <div
-        class='my-4'>
+      class='flex flex-col justify-center items-center w-full h-fit'
+      style='height: calc(var(--vh) * 75);'>
+      <div>
         <?=Component::make('board',['layer'=>$layer,'gameid'=>$gameid,'board'=>$board,'currentmoves'=>$currentmoves])?>
+      </div>
+    </div>
+
+    <div
+      id='bar'
+      class='bg-sky-200 flex flex-row justify-start items-center p-0 m-0 b-0 outline-0 rounded-none mx-auto'
+      style='height: calc(var(--vh) * 2.5); width: 100%; max-width: 600px;'>
+      <div
+        id='bar_range'
+        class='bg-sky-50 p-0 m-0 b-0 outline-0 rounded-none'
+        style='height: calc(var(--vh) * 2.5); width: 50%; '>
+      </div>
+    </div>
+
+    <div
+      class='flex flex-row justify-center items-center w-full'
+      style='height: calc(var(--vh) * 7.5);'>
+      <div
+        class='w-20 mx-2'
+        style='height: calc(var(--vh) * 5);'>
+        <?=Component::make('post_button',[ 'text' => '<', 'route' => 'lastmove', 'data' => $gameid ])?>
+      </div>
+      <div
+        id='counter'
+        class='flex justify-center items-center w-20 mx-2'
+        style='height: calc(var(--vh) * 5);'>
+        <?=$score?>
+      </div>
+      <div
+        class='w-20 mx-2'
+        style='height: calc(var(--vh) * 5);'>
+        <?=Component::make('post_button',[ 'text' => '>', 'route' => 'nextmove', 'data' => $gameid ])?>
       </div>
     </div>
 

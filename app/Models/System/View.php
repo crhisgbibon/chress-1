@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\System;
 
 use App\Exceptions\ViewNotFoundException;
+use App\Enums\Themes;
 
 class View
 {
@@ -31,6 +32,9 @@ class View
     $name = '';
     if(isset($_SESSION['name'])) if($_SESSION['name']) $name = $_SESSION['name'];
 
+    $theme = 0;
+    if(isset($_SESSION['theme'])) $theme = (int)$_SESSION['theme'];
+
     $navPath = VIEW_PATH . '/system/navigation.php';
     if(!file_exists($navPath)) throw new ViewNotFoundException();
 
@@ -51,6 +55,7 @@ class View
 
       $layoutPath = VIEW_PATH . '/layout.php';
       if(!file_exists($layoutPath)) throw new ViewNotFoundException();
+      $root = Themes::tryFrom($theme)->string();
       $title = $this->title;
       $navBar = $nav;
       $body = $view;

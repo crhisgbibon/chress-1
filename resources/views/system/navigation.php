@@ -22,8 +22,8 @@
       </button>
       <a
         href='/'
-        class='font-bold text-sky-300 flex justify-center items-center w-32 md:w-48'
-        style='height: calc(var(--vh) * 7.5);'>
+        class='font-bold flex justify-center items-center w-32 md:w-48'
+        style='height: calc(var(--vh) * 7.5); color: var(--header);'>
         Chress
       </a>
       <button
@@ -31,6 +31,7 @@
         class='flex justify-center items-center hover:scale-105 active:scale-95'
         style='height: calc(var(--vh) * 7.5);'>
         <img
+          style='color: var(--text);'
           src='<?=$layer?>assets/svg/profile.svg'
           class='rounded-lg p-2'
           :class="profile ? 'bg-sky-200' : ''"></img>

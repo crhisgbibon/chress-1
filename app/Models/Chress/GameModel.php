@@ -144,6 +144,19 @@ class GameModel
 
     $stateToExport = $this->saveList[$boardToExport]->state;
 
+    if($userID === (int)$this->whiteT && $userID !== (int)$this->blackT)
+    {
+      $cMove = [$this->currentMoveWhite, count($this->saveList)];
+    }
+    else if($userID !== (int)$this->whiteT && $userID === (int)$this->blackT)
+    {
+      $cMove = [$this->currentMoveBlack, count($this->saveList)];
+    }
+    else
+    {
+      $cMove = [$this->currentMove, count($this->saveList)];
+    }
+
     $r = [
       'board' => $board,
       'moves' => $moves,
@@ -155,6 +168,7 @@ class GameModel
       'iswhite' => $isWhite,
       'currentMoves' => $currentMoves,
       'turn' => $turn,
+      'moveNum' => $cMove,
     ];
     return $r;
   }

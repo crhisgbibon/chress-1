@@ -1,4 +1,3 @@
-<?php use App\Models\System\Component; ?>
 <div
   class='w-full flex flex-col justify-start items-center'>
 
@@ -12,22 +11,22 @@
 
     <div
       class='flex w-32 p-2 justify-center items-center'>
-      <?=Component::make('hyperlink',['href'=>'/games','text'=>'Games'])?>
+      <?=\App\Models\System\Component::make('hyperlink',['href'=>'/games','text'=>'Games'])?>
     </div>
 
     <div
       class='flex w-32 p-2 justify-center items-center'>
-      <?=Component::make('hyperlink',['href'=>'/history','text'=>'History'])?>
+      <?=\App\Models\System\Component::make('hyperlink',['href'=>'/history','text'=>'History'])?>
     </div>
 
     <div
       class='flex w-32 p-2 justify-center items-center'>
-      <?=Component::make('hyperlink',['href'=>'/library','text' =>'Library'])?>
+      <?=\App\Models\System\Component::make('hyperlink',['href'=>'/library','text' =>'Library'])?>
     </div>
 
     <div
       class='flex w-32 p-2 justify-center items-center'>
-      <?=Component::make('hyperlink',['href'=>'/lobby','text'=>'Lobby'])?>
+      <?=\App\Models\System\Component::make('hyperlink',['href'=>'/lobby','text'=>'Lobby'])?>
     </div>
 
   </div>

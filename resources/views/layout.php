@@ -12,8 +12,8 @@
     
     <link href="https://cdn.jsdelivr.net/npm/modern-normalize@v1.1.0/modern-normalize.min.css" rel="stylesheet">
     <link id='pageStyle' rel='stylesheet' type='text/css' href='<?=$layer?>assets/css/style.css'/>
-    <link id='pageStyle' rel='stylesheet' type='text/css' href='<?=$layer?>assets/css/root.css'/>
-    <link rel='icon' type='image/x-icon' href='favicon.ico'>
+    <link id='pageStyle' rel='stylesheet' type='text/css' href='<?=$layer?>assets/css/<?=$root?>.css'/>
+    <link rel='icon' type='image/x-icon' href='<?=$layer?>favicon.ico'>
     
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
@@ -21,7 +21,9 @@
     <script src="<?=$layer?>assets/js/ajax.js"></script>
     
   </head>
-  <body class='antialiased'>
+  <body
+    class='antialiased'
+    style='background-color: var(--back); color: var(--text);'>
     <?=$navBar?>
     <?=$body?>
   </body>
