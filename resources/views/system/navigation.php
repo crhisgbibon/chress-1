@@ -16,7 +16,7 @@
         class='flex justify-center items-center hover:scale-105 active:scale-95'
         style='height: calc(var(--vh) * 7.5);'>
         <img
-          src='assets/svg/menu.svg'
+          src='<?=$layer?>assets/svg/menu.svg'
           class='rounded-lg p-2'
           :class="nav ? 'bg-sky-200' : ''"></img>
       </button>
@@ -31,7 +31,7 @@
         class='flex justify-center items-center hover:scale-105 active:scale-95'
         style='height: calc(var(--vh) * 7.5);'>
         <img
-          src='assets/svg/profile.svg'
+          src='<?=$layer?>assets/svg/profile.svg'
           class='rounded-lg p-2'
           :class="profile ? 'bg-sky-200' : ''"></img>
       </button>

@@ -24,6 +24,7 @@
     </div>
 
     <div
+      id='games'
       class='w-full overflow-y-auto flex flex-col justify-start items-center'
       style='max-height: calc(var(--vh) * 85);'>
       <?php if(count($games) > 0): ?>

@@ -10,10 +10,13 @@ use App\Attributes\Post;
 use App\Models\System\Config;
 use App\Models\System\DB;
 use App\Models\System\View;
+use App\Models\System\Component;
 
 use App\Models\Auth\AuthModel;
 
 use App\Models\Chress\GamesModel;
+
+use App\Exceptions\GameNotFoundException;
 
 class GamesController
 {
@@ -52,6 +55,7 @@ class GamesController
       'Chress',
       true,
       [
+        'layer' => './',
         'user' => $this->userID,
         'loggedin' => $loggedin,
         'games' => $games,
@@ -62,14 +66,10 @@ class GamesController
   #[Post(routePath:'/games/create')]
   public function newgame()
   {
-    if($this->userID === -1)
-    {
-      header('Location: /games');
-    }
-
-    $colour = $_POST['colour'];
-    $opponent = $_POST['opponent'];
-    $turn = $_POST['turn'];
+    $data = json_decode($_POST['data']);
+    $colour = $data->colour;
+    $opponent = $data->opponent;
+    $turn = $data->turn;
 
     $response = $this->model->NewGame($colour, $opponent, $turn);
 
@@ -78,17 +78,34 @@ class GamesController
 
     $games = $this->model->CloseExpiredAndReturnActiveGames();
 
-    header('Location: /games');
+    // $response = Component::make('games',['user'=>$this->userID,'games'=>$games]);
+
+    return Component::make('games',['user'=>$this->userID,'games'=>$games]);
   }
 
-  #[Post('/game')]
-  public function view() : View
+  #[Get('/games/{id}')]
+  public function id($params) : mixed
   {
-    $gameid = (int)$_POST['uuid'];
+    $gameid = (int)$params['id'];
+    // return $gameid;
     if($this->userID === -1) $loggedin = false;
     else $loggedin = true;
 
     $game = $this->model->GetGame($gameid);
+    // return $game;
+    if(!$game)
+    {
+      return View::make
+      (
+        'error/gameNotFound',
+        'Chress',
+        true,
+        [
+          'layer' => '../',
+        ]
+      );
+    }
+
     $game->clicked = -1;
     $data = $game->GetGameData($this->userID);
     if($game->lastMoved > 0 && $game->lastMoved < 64) $currentMoves = $game->board[$game->lastMoved]->moves;
@@ -100,6 +117,7 @@ class GamesController
       'Chress',
       true,
       [
+        'layer' => '../',
         'user' => $this->userID,
         'loggedin' => $loggedin,
         'gameid' => $gameid,
@@ -116,7 +134,43 @@ class GamesController
     );
   }
 
-  #[Post(routePath:'/game/lastmove')]
+  // #[Post('/games')]
+  // public function view() : View
+  // {
+  //   $gameid = (int)$_POST['uuid'];
+  //   if($this->userID === -1) $loggedin = false;
+  //   else $loggedin = true;
+
+  //   $game = $this->model->GetGame($gameid);
+  //   $game->clicked = -1;
+  //   $data = $game->GetGameData($this->userID);
+  //   if($game->lastMoved > 0 && $game->lastMoved < 64) $currentMoves = $game->board[$game->lastMoved]->moves;
+  //   else $currentMoves = [];
+
+  //   return View::make
+  //   (
+  //     'games/play',
+  //     'Chress',
+  //     true,
+  //     [
+  //       'layer' => './',
+  //       'user' => $this->userID,
+  //       'loggedin' => $loggedin,
+  //       'gameid' => $gameid,
+  //       'board' => $data['board'],
+  //       'moves' => $data['moves'],
+  //       'state' => $data['state'],
+  //       'score' => $data['score'],
+  //       'meta' => $data['meta'],
+  //       'pgn' => $data['pgn'],
+  //       'lastmove' => $data['lastmove'],
+  //       'iswhite' => $data['iswhite'],
+  //       'currentmoves' => $currentMoves,
+  //     ]
+  //   );
+  // }
+
+  #[Post(routePath:'/games/lastmove')]
   public function lastmove() : string
   {
     // return json_encode('hello, lastmove');
@@ -128,7 +182,7 @@ class GamesController
     return json_encode($game->GetGameData($this->userID));
   }
 
-  #[Post(routePath:'/game/nextmove')]
+  #[Post(routePath:'/games/nextmove')]
   public function nextmove() : string
   {
     // return json_encode('hello, nextmove');
@@ -140,7 +194,7 @@ class GamesController
     return json_encode($game->GetGameData($this->userID));
   }
 
-  #[Post(routePath:'/game/query')]
+  #[Post(routePath:'/games/query')]
   public function query() : string
   {
     $post = json_decode($_POST['data']);
@@ -168,7 +222,7 @@ class GamesController
     return json_encode($game->GetGameData($this->userID));
   }
 
-  #[Post('/game/resign')]
+  #[Post('/games/resign')]
   public function resign() : View
   {
     if($this->userID === -1) $loggedin = false;
@@ -182,13 +236,14 @@ class GamesController
       'Chress',
       true,
       [
+        'layer' => './',
         'loggedin' => $loggedin,
         'games' => $games,
       ]
     );
   }
 
-  #[Post('/game/poll')]
+  #[Post('/games/poll')]
   public function poll() : string
   {
     $post = json_decode($_POST['data']);
@@ -199,7 +254,7 @@ class GamesController
     return json_encode($game->GetGameData($this->userID));
   }
 
-  #[Post('/game/skip')]
+  #[Post('/games/skip')]
   public function skip() : string
   {
     $post = json_decode($_POST['data']);

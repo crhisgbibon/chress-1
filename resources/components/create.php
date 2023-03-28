@@ -1,10 +1,6 @@
 <?php use App\Models\System\Component; ?>
-<div>
-
-  <form
-    class='w-full flex flex-col justify-start items-center my-4'
-    method='POST'
-    action='games/create'>
+<div
+  class='w-full flex flex-col justify-start items-center my-4'>
 
     <div
       class='w-full my-2 flex justify-center items-center'>
@@ -116,9 +112,15 @@
 
     <div
       class='w-40 h-10 flex justify-center items-center my-2'>
-      <?=Component::make('input',['version'=>'submit','uuid'=>'','nom'=>'','place'=>'','text'=>'Submit','auto'=>'','check'=>false])?>
+      <button
+        class='rounded-lg flex justify-center items-center
+              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
+              hover:scale-105 active:scale-95'
+        style='min-height: 100%; min-width: 100%'
+        onclick='Post2()'
+        >
+        Submit
+      </button>
     </div>
-
-  </form>
   
 </div>

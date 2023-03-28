@@ -20,6 +20,7 @@ class HomeController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'test' => 'hello, world'
       ]
     );

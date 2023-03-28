@@ -45,6 +45,7 @@ class ProfileController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'loggedin' => $loggedin,
         'name' => $name,
       ]

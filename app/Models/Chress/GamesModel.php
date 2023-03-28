@@ -210,7 +210,7 @@ class GamesModel
     return $saveInt;
   }
 
-  public function GetGame(int $gameID) : GameModel
+  public function GetGame(int $gameID) : GameModel|bool
   {
     $stmt = $this->db->pdo->prepare("SELECT boardState FROM games
     WHERE uniqueIndex=:uniqueIndex
@@ -220,9 +220,17 @@ class GamesModel
 
     $stmt->execute();
 
-    $game = unserialize($stmt->fetchColumn());
+    $gamedata = $stmt->fetchColumn();
 
-    return $game;
+    if(is_string($gamedata))
+    {
+      $game = unserialize($gamedata);
+      return $game;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   public function ValidateTurn(int $gameID) : bool

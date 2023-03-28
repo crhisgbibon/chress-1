@@ -53,7 +53,7 @@
           data-move='no'
           onmousedown='Post(`query`,[<?=$i?>,<?=$gameid?>])' 
           >
-            <?=Component::make('piece',['num'=>$i,'type'=>$board[$i][1]])?>
+            <?=Component::make('piece',['layer'=>$layer,'num'=>$i,'type'=>$board[$i][1]])?>
           </button>
         </div>
         <?php

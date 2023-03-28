@@ -7,6 +7,7 @@
     <?php
       $timeRemaining = 0;
       $sideToMove = '';
+      $uuid = $games[$i]['uniqueIndex'];
       $turnTime = $games[$i]["turnTime"];
       $lastMoved = $games[$i]["lastMoved"];
       $gameTurn = $games[$i]["gameTurn"];
@@ -48,26 +49,23 @@
     <div
       class='p-2 m-2 w-full max-w-xs flex flex-col justify-start items-center border border-black rounded-lg box-border'>
 
+      <div
+        class='w-full m-2 flex justify-center items-center'>
+        #<?=$uuid?>
+      </div>
+
       <?php if($user === $games[$i]['whiteID']): ?>
-        <form
-          class='w-full h-10'
-          method='POST'
-          action='/game'>
-          <input type='number' name='uuid' value='<?=$games[$i]['uniqueIndex']?>' hidden>
-          <input
-            class='w-full h-full flex justify-center items-center bg-white text-black border border-black rounded-lg cursor-pointer'
-            type='submit' value='<?php if($games[$i]['blackID'] === -1) echo 'Computer'; else echo $games[$i]['black_username']; ?>'>
-        </form>
+        <?php
+          $href = "/games/{$uuid}";
+          $value = ($games[$i]['blackID'] === -1) ? 'Computer' : $games[$i]['black_username'];
+        ?>
+        <?=Component::make('game_hyperlink',['href'=>$href,'text'=>$value,'colour'=>'white'])?>
       <?php else: ?>
-        <form
-          class='w-full h-10'
-          method='POST'
-          action='/game'>
-          <input type='number' name='uuid' value='<?=$games[$i]['uniqueIndex']?>' hidden>
-          <input
-            class='w-full h-full flex justify-center items-center bg-black text-white border border-black rounded-lg cursor-pointer'
-            type='submit' value='<?php if($games[$i]['whiteID'] === -1) echo 'Computer'; else echo $games[$i]['white_username']; ?>'>
-        </form>
+        <?php
+          $href = "/games/{$uuid}";
+          $value = ($games[$i]['whiteID'] === -1) ? 'Computer' : $games[$i]['white_username'];
+        ?>
+        <?=Component::make('game_hyperlink',['href'=>$href,'text'=>$value,'colour'=>'black'])?>
       <?php endif; ?>
 
       <div

@@ -36,6 +36,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'loggedin' => $loggedin,
         'email' => '',
         'email_err' => '',
@@ -62,6 +63,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'loggedin' => $loggedin,
         'email' => $email,
         'email_err' => $response['email_err'],
@@ -82,6 +84,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'loggedin' => $loggedin,
         'username' => '',
         'username_err' => '',
@@ -114,6 +117,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'loggedin' => $loggedin,
         'username' => $username,
         'username_err' => $response['username_err'],
@@ -143,6 +147,7 @@ class AuthController
       'Chress',           // view title
       true,               // with layout
       [                   // body params array
+        'layer' => './',
         'email' => $email,
         'code' => $activationCode,
       ]
@@ -183,6 +188,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'name' => $name,
         'loggedin' => $loggedin,
         'verified' => $verified,
@@ -205,6 +211,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'name' => $name,
         'loggedin' => $loggedin,
         'verified' => $verified,
@@ -224,6 +231,7 @@ class AuthController
       'Chress',         // view title
       true,             // with layout
       [                 // body params array
+        'layer' => './',
         'wasloggedin' => $wasLoggedIn,
       ]
     );

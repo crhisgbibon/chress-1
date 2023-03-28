@@ -52,6 +52,7 @@ class LobbyController
       'Chress',
       true,
       [
+        'layer' => './',
         'loggedin' => $loggedin,
         'games' => $games,
       ]
