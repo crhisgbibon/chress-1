@@ -23,7 +23,8 @@
   <?php if(isset($email)) echo $email; else echo 'missing'; ?>
   <button
     x-on:click="validate"
-    class='m-4 p-4 rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200'>
+    style='background-color: var(--low);'
+    class='m-4 p-4 rounded-lg'>
     Validate Account
   </button>
   <div

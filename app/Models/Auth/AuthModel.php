@@ -160,7 +160,7 @@ class AuthModel
       $stmt = $this->db->pdo->prepare("SELECT *
       FROM logins 
       WHERE user_email=:email");
-      $stmt->bindParam(':email', $email);
+      $stmt->bindParam(':email', $email, PDO::PARAM_STR);
       $stmt->execute();
       $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
       $count = count($response);
@@ -284,7 +284,7 @@ class AuthModel
     else
     {
       $stmt = $this->db->pdo->prepare('SELECT uniqueIndex FROM logins WHERE user_alias=:user');
-      $stmt->bindParam(':user', $username);
+      $stmt->bindParam(':user', $username, PDO::PARAM_STR);
       $stmt->execute();
       $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
       $count = count($response);
@@ -306,7 +306,7 @@ class AuthModel
     else
     {
       $stmt = $this->db->pdo->prepare('SELECT uniqueIndex FROM logins WHERE user_email=:qEmail');
-      $stmt->bindParam(':qEmail', $email);
+      $stmt->bindParam(':qEmail', $email, PDO::PARAM_STR);
       $stmt->execute();
       $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
       $count = count($response);
@@ -372,16 +372,16 @@ class AuthModel
       :expiry,
       :verified)');
 
-      $stmt->bindParam(':user', $usernameToRegister);
+      $stmt->bindParam(':user', $usernameToRegister, PDO::PARAM_STR);
 
       $hashed = password_hash($passwordToRegister, PASSWORD_DEFAULT);
-      $stmt->bindParam(':pword', $hashed);
+      $stmt->bindParam(':pword', $hashed, PDO::PARAM_STR);
 
       date_default_timezone_set('UTC');
       $currentDate1 = date('Y-m-d H:i:s');
       $stmt->bindParam(':created', $currentDate1);
 
-      $stmt->bindParam(':email', $emailToRegister);
+      $stmt->bindParam(':email', $emailToRegister, PDO::PARAM_STR);
 
       $status = 'user';
       $stmt->bindParam(':user_state', $status);

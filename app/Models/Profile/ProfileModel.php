@@ -19,4 +19,21 @@ class ProfileModel
     $this->db = $db;
     $this->config = $config;
   }
+
+  public function ChangeTheme(int $newTheme, int $userID) : bool
+  {
+    try
+    {
+      $stmt = $this->db->pdo->prepare('UPDATE logins SET `user_theme`=:user_theme WHERE uniqueIndex=:uniqueIndex');
+      $stmt->bindParam(':user_theme', $newTheme);
+      $stmt->bindParam(':uniqueIndex', $userID);
+      $stmt->execute();
+      $_SESSION['theme'] = $newTheme;
+      return true;
+    }
+    catch(Exception $e)
+    {
+      return false;
+    }
+  }
 }

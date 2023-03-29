@@ -1,6 +1,6 @@
 <button 
-  class='rounded-lg bg-sky-50 hover:bg-sky-100 active:bg-sky-200 hover:scale-105 active:scale-95'
-  style='min-width: 100%; min-height: 100%;'
+  class='rounded-lg hover:scale-105 active:scale-95'
+  style='min-width: 100%; min-height: 100%;background-color:var(--low);'
   x-data="
   {
     <?=$output?>: '',

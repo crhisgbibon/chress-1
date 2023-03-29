@@ -21,7 +21,7 @@ class PGNView
 
       $n = $piece . $capture . $to . $state;
       $output .= "
-        <button class='pgnButton rounded-lg bg-sky-100 m-2 p-2' onclick='Post(`skip`, [`{$i}`, `{$gameid}`])'>{$i}. {$n}</button>
+        <button style='background-color: var(--mid);' class='pgnButton rounded-lg m-2 p-2' onclick='Post(`skip`, [`{$i}`, `{$gameid}`])'>{$i}. {$n}</button>
       ";
     }
 

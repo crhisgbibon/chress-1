@@ -64,7 +64,7 @@ class GamesModel
     AND ( whiteID!=:lobby1 AND blackID!=:lobby2 )
     OR ( whiteID=:computer1 OR blackID=:computer2 )
     AND hiddenRow=0
-    ORDER BY games.lastMoved ASC");
+    ORDER BY ( UNIX_TIMESTAMP() - ( games.lastMoved + games.turnTime ) ) DESC");
 
     $computer = -1;
     $lobby = -2;

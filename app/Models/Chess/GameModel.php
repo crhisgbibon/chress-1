@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Chress;
+namespace App\Models\Chess;
 
-use App\Models\Chress\Square;
-use App\Models\Chress\PGNView;
-use App\Models\Chress\SaveSquare;
-use App\Models\Chress\SaveTurn;
+use App\Models\Chess\Square;
+use App\Models\Chess\PGNView;
+use App\Models\Chess\SaveSquare;
+use App\Models\Chess\SaveTurn;
 
 class GameModel
 {

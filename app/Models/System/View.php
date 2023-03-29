@@ -33,7 +33,7 @@ class View
     if(isset($_SESSION['name'])) if($_SESSION['name']) $name = $_SESSION['name'];
 
     $theme = 0;
-    if(isset($_SESSION['theme'])) $theme = (int)$_SESSION['theme'];
+    if(isset($_SESSION['theme'])) $theme = (int)$_SESSION['theme']; else $theme = 0;
 
     $navPath = VIEW_PATH . '/system/navigation.php';
     if(!file_exists($navPath)) throw new ViewNotFoundException();

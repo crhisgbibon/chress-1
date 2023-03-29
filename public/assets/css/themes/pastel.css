@@ -1,0 +1,18 @@
+:root{
+  --vh: 5px;
+  --square: 40px;
+
+  --back: #f8edeb;
+
+  --move: #FEC89A;
+  --last: #FFD7BA;
+
+  --low: #fae1dd;
+  --mid:#fcd5ce;
+  --high: #fec5bb;
+  --full: #FEC5BB;
+
+  --text: #1f2937;
+
+  --warning: #fd745d  ;
+}

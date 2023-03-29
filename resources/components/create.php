@@ -114,9 +114,8 @@
       class='w-40 h-10 flex justify-center items-center my-2'>
       <button
         class='rounded-lg flex justify-center items-center
-              bg-sky-50 hover:bg-sky-100 active:bg-sky-200
               hover:scale-105 active:scale-95'
-        style='min-height: 100%; min-width: 100%'
+        style='min-height: 100%; min-width: 100%;background-color:var(--low);'
         onclick='Post2()'
         >
         Submit

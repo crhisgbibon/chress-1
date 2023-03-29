@@ -1,0 +1,18 @@
+:root{
+  --vh: 5px;
+  --square: 40px;
+
+  --back: rgba(255, 255, 255, 1);
+
+  --move: #0ea5e9;
+  --last: #38bdf8;
+
+  --low: #f0f9ff;
+  --mid: #e0f2fe;
+  --high: #bae6fd;
+  --full: #7dd3fc;
+  
+  --text: rgba(50, 50, 50, 1);
+
+  --warning: rgba(255,100,100,1);
+}

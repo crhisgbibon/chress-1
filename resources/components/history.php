@@ -18,30 +18,24 @@
       class='p-2 m-2 w-full max-w-xs flex flex-col justify-start items-center border border-black rounded-lg box-border'>
 
       <?php if($user === $games[$i]['whiteID']): ?>
-        <form
-          class='w-full h-10'
-          method='POST'
-          action='/game'>
-          <input type='number' name='uuid' value='<?=$games[$i]['uniqueIndex']?>' hidden>
-          <input
-            class='w-full h-full flex justify-center items-center bg-white text-black border border-black rounded-lg cursor-pointer'
-            type='submit' value='<?php if($games[$i]['blackID'] === -1) echo 'Computer'; else echo $games[$i]['black_username']; ?>'>
-        </form>
+        <a
+          class='w-full h-10 flex justify-center items-center text-black border rounded-lg cursor-pointer'
+          style='border-color: var(--low);background-color: var(--low);'
+          href='/games/<?=$games[$i]['uniqueIndex']?>'>
+          <?php if($games[$i]['blackID'] === -1) echo 'Computer'; else echo $games[$i]['black_username']; ?>
+        </a>
       <?php else: ?>
-        <form
-          class='w-full h-10'
-          method='POST'
-          action='/game'>
-          <input type='number' name='uuid' value='<?=$games[$i]['uniqueIndex']?>' hidden>
-          <input
-            class='w-full h-full flex justify-center items-center bg-black text-white border border-black rounded-lg cursor-pointer'
-            type='submit' value='<?php if($games[$i]['whiteID'] === -1) echo 'Computer'; else echo $games[$i]['white_username']; ?>'>
-        </form>
+        <a
+          class='w-full h-10 flex justify-center items-center text-black border rounded-lg cursor-pointer'
+          style='border-color: var(--full);background-color: var(--full);'
+          href='/games/<?=$games[$i]['uniqueIndex']?>'>
+          <?php if($games[$i]['whiteID'] === -1) echo 'Computer'; else echo $games[$i]['white_username']; ?>
+        </a>
       <?php endif; ?>
 
       <div
         class='w-full m-2 flex justify-center items-center'>
-        <?=$resultText?>
+        Result: <?=$resultText?>
       </div>
 
     </div>

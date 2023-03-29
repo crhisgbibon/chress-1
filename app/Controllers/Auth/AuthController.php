@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controllers\Auth;
 
+use App\Middleware\Validator;
+
 use App\Attributes\Get;
 use App\Attributes\Post;
 
@@ -18,60 +20,86 @@ class AuthController
   private AuthModel $account;
   private Config $config;
   private DB $db;
+  private Validator $validator;
 
   public function __construct()
   {
     $this->config = new Config($_ENV);
     $this->db = new DB($this->config->db);
     $this->account = new AuthModel($this->db, $this->config);
+    $this->validator = new Validator();
   }
 
   #[Get(routePath:'/login')]
-  public function login_get() : View
+  public function login_get() : mixed
   {
     $loggedin = $this->account->LoggedIn();
-    return View::make
-    (
-      'auth/login',     // body view path
-      'Chress',         // view title
-      true,             // with layout
-      [                 // body params array
-        'layer' => './',
-        'loggedin' => $loggedin,
-        'email' => '',
-        'email_err' => '',
-        'password' => '',
-        'password_err' => '',
-        'login_err' => '',
-      ]
-    );
+
+    if($loggedin)
+    {
+      return header('Location: /');
+    }
+    else
+    {
+      return View::make
+      (
+        'auth/login',     // body view path
+        'Chress',         // view title
+        true,             // with layout
+        [                 // body params array
+          'layer' => './',
+          'loggedin' => $loggedin,
+          'email' => '',
+          'email_err' => '',
+          'password' => '',
+          'password_err' => '',
+          'login_err' => '',
+        ]
+      );
+    }
   }
 
   #[Post(routePath:'/login')]
-  public function login_post() : View
+  public function login_post() : mixed
   {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $remember = false;
 
+    $email = $this->validator->string($email);
+    $password = $this->validator->string($password);
+
+    if($email === false || $password === false)
+    {
+      return header('Location: /');
+      exit;
+    }
+
     $response = $this->account->Login($email, $password, $remember);
     $loggedin = $this->account->LoggedIn();
 
-    return View::make
-    (
-      'auth/login',     // body view path
-      'Chress',         // view title
-      true,             // with layout
-      [                 // body params array
-        'layer' => './',
-        'loggedin' => $loggedin,
-        'email' => $email,
-        'email_err' => $response['email_err'],
-        'password' => '',
-        'password_err' => $response['password_err'],
-        'login_err' => $response['login_err'],
-      ]
-    );
+    if($loggedin)
+    {
+      return header('Location: /');
+    }
+    else
+    {
+      return View::make
+      (
+        'auth/login',     // body view path
+        'Chress',         // view title
+        true,             // with layout
+        [                 // body params array
+          'layer' => './',
+          'loggedin' => $loggedin,
+          'email' => $email,
+          'email_err' => $response['email_err'],
+          'password' => '',
+          'password_err' => $response['password_err'],
+          'login_err' => $response['login_err'],
+        ]
+      );
+    }
   }
 
   #[Get(routePath:'/register')]
@@ -100,7 +128,7 @@ class AuthController
   }
 
   #[Post(routePath:'/register')]
-  public function register_post()
+  public function register_post() : mixed
   {
     $loggedin = $this->account->LoggedIn();
 
@@ -108,6 +136,17 @@ class AuthController
     $email = $_POST['register_email'];
     $password = $_POST['register_password'];
     $confirm = $_POST['register_confirm_password'];
+
+    $username = $this->validator->string($username);
+    $email = $this->validator->email($email);
+    $password = $this->validator->string($password);
+    $confirm = $this->validator->string($confirm);
+
+    if($username === false || $email === false || $password === false || $confirm === false)
+    {
+      return header('Location: /');
+      exit;
+    }
 
     $response = $this->account->Register($username, $email, $password, $confirm);
 
@@ -133,13 +172,22 @@ class AuthController
   }
 
   #[Get(routePath:'/validate')]
-  public function validate_get() : View
+  public function validate_get() : mixed
   {
     if(isset($_GET['email'])) $email = $_GET['email'];
     else $email = '';
     
     if(isset($_GET['activation_code'])) $activationCode = $_GET['activation_code'];
     else $activationCode = '';
+
+    $email = $this->validator->email($email);
+    $activationCode = $this->validator->string($activationCode);
+
+    if($email === false || $activationCode === false)
+    {
+      return header('Location: /');
+      exit;
+    }
 
     return View::make
     (
@@ -167,6 +215,15 @@ class AuthController
     {
       $email = '';
       $code = '';
+    }
+
+    $email = $this->validator->email($email);
+    $code = $this->validator->string($code);
+
+    if($email === false || $code === false)
+    {
+      return header('Location: /');
+      exit;
     }
 
     $response = $this->account->Validate($email, $code);

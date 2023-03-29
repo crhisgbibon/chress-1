@@ -169,6 +169,7 @@ class GameModel
       'currentMoves' => $currentMoves,
       'turn' => $turn,
       'moveNum' => $cMove,
+      'saveList' => $this->saveList,
     ];
     return $r;
   }

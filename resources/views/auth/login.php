@@ -13,9 +13,9 @@
       </label>
       <input
         class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
-          hover:outline hover:outline-offset-2 hover:outline-sky-100
-          focus:outline focus:outline-offset-2 focus:outline-sky-200
-          active:outline active:outline-offset-2 active:outline-sky-300'
+          hover:outline hover:outline-offset-2
+          focus:outline focus:outline-offset-2
+          active:outline active:outline-offset-2'
         type='email'
         id='email'
         name='email'
@@ -38,9 +38,9 @@
       </label>
       <input
         class='w-48 border border-black p-2 m-2 rounded-lg outline-transparent 
-          hover:outline hover:outline-offset-2 hover:outline-sky-100
-          focus:outline focus:outline-offset-2 focus:outline-sky-200
-          active:outline active:outline-offset-2 active:outline-sky-300'
+          hover:outline hover:outline-offset-2
+          focus:outline focus:outline-offset-2
+          active:outline active:outline-offset-2'
         type='password'
         id='password'
         name='password'
@@ -72,7 +72,8 @@
         <input
           type='submit'
           value='Log In'
-          class='w-32 mx-4 p-2 m-2 rounded-lg cursor-pointer bg-sky-50 hover:bg-sky-100 active:bg-sky-200'>
+          style='background-color: var(--low);'
+          class='w-32 mx-4 p-2 m-2 rounded-lg cursor-pointer'>
         <span
           class='text-sky-300'>
           <?php if(isset($login_err)) echo $login_err ?>
@@ -82,7 +83,8 @@
           class='w-screen flex justify-center items-center'
           style='height: calc(var(--vh) * 7.5);'>
           <a
-            class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:bg-sky-100 hover:scale-105 active:scale-95'
+            style='background-color: var(--low);'
+            class='max-w-sm my-4 underline m-2 p-2 rounded-lg hover:scale-105 active:scale-95'
             href='/confirm'>
             Confirm
           </a>

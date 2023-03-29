@@ -7,8 +7,8 @@ function Poll()
 {
   let data = document.getElementById('boardholder').dataset.gameid;
   let jsonData = JSON.stringify(data);
-  if(debug)  console.log(data);
-  if(debug)  console.log(jsonData);
+  if(debug) console.log(data);
+  if(debug) console.log(jsonData);
   $.ajax(
   {
     method: "POST",
@@ -20,9 +20,9 @@ function Poll()
     timeout: 10000,
     success:function(json)
     {
-      if(debug)  console.log(json);
+      if(debug) console.log(json);
       let result = JSON.parse(json);
-      if(debug)  console.log(result);
+      if(debug) console.log(result);
       Print(result);
 
       clearTimeout(timeOut);
@@ -30,9 +30,9 @@ function Poll()
     },
     error:function(json)
     {
-      if(debug)  console.log(json);
+      if(debug) console.log(json);
       let result = JSON.parse(json);
-      if(debug)  console.log(result);
+      if(debug) console.log(result);
       Print(result);
 
       clearTimeout(timeOut);
@@ -44,7 +44,7 @@ function Poll()
 function Print(response)
 {
   let moves = response.currentMoves;
-  if(debug)  console.log(moves);
+  if(debug) console.log(moves);
   for(let i = 0; i < 64; i++)
   {
     let bb = document.getElementById('b' + i);
@@ -88,8 +88,8 @@ function Print(response)
   info.innerHTML = '';
   Object.entries(response.meta).forEach(
     ([key, value]) => {
-      info.innerHTML += `<div class='rounded-lg bg-sky-50 m-2 p-2'>` + key + ` : ` + value + `</div>`;
-      if(debug)  console.log(key, value);
+      info.innerHTML += `<div style='background-color:var(--mid);' class='rounded-lg m-2 p-2'>` + key + ` : ` + value + `</div>`;
+      if(debug) console.log(key, value);
     }
   );
 
@@ -108,8 +108,8 @@ function Print(response)
   if(response.score > 0) bar_range.style.width = ( screenHalf + perCent ) + "px";
   else bar_range.style.width = ( screenHalf - perCent ) + "px";
 
-  console.log(perCent);
-  console.log(bar_range.style.width);
+  if(debug) console.log(perCent);
+  if(debug) console.log(bar_range.style.width);
 }
 
 document.addEventListener('DOMContentLoaded', Poll);

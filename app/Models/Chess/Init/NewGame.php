@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Chress\Init;
+namespace App\Models\Chess\Init;
 
 use App\Models\Chress\Square;
 

@@ -13,28 +13,29 @@
       style='height: calc(var(--vh) * 7.5);'>
       <button
         @click='nav = !nav; if(profile) profile = false'
-        class='flex justify-center items-center hover:scale-105 active:scale-95'
+        class='flex justify-center items-center hover:scale-105 active:scale-95 rounded-lg'
         style='height: calc(var(--vh) * 7.5);'>
-        <img
-          src='<?=$layer?>assets/svg/menu.svg'
+        <div
           class='rounded-lg p-2'
-          :class="nav ? 'bg-sky-200' : ''"></img>
+          :style="nav ? 'background-color: var(--mid); color: var(--text);' : 'color: var(--text);'">
+          <?php include('assets/svg/menu.svg');?>
+        </div>
       </button>
       <a
         href='/'
-        class='font-bold flex justify-center items-center w-32 md:w-48'
-        style='height: calc(var(--vh) * 7.5); color: var(--header);'>
+        class='font-bold flex justify-center items-center w-32 md:w-48 rounded-lg'
+        style='height: calc(var(--vh) * 7.5);'>
         Chress
       </a>
       <button
         @click='profile = !profile; if(nav) nav = false'
-        class='flex justify-center items-center hover:scale-105 active:scale-95'
+        class='flex justify-center items-center hover:scale-105 active:scale-95 rounded-lg'
         style='height: calc(var(--vh) * 7.5);'>
-        <img
-          style='color: var(--text);'
-          src='<?=$layer?>assets/svg/profile.svg'
+        <div
           class='rounded-lg p-2'
-          :class="profile ? 'bg-sky-200' : ''"></img>
+          :style="profile ? 'background-color: var(--mid); color: var(--text);' : 'color: var(--text);'">
+          <?php include('assets/svg/profile.svg');?>
+        </div>
       </button>
     </div>
   </nav>
@@ -42,7 +43,7 @@
   <div
     x-show='nav'
     class='flex flex-col justify-start items-center w-screen fixed'
-    style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: rgba(255,255,255,1);'>
+    style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: var(--back);'>
 
     <div
       class='flex justify-center items-center my-2 w-32'
@@ -73,7 +74,7 @@
   <div
     x-show='profile'
     class='flex flex-col justify-start items-center w-screen fixed'
-    style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: rgba(255,255,255,1);'>
+    style='min-height: calc(var(--vh) * 92.5); top: calc(var(--vh) * 7.5); z-index: 100; background-color: var(--back);'>
     <?php if($loggedin): ?>
 
       <div

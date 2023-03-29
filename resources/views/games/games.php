@@ -19,7 +19,7 @@
     <div
       x-show='create'
       class='flex flex-col justify-start items-center fixed overflow-y-auto w-full'
-      style='min-height: calc(var(--vh) * 85); max-height: calc(var(--vh) * 85); top: calc(var(--vh) * 15); z-index: 10; background-color: rgb(255,255,255);'>
+      style='min-height: calc(var(--vh) * 85); max-height: calc(var(--vh) * 85); top: calc(var(--vh) * 15); z-index: 10; background-color: var(--back);'>
       <?=Component::make('create',[])?>
     </div>
 

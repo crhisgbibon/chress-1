@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Chess;
+namespace App\Models\Chess\Init;
 
 class FindMoves
 {

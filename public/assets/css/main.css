@@ -1,0 +1,27 @@
+.boardButton[data-color='white']{
+  background-color: var(--low);
+}
+
+.boardButton[data-color='black']{
+  background-color: var(--mid);
+}
+
+.boardButton[data-move='yes']{
+  background-color: var(--move);
+}
+
+.boardButton[data-last='yes']{
+  background-color: var(--last);
+}
+
+input:hover{
+  outline-color: var(--low);
+}
+
+input:focus{
+  outline-color: var(--mid);
+}
+
+input:active{
+  outline-color: var(--high);
+}

@@ -5,7 +5,8 @@
   <?php for($i = 0; $i < count($games); $i++): ?>
 
     <div
-      class='w-full p-2 m-2 max-w-sm flex flex-col justify-start items-center my-4 border-4 border-sky-200 rounded-lg'>
+      class='w-full p-2 m-2 max-w-sm flex flex-col justify-start items-center my-4 border-4 rounded-lg'
+      style='border-color:var(--high);'>
 
       <div
         class='w-full flex flex-row justify-center items-center m-2 border-b border-black'>

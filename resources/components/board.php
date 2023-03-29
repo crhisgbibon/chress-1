@@ -37,10 +37,10 @@
             $colour = 'white';
             if($alternate)
             {
-              $class = 'boardButton bg-sky-200 flex justify-center items-center ';
+              $class = 'boardButton flex justify-center items-center ';
               $colour = 'black';
             }
-            else $class = 'boardButton bg-sky-50 flex justify-center items-center ';
+            else $class = 'boardButton flex justify-center items-center ';
           ?>
           class='<?=$class?>'
           :style="flip ?
