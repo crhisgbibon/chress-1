@@ -64,10 +64,11 @@ class AuthController
   {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $remember = false;
+    $remember = $_POST['remember'];
 
-    $email = $this->validator->string($email);
-    $password = $this->validator->string($password);
+    $email = $this->validator->string((string)$email);
+    $password = $this->validator->string((string)$password);
+    $remember = $this->validator->bool((bool)$remember);
 
     if($email === false || $password === false)
     {

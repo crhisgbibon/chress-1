@@ -61,6 +61,7 @@
       <input
         class='mx-4'
         id='remember'
+        name='remember'
         type='checkbox'
         checked>
     </div>

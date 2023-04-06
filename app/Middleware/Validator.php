@@ -33,4 +33,12 @@ class Validator
     if(is_int($data)) return $data;
     else return false;
   }
+
+  public function bool($data) : bool
+  {
+    if(!is_bool($data)) return false;
+    $data = filter_var($data, FILTER_VALIDATE_BOOLEAN);
+    if(is_bool($data)) return $data;
+    else return false;
+  }
 }

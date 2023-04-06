@@ -176,16 +176,21 @@ class GameModel
 
   public function GetMetaInfo() : array
   {
-    $output = [
-      'event' => $this->eventT,
-      'site' => $this->siteT,
-      'date' => $this->dateT,
-      'round' => $this->roundT,
-      'white' => $this->whiteT,
-      'black' => $this->blackT,
-      'result' => $this->resultT,
+    $event = ($this->eventT) ? $this->eventT : 'N/A';
+    $site = ($this->siteT) ? $this->siteT : 'Online';
+    $date = date("y / m / d", (int)$this->dateT);
+    $round = ($this->roundT) ? $this->roundT : 'N/A';
+    $result = ($this->resultT) ? $this->resultT : 'Pending';
+
+    return [
+      'Event' => $event,
+      'Site' => $site,
+      'Date' => $date,
+      'Round' => $round,
+      'White' => $this->whiteT,
+      'Black' => $this->blackT,
+      'Result' => $result,
     ];
-    return $output;
   }
 
   public function AcceptChallenge(int $acceptedChallenger)

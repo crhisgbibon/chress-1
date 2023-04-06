@@ -4,110 +4,114 @@
 
     <div
       class='w-full my-2 flex justify-center items-center'>
-      Choose Side:
+      Colour:
     </div>
 
     <div
       class='w-full my-2 flex flex-row justify-center items-center'>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'white','nom'=>'colour','place'=>'','text'=>'white','auto'=>'','check'=>true])?>
-        <label
-          class='m-2'
-          for='white'>
-          White
-        </label>
-      </div>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'black','nom'=>'colour','place'=>'','text'=>'black','auto'=>'','check'=>false])?>
-        <label
-          class='m-2'
-          for='black'>
-          Black
-        </label>
-      </div>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'random','nom'=>'colour','place'=>'','text'=>'random','auto'=>'','check'=>false])?>
-        <label
-          class='m-2'
-          for='random'>
-          Random
-        </label>
-      </div>
+
+      <label
+        class="container relative m-2 w-32 flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>White
+        <input type="radio" id='white' name='colour' value='white' checked class='absolute w-0 h-0'>
+        <span 
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
+      <label 
+        class="container relative m-2 w-32 flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>Black
+        <input type="radio" id='black' name='colour' value='black' class='absolute w-0 h-0'>
+        <span
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
+      <label
+        class="container relative m-2 w-32 flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>Random
+        <input type="radio" id='random' name='colour' value='random' class='absolute w-0 h-0'>
+        <span
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
     </div>
 
     <div
       class='w-full my-2 flex justify-center items-center'>
-      Choose Opponent:
+      Opponent:
     </div>
+
 
     <div
       class='w-full my-2 flex flex-row justify-center items-center'>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'self','nom'=>'opponent','place'=>'','text'=>'self','auto'=>'','check'=>true])?>
-        <label
-          class='m-2'
-          for='self'>
-          Self
-        </label>
-      </div>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'computer','nom'=>'opponent','place'=>'','text'=>'computer','auto'=>'','check'=>false])?>
-        <label
-          class='m-2'
-          for='computer'>
-          Computer
-        </label>
-      </div>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'player','nom'=>'opponent','place'=>'','text'=>'player','auto'=>'','check'=>false])?>
-        <label
-          class='m-2'
-          for='player'>
-          Player
-        </label>
-      </div>
+
+      <label
+        class="container relative m-2 w-32 flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>Self
+        <input type="radio" id='self' name='opponent' value='self' checked class='absolute w-0 h-0'>
+        <span
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
+      <label
+        class="container relative m-2 w-32 flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>Computer
+        <input type="radio" id='computer' name='opponent' value='computer' class='absolute w-0 h-0'>
+        <span
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
+      <label
+        class="container relative m-2 w-32  flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>Player
+        <input type="radio" id='player' name='opponent' value='player' class='absolute w-0 h-0'>
+        <span
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
     </div>
 
     <div
       class='w-full my-2 flex justify-center items-center'>
-      Choose Turn Time (Days):
+      Turn Time (Days):
     </div>
 
     <div
       class='w-full my-2 flex flex-row justify-center items-center'>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'one','nom'=>'turn','place'=>'','text'=>'one','auto'=>'','check'=>true])?>
-        <label
-          class='m-2'
-          for='one'>
-          One
-        </label>
-      </div>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'three','nom'=>'turn','place'=>'','text'=>'three','auto'=>'','check'=>false])?>
-        <label
-          class='m-2'
-          for='three'>
-          Three
-        </label>
-      </div>
-      <div
-        class='m-2 w-32 flex flex-col justify-center items-center'>
-        <?=Component::make('input',['version'=>'radio','uuid'=>'seven','nom'=>'turn','place'=>'','text'=>'seven','auto'=>'','check'=>false])?>
-        <label
-          class='m-2'
-          for='seven'>
-          Seven
-        </label>
-      </div>
+
+      <label
+        class="container relative m-2 w-32 flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>1
+        <input type="radio" id='one' name='turn' value='one' checked class='absolute w-0 h-0'>
+        <span
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
+      <label
+        class="container relative m-2 w-32 flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>3
+        <input type="radio" id='three' name='turn' value='three' class='absolute w-0 h-0'>
+        <span
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
+      <label
+        class="container relative m-2 w-32 flex flex-col justify-center items-center"
+        style='height: calc(var(--vh) * 7.5);'>7
+        <input type="radio" id='seven' name='turn' value='seven' class='absolute w-0 h-0'>
+        <span
+          class="checkmark absolute cursor-pointer w-32 top-0 left-0 rounded-lg"
+          style='height: calc(var(--vh) * 7.5); opacity: 0.5;'></span>
+      </label>
+
     </div>
 
     <div

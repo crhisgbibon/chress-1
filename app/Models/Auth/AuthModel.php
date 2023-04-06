@@ -50,6 +50,8 @@ class AuthModel
 
   public function CheckCookie() : bool
   {
+    $this->Device();
+    
     $output = false;
     $state = '';
 
@@ -135,6 +137,8 @@ class AuthModel
 
   public function Login(string $email, string $password, bool $remember) : array
   {
+    $this->Device();
+
     $email_err = $password_err = $login_err = '';
 
     if(empty(trim($email)))

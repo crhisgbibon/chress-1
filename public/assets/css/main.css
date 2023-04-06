@@ -8,10 +8,12 @@
 
 .boardButton[data-move='yes']{
   background-color: var(--move);
+  opacity: 0.4;
 }
 
 .boardButton[data-last='yes']{
   background-color: var(--last);
+  opacity: 0.4;
 }
 
 input:hover{
@@ -24,4 +26,12 @@ input:focus{
 
 input:active{
   outline-color: var(--high);
+}
+
+.container:hover input ~ .checkmark {
+  background-color: var(--low);
+}
+
+.container input:checked ~ .checkmark {
+  background-color: var(--mid);
 }

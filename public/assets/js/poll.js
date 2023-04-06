@@ -88,7 +88,7 @@ function Print(response)
   info.innerHTML = '';
   Object.entries(response.meta).forEach(
     ([key, value]) => {
-      info.innerHTML += `<div style='background-color:var(--mid);' class='rounded-lg m-2 p-2'>` + key + ` : ` + value + `</div>`;
+      info.innerHTML += `<div class='rounded-lg m-2 p-2'>` + key + ` : ` + value + `</div>`;
       if(debug) console.log(key, value);
     }
   );
