@@ -8,6 +8,7 @@ use App\Controllers\Chress\GamesController;
 use App\Controllers\Chress\HistoryController;
 use App\Controllers\Chress\LibraryController;
 use App\Controllers\Chress\LobbyController;
+use App\Controllers\Chress\UsersController;
 
 use App\Controllers\Home\HomeController;
 
@@ -21,6 +22,7 @@ $router->registerRoutesFromControllerAttributes([
   HistoryController::class,
   LibraryController::class,
   LobbyController::class,
+  UsersController::class,
 
   HomeController::class,
   

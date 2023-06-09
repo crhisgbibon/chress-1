@@ -29,6 +29,11 @@
       <?=\App\Models\System\Component::make('hyperlink',['href'=>'/lobby','text'=>'Lobby'])?>
     </div>
 
+    <div
+      class='flex w-32 p-2 justify-center items-center'>
+      <?=\App\Models\System\Component::make('hyperlink',['href'=>'/users','text'=>'Users'])?>
+    </div>
+
   </div>
 
 </div>

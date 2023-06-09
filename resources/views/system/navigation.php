@@ -69,6 +69,12 @@
       <?=Component::make('hyperlink',['href'=>'/lobby','text'=>'Lobby'])?>
     </div>
 
+    <div
+      class='flex justify-center items-center my-2 w-32'
+      style='height: calc(var(--vh) * 7.5);'>
+      <?=Component::make('hyperlink',['href'=>'/users','text'=>'Users'])?>
+    </div>
+
   </div>
 
   <div
