@@ -78,8 +78,6 @@ class GamesController
 
     $games = $this->model->CloseExpiredAndReturnActiveGames();
 
-    // $response = Component::make('games',['user'=>$this->userID,'games'=>$games]);
-
     return Component::make('games',['user'=>$this->userID,'games'=>$games]);
   }
 

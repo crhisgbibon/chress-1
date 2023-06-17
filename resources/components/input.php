@@ -19,4 +19,6 @@
   placeholder='<?=$place?>' 
   value='<?=$text?>' 
   autocomplete='<?=$auto?>'
-  <?php if($check) echo'checked';?>>
+  <?php if(isset($onkeydown)) echo 'onkeydown='.$onkeydown.';'?>
+  <?php if(isset($check)) echo'checked';?>
+  >

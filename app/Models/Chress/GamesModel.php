@@ -133,19 +133,22 @@ class GamesModel
       else $colour = "black";
     }
 
+    // OPPONENT is either a string - self/AI/player - or it is an INT in string form which is the specific opponent a challenge is issued to
     if($colour === "white")
     {
       $whiteUser = $this->userID;
       if($opponent === "self") $blackUser = $this->userID;
-      else if($opponent === "computer") $blackUser = -1;
+      else if($opponent === "AI") $blackUser = -1;
       else if($opponent === "player") $blackUser = -2;
+      else $blackUser = (int)$opponent;
     }
     else if($colour === "black")
     {
       $blackUser = $this->userID;
       if($opponent === "self") $whiteUser = $this->userID;
-      else if($opponent === "computer") $whiteUser = -1;
+      else if($opponent === "AI") $whiteUser = -1;
       else if($opponent === "player") $whiteUser = -2;
+      else $whiteUser = (int)$opponent;
     }
     else return -1;
 

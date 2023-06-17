@@ -1,6 +1,6 @@
 "use strict";
 
-let debug = false;
+let debug = true;
 
 function Post(trigger, data)
 {
@@ -169,6 +169,35 @@ function Theme(data)
       if(debug) console.log(result);
       document.getElementById('themebuttons').innerHTML = result;
       if(debug) console.log(document.getElementById('rootcss').href);
+    }
+  });
+}
+
+function UsersPost()
+{
+  let data = {
+    search:document.querySelector('input[name="search_users"]').value,
+  };
+  let jsonData = JSON.stringify(data);
+  if(debug) console.log(data);
+  if(debug) console.log(jsonData);
+  $.ajax(
+  {
+    method: "POST",
+    url: '/users/search',
+    data:
+    {
+      data:jsonData
+    },
+    timeout: 10000,
+    success:function(result)
+    {
+      if(debug) console.log(result);
+      document.getElementById('users').innerHTML = result;
+    },
+    error:function(result)
+    {
+      if(debug) console.log(result);
     }
   });
 }
