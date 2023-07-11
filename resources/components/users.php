@@ -13,6 +13,16 @@
 
 <?php else: ?>
 
+  <style>
+    .container:hover input ~ .checkmark {
+      background-color: var(--low);
+    }
+
+    .container input:checked ~ .checkmark {
+      background-color: var(--mid);
+    }
+  </style>
+
   <div
     class='flex flex-col justify-start items-center overflow-y-auto'
     id='USERS_OUTPUT'

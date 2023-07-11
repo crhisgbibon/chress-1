@@ -18,8 +18,26 @@
     
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
-    <script src="<?=$layer?>assets/js/vh.js"></script>
-    <script src="<?=$layer?>assets/js/ajax.js"></script>
+
+    <style>
+      :root {
+        --vh: 0px;
+      }
+    </style>
+    <script>
+      "use strict";
+
+      let debug = false;
+
+      function calculateVh() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', vh + 'px');
+      }
+
+      window.addEventListener('DOMContentLoaded', calculateVh);
+      window.addEventListener('resize', calculateVh);
+      window.addEventListener('orientationchange', calculateVh);
+    </script>
     
   </head>
   <body

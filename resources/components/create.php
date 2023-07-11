@@ -1,4 +1,14 @@
 <?php use App\Models\System\Component; ?>
+<style>
+  .container:hover input ~ .checkmark {
+    background-color: var(--low);
+  }
+
+  .container input:checked ~ .checkmark {
+    background-color: var(--mid);
+  }
+</style>
+
 <div
   class='w-full flex flex-col justify-start items-center my-4'>
 
@@ -147,10 +157,38 @@
         class='rounded-lg flex justify-center items-center
               hover:scale-105 active:scale-95'
         style='min-height: 100%; min-width: 100%;background-color:var(--low);'
-        onclick='Post2()'
+        onclick='post2()'
         >
         Submit
       </button>
     </div>
+
+    <script>
+      function post2() {
+        let data = {
+          turn: document.querySelector('input[name="turn"]:checked').id,
+          opponent: document.querySelector('input[name="opponent"]:checked').id,
+          colour: document.querySelector('input[name="colour"]:checked').id,
+        };
+        let jsonData = JSON.stringify(data);
+        if (debug) console.log(data);
+        if (debug) console.log(jsonData);
+        $.ajax({
+          method: "POST",
+          url: '/games/create',
+          data: {
+            data: jsonData
+          },
+          timeout: 10000,
+          success: function(result) {
+            if (debug) console.log(result);
+            document.getElementById('games').innerHTML = result;
+          },
+          error: function(result) {
+            if (debug) console.log(result);
+          }
+        });
+      }
+    </script>
   
 </div>

@@ -5,6 +5,25 @@
     Board data not found.
   </div>
 <?php else: ?>
+  <style>
+    .boardButton[data-color='white']{
+      background-color: var(--low);
+    }
+
+    .boardButton[data-color='black']{
+      background-color: var(--mid);
+    }
+
+    .boardButton[data-move='yes']{
+      background-color: var(--move);
+      opacity: 0.4;
+    }
+
+    .boardButton[data-last='yes']{
+      background-color: var(--last);
+      opacity: 0.4;
+    }
+  </style>
   <div
     id='boardholder'
     data-gameid='<?=$gameid?>'
