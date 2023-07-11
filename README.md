@@ -40,7 +40,9 @@ php app/Database/Migrations/migrate.php
 ## root
 
 root level .env = global variables
+
 start from: public -> index.php
+
 redirects to: bootstrap -> bootstrap.php
 
 ## bootstrap.php
@@ -48,14 +50,19 @@ redirects to: bootstrap -> bootstrap.php
 ### requires
 
 autoload.php -> composer autoloader
+
 session.php -> session/cookie manager
+
 env.php -> loads global environment variables
+
 constants.php -> absolute path variables
+
 web.php -> routes
 
 ### uses
 
 App\Models\System\App -> constructs the database link and resolves routes, 404 redirect
+
 App\Models\System\Config -> converts global .env to php variables
 
 ### logic
